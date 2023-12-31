@@ -27,14 +27,15 @@ const getSubCategory = async (req, res) => {
 
 //create new subCategory
 const createSubCategory = async (req, res) => {
-    const { name } = req.body;
+    const { name, Category } = req.body;
     try {
         const sub = await subCategory.create({
             name,
+            Category,
         });
         res.status(200).json(sub);
     } catch (error) {
-        res.status(400).json({ error: error.messge });
+        res.status(400).json({ error: error.message });
     }
 };
 

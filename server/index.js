@@ -1,12 +1,14 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const productRoutes = require("./routes/products");
 const categoryRoutes = require("./routes/categories");
 const subCategoryRoutes = require("./routes/subCategories");
 
 const app = express();
+app.use(cors());
 
 app.use(express.json());
 
