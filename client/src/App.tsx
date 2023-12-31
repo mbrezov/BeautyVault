@@ -1,25 +1,57 @@
+import React from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import styles from "./App.module.scss";
+import axios from "axios";
 import Homepage from "./pages/HomePage/HomePage";
-import CategoryPage from "./pages/CategoryPage/CategoryPage";
+import SubCategoryPage from "./pages/SubCategoryPage/SubCategoryPage";
 import ProductPage from "./pages/ProductPage/ProductPage";
+import styles from "./App.module.scss";
 
 function App() {
-  const cat = "parfemi";
+    const [categories, setCategories] = useState([]);
 
-  const name = "loreal";
+    useEffect(() => {
+        axios
+            .get("http://localhost:4000/api/categories")
+            .then((res) => {
+                setCategories(res.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching categories:", error);
+            });
+    }, []);
 
-  return (
-    <BrowserRouter>
-      <div className={styles.container}>
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path={`/${cat}`} element={<CategoryPage category={cat} />} />
-          <Route path={`/${cat}/${name}`} element={<ProductPage />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
-  );
+    /* console.log(categories); */
+
+    return (
+        <BrowserRouter>
+            <div className={styles.container}>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={<Homepage category={categories} />}
+                    />
+                    {categories.map((category: any) => (
+                        <React.Fragment key={category._id}>
+                            <Route
+                                path={`/${category.name}`}
+                                element={
+                                    <SubCategoryPage
+                                        category={category.name}
+                                        categoryId={category._id}
+                                    />
+                                }
+                            />
+                            <Route
+                                path={`/${category.name}/ruž`}
+                                element={<ProductPage />}
+                            />
+                        </React.Fragment>
+                    ))}
+                </Routes>
+            </div>
+        </BrowserRouter>
+    );
 }
 
 export default App;
