@@ -5,7 +5,7 @@ const cors = require("cors");
 
 const productRoutes = require("./routes/products");
 const categoryRoutes = require("./routes/categories");
-const subCategoryRoutes = require("./routes/subCategories");
+const subcategoryRoutes = require("./routes/subsategories");
 
 const app = express();
 app.use(cors());
@@ -17,15 +17,17 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use("/api/products", productRoutes);
+/* app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
-app.use("/api/subCategories", subCategoryRoutes);
+app.use("/api/subCategories", subCategoryRoutes); */
+
+app.use("/api/category", categoryRoutes, subcategoryRoutes);
 
 mongoose
     .connect(process.env.MONGO_URI)
     .then(() => {
         app.listen(process.env.PORT, () => {
-            console.log("Im listening port 400");
+            console.log("Im listening port 4000");
         });
     })
     .catch(() => {
