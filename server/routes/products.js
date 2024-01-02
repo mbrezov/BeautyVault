@@ -1,4 +1,4 @@
-const express = require("express");
+/* const express = require("express");
 const {
     createProduct,
     getProduct,
@@ -25,3 +25,4 @@ router.delete("/:id", deleteProduct);
 router.patch("/:id", updateProduct);
 
 module.exports = router;
+ */
