@@ -17,11 +17,7 @@ app.use((req, res, next) => {
     next();
 });
 
-/* app.use("/api/products", productRoutes);
-app.use("/api/categories", categoryRoutes);
-app.use("/api/subCategories", subCategoryRoutes); */
-
-app.use("/api/category", categoryRoutes, subcategoryRoutes);
+app.use("/api", categoryRoutes, subcategoryRoutes, productRoutes);
 
 mongoose
     .connect(process.env.MONGO_URI)
@@ -31,5 +27,5 @@ mongoose
         });
     })
     .catch(() => {
-        console.log("error");
+        console.log("error server could not start");
     });

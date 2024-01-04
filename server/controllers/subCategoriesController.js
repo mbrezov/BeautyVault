@@ -27,31 +27,32 @@ const createSubcategory = async (req, res) => {
     const { name } = req.body;
 
     try {
-        // Find the category by ID
         const category = await Category.findById(categoryId);
 
         if (!category) {
             return res.status(404).json({ message: "Category not found" });
         }
 
-        // Create a new subcategory
         const newSubcategory = { name };
 
-        // Ensure the 'subcategories' array is initialized before pushing
-        /* category.subcategory = category.subcategory || []; */
         category.subcategory.push(newSubcategory);
 
-        // Save the updated category
         await category.save();
 
         console.log("New Subcategory Created:", newSubcategory);
 
-        res.status(201).json(newSubcategory);
+        res.status(200).json(newSubcategory);
     } catch (error) {
         console.error("Error creating subcategory:", error);
         res.status(400).json({ error: error.message });
     }
 };
+
+//delete subcategory in category
+/*TODO*/
+
+//update subcategory in category
+/*TODO*/
 
 module.exports = {
     getSubcategories,

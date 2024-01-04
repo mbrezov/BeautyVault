@@ -1,28 +1,28 @@
-/* const express = require("express");
+const express = require("express");
 const {
-    createProduct,
-    getProduct,
     getProducts,
-    deleteProduct,
-    updateProduct,
+    createProduct,
+    //deleteProduct,
 } = require("../controllers/productController");
 
 const router = express.Router();
 
 //Get all products
-router.get("/", getProducts);
+router.get(
+    "/category/:categoryId/subcategory/:subcategoryId/products",
+    getProducts
+);
 
-//Get single product
-router.get("/:id", getProduct);
-
-//Create product
-router.post("/", createProduct);
+//Create a new product
+router.post(
+    "/category/:categoryId/subcategory/:subcategoryId/products",
+    createProduct
+);
 
 //Delete product
-router.delete("/:id", deleteProduct);
-
-//Update product
-router.patch("/:id", updateProduct);
+/* router.delete(
+    "/category/:categoryId/subcategory/:subcategoryId/products",
+    deleteProduct
+); */
 
 module.exports = router;
- */

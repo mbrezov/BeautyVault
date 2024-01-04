@@ -38,6 +38,12 @@ const createCategory = async (req, res) => {
     }
 };
 
+//delete category
+/*TODO*/
+
+//update category
+/*TODO*/
+
 module.exports = {
     getCategories,
     getCategory,

@@ -7,10 +7,10 @@ const {
 const router = express.Router();
 
 //Get subcategories from Category
-router.get("/:categoryId/subcategory", getSubcategories);
+router.get("/category/:categoryId/subcategory", getSubcategories);
 
 //Create subcategory in Category
-router.post("/:categoryId/subcategory", createSubcategory);
+router.post("/category/:categoryId/subcategory", createSubcategory);
 
 //Update subcategory in category
 /*TODO*/
