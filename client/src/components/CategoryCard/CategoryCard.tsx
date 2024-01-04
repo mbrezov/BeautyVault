@@ -2,10 +2,8 @@ import { NavLink } from "react-router-dom";
 import styles from "./CategoryCard.module.scss";
 
 const CategoryCard = (props: any) => {
-    const category_url = props.name.toLowerCase();
-
     return (
-        <NavLink to={`/${category_url}`} style={{ textDecoration: "none" }}>
+        <NavLink to={`/${props.id}`} style={{ textDecoration: "none" }}>
             <div className={styles.container}>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

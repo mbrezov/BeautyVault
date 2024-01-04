@@ -2,15 +2,15 @@ import { NavLink } from "react-router-dom";
 import styles from "./SubCategoryCard.module.scss";
 
 const SubCategoryCard = (props: any) => {
-    const category_url = props.category.toLowerCase();
-    const subCategory_url = props.subCategory.toLowerCase();
+    console.log(props.categoryId, props.subcategoryId);
+
     return (
         <NavLink
-            to={`/${category_url}/${subCategory_url}`}
+            to={`/${props.categoryId}/${props.subcategoryId}`}
             style={{ textDecoration: "none" }}
         >
             <div className={styles.container}>
-                <h1>{props.subCategory}</h1>
+                <h1>{props.name}</h1>
             </div>
         </NavLink>
     );

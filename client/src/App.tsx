@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import axios from "axios";
 import Homepage from "./pages/HomePage/HomePage";
 import SubCategoryPage from "./pages/SubCategoryPage/SubCategoryPage";
-import ProductPage from "./pages/ProductPage/ProductPage";
+import ProductsPage from "./pages/ProductsPage/ProductsPage";
 import styles from "./App.module.scss";
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
 
     useEffect(() => {
         axios
-            .get("http://localhost:4000/api/categories")
+            .get("http://localhost:4000/api/category")
             .then((res) => {
                 setCategories(res.data);
             })
@@ -21,9 +21,29 @@ function App() {
             });
     }, []);
 
-    /* console.log(categories); */
+    console.log(categories);
 
     return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Homepage data={categories} />} />
+                <Route
+                    path="/:categoryId"
+                    element={<SubCategoryPage data={categories} />}
+                />
+                <Route
+                    path="/:categoryId/:subcategoryId"
+                    element={<ProductsPage />}
+                />
+                {/*   <Route
+                    path="/:categoryId/:subcategoryId/productId"
+                    element={<ProductPage />}
+                /> */}
+            </Routes>
+        </BrowserRouter>
+    );
+
+    /*     return (
         <BrowserRouter>
             <div className={styles.container}>
                 <Routes>
@@ -51,7 +71,7 @@ function App() {
                 </Routes>
             </div>
         </BrowserRouter>
-    );
+    ); */
 }
 
 export default App;
