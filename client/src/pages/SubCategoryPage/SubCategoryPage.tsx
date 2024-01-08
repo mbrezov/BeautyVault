@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 
 const SubCategoryPage = (props: any) => {
     const [subcategories, setSubcategories] = useState([]);
+    const [newSubcategory, setnewSubcategory] = useState("");
     const { categoryId } = useParams();
 
     useEffect(() => {
@@ -18,11 +19,31 @@ const SubCategoryPage = (props: any) => {
             });
     }, [categoryId]);
 
-    console.log(subcategories);
+    /*  console.log(subcategories); */
+
+    const addNewSubcategory = async (e: any) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(
+                `http://localhost:4000/api/category/${categoryId}/subcategory`,
+                { name: newSubcategory }
+            );
+            console.log(response);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     return (
         <div>
-            <h1>{props.category}</h1>
+            <h1>{props.data.name}</h1>
+            <form onSubmit={addNewSubcategory}>
+                <input
+                    type="text"
+                    onChange={(e) => setnewSubcategory(e.target.value)}
+                />
+                <button type="submit">submit</button>
+            </form>
             {subcategories.map((subcategory: any) => (
                 <div key={subcategory._id}>
                     <SubCategoryCard

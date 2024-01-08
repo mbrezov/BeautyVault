@@ -19,10 +19,8 @@ const Homepage = (props: any) => {
 
     /*    console.log(categories); */
 
-    console.log("da", props.data);
-
     return (
-        <div className={styles.container}>
+        <div>
             <h1>Kategorije</h1>
             <div className={styles.container}>
                 {props.data.map((category: any) => (

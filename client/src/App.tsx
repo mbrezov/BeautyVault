@@ -21,25 +21,27 @@ function App() {
             });
     }, []);
 
-    console.log(categories);
+    //console.log(categories);
 
     return (
         <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Homepage data={categories} />} />
-                <Route
-                    path="/:categoryId"
-                    element={<SubCategoryPage data={categories} />}
-                />
-                <Route
-                    path="/:categoryId/:subcategoryId"
-                    element={<ProductsPage />}
-                />
-                {/*   <Route
-                    path="/:categoryId/:subcategoryId/productId"
+            <div className={styles.container}>
+                <Routes>
+                    <Route path="/" element={<Homepage data={categories} />} />
+                    <Route
+                        path="/:categoryId"
+                        element={<SubCategoryPage data={categories} />}
+                    />
+                    <Route
+                        path="/:categoryId/:subcategoryId"
+                        element={<ProductsPage />}
+                    />
+                    {/*   <Route
+                    path="/:categoryId/:subcategoryId/:productId"
                     element={<ProductPage />}
                 /> */}
-            </Routes>
+                </Routes>
+            </div>
         </BrowserRouter>
     );
 
