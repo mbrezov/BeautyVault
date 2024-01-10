@@ -26,6 +26,6 @@ mongoose
             console.log("Im listening port 4000");
         });
     })
-    .catch(() => {
-        console.log("error server could not start");
+    .catch((error) => {
+        console.log("error server could not start", error);
     });

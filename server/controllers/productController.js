@@ -28,6 +28,33 @@ const getProducts = async (req, res) => {
 };
 
 //Get single product in subcategory
+const getProduct = async (req, res) => {
+    const { categoryId, subcategoryId, productId } = req.params;
+
+    try {
+        const category = await Category.findById(categoryId);
+
+        if (!category) {
+            return res.status(400).json({ message: "Category not found" });
+        }
+
+        const subcategory = category.subcategory.id(subcategoryId);
+
+        if (!subcategory) {
+            return res.status(400).json({ message: "Subcategory not found" });
+        }
+
+        const product = subcategory.products.id(productId);
+
+        if (!product) {
+            return res.status(400).json({ message: "product not found" });
+        }
+
+        res.status(200).json(product);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
 //Create new product
 const createProduct = async (req, res) => {
@@ -103,10 +130,6 @@ const createProduct = async (req, res) => {
 module.exports = {
     getProducts,
     createProduct,
-    deleteProduct,
-    /* getProducts,
     getProduct,
-    createProduct,
-    deleteProduct,
-    updateProduct, */
+    // deleteProduct,
 };

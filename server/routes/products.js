@@ -2,6 +2,7 @@ const express = require("express");
 const {
     getProducts,
     createProduct,
+    getProduct,
     //deleteProduct,
 } = require("../controllers/productController");
 
@@ -17,6 +18,11 @@ router.get(
 router.post(
     "/category/:categoryId/subcategory/:subcategoryId/products",
     createProduct
+);
+
+router.get(
+    "/category/:categoryId/subcategory/:subcategoryId/products/:productId",
+    getProduct
 );
 
 //Delete product
