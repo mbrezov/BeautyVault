@@ -6,6 +6,7 @@ import Homepage from "./pages/HomePage/HomePage";
 import SubCategoryPage from "./pages/SubCategoryPage/SubCategoryPage";
 import ProductsPage from "./pages/ProductsPage/ProductsPage";
 import styles from "./App.module.scss";
+import ProductPage from "./pages/ProductPage/ProductPage";
 
 function App() {
     const [categories, setCategories] = useState([]);
@@ -36,10 +37,10 @@ function App() {
                         path="/:categoryId/:subcategoryId"
                         element={<ProductsPage />}
                     />
-                    {/*   <Route
-                    path="/:categoryId/:subcategoryId/:productId"
-                    element={<ProductPage />}
-                /> */}
+                    <Route
+                        path="/:categoryId/:subcategoryId/:productId"
+                        element={<ProductPage />}
+                    />
                 </Routes>
             </div>
         </BrowserRouter>

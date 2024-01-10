@@ -4,6 +4,7 @@ import ProductCard from "../../components/ProductCard/ProductCard";
 import { useParams } from "react-router-dom";
 
 const ProductsPage = (props: any) => {
+    const { categoryId, subcategoryId } = useParams();
     const [productData, setProductData] = useState([]);
     const [newProduct, setNewProduct] = useState({
         title: "",
@@ -11,7 +12,6 @@ const ProductsPage = (props: any) => {
         rating: 0,
         buy: false,
     });
-    const { categoryId, subcategoryId } = useParams();
 
     useEffect(() => {
         axios
@@ -116,6 +116,9 @@ const ProductsPage = (props: any) => {
                         title={product.title}
                         buy={product.buy}
                         rating={product.rating}
+                        categoryId={categoryId}
+                        subcategoryId={subcategoryId}
+                        productId={product._id}
                     />
                 </div>
             ))}
