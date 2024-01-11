@@ -7,18 +7,29 @@ const ProductPage = () => {
     const { categoryId, subcategoryId, productId } = useParams();
     const [productData, setProductData] = useState<IProduct[]>([]);
 
+    const api = process.env.REACT_APP_PRODUCT;
+
     useEffect(() => {
-        axios
-            .get(
-                `http://localhost:4000/api/category/${categoryId}/subcategory/${subcategoryId}/products/${productId}`
-            )
-            .then((res) => {
-                setProductData(res.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching product data", error);
-            });
-    }, [categoryId, subcategoryId, productId]);
+        if (api && categoryId && subcategoryId && productId) {
+            axios
+                .get(
+                    api
+                        .replace("categoryId", categoryId)
+                        .replace("subcategoryId", subcategoryId)
+                        .replace("productId", productId)
+                )
+                .then((res) => {
+                    setProductData(res.data);
+                })
+                .catch((error) => {
+                    console.error("Error fetching product data", error);
+                });
+        } else {
+            console.error(
+                "REACT_APP_PRODUCT environment variable is not defined."
+            );
+        }
+    }, [api, categoryId, subcategoryId, productId]);
 
     console.log(productData);
 

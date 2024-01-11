@@ -10,17 +10,24 @@ const SubcategoryPage = () => {
     const { categoryId } = useParams<string>();
 
     useEffect(() => {
-        axios
-            .get(`http://localhost:4000/api/category/${categoryId}/subcategory`)
-            .then((res) => {
-                setSubcategories(res.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching categories:", error);
-            });
-    }, [categoryId]);
+        const api = process.env.REACT_APP_SUBCATEGORIES;
 
-    /*  console.log(subcategories); */
+        if (api && categoryId) {
+            axios
+                .get(api.replace("categoryId", categoryId))
+                .then((res) => {
+                    setSubcategories(res.data);
+                })
+                .catch((error) => {
+                    console.log(api.replace(":categoryId", categoryId));
+                    console.error("Error fetching categories:", error);
+                });
+        } else {
+            console.error(
+                "REACT_APP_SUBCATEGORIES environment variable is not defined."
+            );
+        }
+    }, [categoryId]);
 
     const addNewSubcategory = async (e: React.FormEvent) => {
         e.preventDefault();

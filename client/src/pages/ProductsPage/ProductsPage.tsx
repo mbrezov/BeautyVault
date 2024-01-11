@@ -21,36 +21,54 @@ const ProductsPage = () => {
         buy: false,
     });
 
+    const api = process.env.REACT_APP_PRODUCTS;
+
     useEffect(() => {
-        axios
-            .get(
-                `http://localhost:4000/api/category/${categoryId}/subcategory/${subcategoryId}/products`
-            )
-            .then((res) => {
-                setProductData(res.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching product data", error);
-            });
-    }, [categoryId, subcategoryId]);
+        if (api && categoryId && subcategoryId) {
+            axios
+                .get(
+                    api
+                        .replace("categoryId", categoryId)
+                        .replace("subcategoryId", subcategoryId)
+                )
+                .then((res) => {
+                    setProductData(res.data);
+                })
+                .catch((error) => {
+                    console.error("Error fetching product data", error);
+                });
+        } else {
+            console.error(
+                "REACT_APP_PRODUCTS environment variable is not defined."
+            );
+        }
+    }, [api, categoryId, subcategoryId]);
 
     console.log(productData);
 
     const addNewProduct = async (e: React.FormEvent) => {
         e.preventDefault();
-        try {
-            const response = await axios.post(
-                `http://localhost:4000/api/category/${categoryId}/subcategory/${subcategoryId}/products`,
-                {
-                    title: newProduct.title,
-                    description: newProduct.description,
-                    rating: newProduct.rating,
-                    buy: newProduct.buy,
-                }
+        if (api && categoryId && subcategoryId) {
+            try {
+                const response = await axios.post(
+                    api
+                        .replace("categoryId", categoryId)
+                        .replace("subcategoryId", subcategoryId),
+                    {
+                        title: newProduct.title,
+                        description: newProduct.description,
+                        rating: newProduct.rating,
+                        buy: newProduct.buy,
+                    }
+                );
+                console.log(response);
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        } else {
+            console.error(
+                "REACT_APP_PRODUCTS environment variable is not defined."
             );
-            console.log(response);
-        } catch (error) {
-            console.error("Error:", error);
         }
     };
 

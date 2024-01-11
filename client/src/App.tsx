@@ -13,17 +13,23 @@ function App() {
     const [categories, setCategories] = useState<ICategory[]>([]);
 
     useEffect(() => {
-        axios
-            .get("http://localhost:4000/api/category")
-            .then((res) => {
-                setCategories(res.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching categories:", error);
-            });
-    }, []);
+        const api = process.env.REACT_APP_CATEGORIES;
 
-    console.log(categories);
+        if (api) {
+            axios
+                .get(api)
+                .then((res) => {
+                    setCategories(res.data);
+                })
+                .catch((error) => {
+                    console.error("Error fetching categories:", error);
+                });
+        } else {
+            console.error(
+                "REACT_APP_CATEGORIES environment variable is not defined."
+            );
+        }
+    }, []);
 
     return (
         <BrowserRouter>
