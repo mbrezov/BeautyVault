@@ -5,7 +5,7 @@ import { IProduct } from "../../interfaces/interface";
 
 const ProductPage = () => {
     const { categoryId, subcategoryId, productId } = useParams();
-    const [productData, setProductData] = useState<IProduct[]>([]);
+    const [productData, setProductData] = useState<IProduct>();
 
     const api = process.env.REACT_APP_PRODUCT;
 
@@ -31,9 +31,18 @@ const ProductPage = () => {
         }
     }, [api, categoryId, subcategoryId, productId]);
 
-    console.log(productData);
-
-    return <div>da</div>;
+    return (
+        <div>
+            <h1>{productData?.title}</h1>
+            <div> {productData?.description}</div>
+            <div>{productData?.rating}</div>
+            {productData?.buy === true ? (
+                <div>Kupi</div>
+            ) : (
+                <div>nemoj kupiti</div>
+            )}
+        </div>
+    );
 };
 
 export default ProductPage;
