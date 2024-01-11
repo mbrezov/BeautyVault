@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import axios from "axios";
 import Homepage from "./pages/HomePage/HomePage";
-import SubCategoryPage from "./pages/SubCategoryPage/SubCategoryPage";
+import SubcategoryPage from "./pages/SubcategoryPage/SubcategoryPage";
 import ProductsPage from "./pages/ProductsPage/ProductsPage";
-import styles from "./App.module.scss";
 import ProductPage from "./pages/ProductPage/ProductPage";
+import styles from "./App.module.scss";
+import { ICategory } from "./interfaces/interface";
 
 function App() {
-    const [categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState<ICategory[]>([]);
 
     useEffect(() => {
         axios
@@ -22,17 +23,17 @@ function App() {
             });
     }, []);
 
-    //console.log(categories);
+    console.log(categories);
 
     return (
         <BrowserRouter>
             <div className={styles.container}>
                 <Routes>
-                    <Route path="/" element={<Homepage data={categories} />} />
                     <Route
-                        path="/:categoryId"
-                        element={<SubCategoryPage data={categories} />}
+                        path="/"
+                        element={<Homepage categories={categories} />}
                     />
+                    <Route path="/:categoryId" element={<SubcategoryPage />} />
                     <Route
                         path="/:categoryId/:subcategoryId"
                         element={<ProductsPage />}
@@ -45,36 +46,6 @@ function App() {
             </div>
         </BrowserRouter>
     );
-
-    /*     return (
-        <BrowserRouter>
-            <div className={styles.container}>
-                <Routes>
-                    <Route
-                        path="/"
-                        element={<Homepage category={categories} />}
-                    />
-                    {categories.map((category: any) => (
-                        <React.Fragment key={category._id}>
-                            <Route
-                                path={`/${category.name}`}
-                                element={
-                                    <SubCategoryPage
-                                        category={category.name}
-                                        categoryId={category._id}
-                                    />
-                                }
-                            />
-                            <Route
-                                path={`/${category.name}/ruž`}
-                                element={<ProductPage />}
-                            />
-                        </React.Fragment>
-                    ))}
-                </Routes>
-            </div>
-        </BrowserRouter>
-    ); */
 }
 
 export default App;

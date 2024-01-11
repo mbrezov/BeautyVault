@@ -2,11 +2,19 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import { useParams } from "react-router-dom";
+import { IProduct } from "../../interfaces/interface";
 
-const ProductsPage = (props: any) => {
+interface INewProduct {
+    title: string;
+    description: string;
+    rating: number;
+    buy: boolean;
+}
+
+const ProductsPage = () => {
     const { categoryId, subcategoryId } = useParams();
-    const [productData, setProductData] = useState([]);
-    const [newProduct, setNewProduct] = useState({
+    const [productData, setProductData] = useState<IProduct[]>([]);
+    const [newProduct, setNewProduct] = useState<INewProduct>({
         title: "",
         description: "",
         rating: 0,
@@ -28,7 +36,7 @@ const ProductsPage = (props: any) => {
 
     console.log(productData);
 
-    const addNewProduct = async (e: any) => {
+    const addNewProduct = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             const response = await axios.post(
@@ -85,7 +93,7 @@ const ProductsPage = (props: any) => {
                         onChange={(e) =>
                             setNewProduct({
                                 ...newProduct,
-                                rating: parseInt(e.target.value, 5),
+                                rating: parseInt(e.target.value, 6),
                             })
                         }
                     />
@@ -110,15 +118,12 @@ const ProductsPage = (props: any) => {
                 <br />
                 <button type="submit">Submit</button>
             </form>
-            {productData.map((product: any) => (
+            {productData.map((product: IProduct) => (
                 <div key={product._id}>
                     <ProductCard
-                        title={product.title}
-                        buy={product.buy}
-                        rating={product.rating}
+                        product={product}
                         categoryId={categoryId}
                         subcategoryId={subcategoryId}
-                        productId={product._id}
                     />
                 </div>
             ))}

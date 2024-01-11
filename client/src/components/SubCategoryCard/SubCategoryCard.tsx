@@ -1,12 +1,17 @@
 import { NavLink } from "react-router-dom";
-import styles from "./SubCategoryCard.module.scss";
+import styles from "./SubcategoryCard.module.scss";
 
-const SubCategoryCard = (props: any) => {
+interface IProps {
+    name: string;
+    categoryId: string | undefined;
+    subcategoryId: string;
+}
+
+const SubcategoryCard = (props: IProps) => {
+    const URL = `/${props.categoryId}/${props.subcategoryId}`;
+
     return (
-        <NavLink
-            to={`/${props.categoryId}/${props.subcategoryId}`}
-            style={{ textDecoration: "none" }}
-        >
+        <NavLink to={URL} style={{ textDecoration: "none" }}>
             <div className={styles.container}>
                 <h1>{props.name}</h1>
             </div>
@@ -14,4 +19,4 @@ const SubCategoryCard = (props: any) => {
     );
 };
 
-export default SubCategoryCard;
+export default SubcategoryCard;

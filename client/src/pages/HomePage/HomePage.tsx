@@ -1,9 +1,14 @@
 import styles from "./HomePage.module.scss";
 import CategoryCard from "../../components/CategoryCard/CategoryCard";
-import axios from "axios";
-import { useEffect, useState } from "react";
+/* import axios from "axios";
+import { useEffect, useState } from "react"; */
+import { ICategory } from "../../interfaces/interface";
 
-const Homepage = (props: any) => {
+interface IProps {
+    categories: ICategory[];
+}
+
+const Homepage = ({ categories }: IProps) => {
     /*     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -23,9 +28,12 @@ const Homepage = (props: any) => {
         <div>
             <h1>Kategorije</h1>
             <div className={styles.container}>
-                {props.data.map((category: any) => (
+                {categories.map((category: ICategory) => (
                     <div key={category._id}>
-                        <CategoryCard name={category.name} id={category._id} />
+                        <CategoryCard
+                            name={category.name}
+                            categoryId={category._id}
+                        />
                     </div>
                 ))}
             </div>

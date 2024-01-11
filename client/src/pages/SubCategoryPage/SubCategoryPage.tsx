@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import SubCategoryCard from "../../components/SubCategoryCard/SubCategoryCard";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import SubcategoryCard from "../../components/SubcategoryCard/SubcategoryCard";
+import { ISubcategory } from "../../interfaces/interface";
 
-const SubCategoryPage = (props: any) => {
-    const [subcategories, setSubcategories] = useState([]);
+const SubcategoryPage = () => {
+    const [subcategories, setSubcategories] = useState<ISubcategory[]>([]);
     const [newSubcategory, setnewSubcategory] = useState("");
-    const { categoryId } = useParams();
+    const { categoryId } = useParams<string>();
 
     useEffect(() => {
         axios
@@ -21,7 +22,7 @@ const SubCategoryPage = (props: any) => {
 
     /*  console.log(subcategories); */
 
-    const addNewSubcategory = async (e: any) => {
+    const addNewSubcategory = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             const response = await axios.post(
@@ -36,7 +37,6 @@ const SubCategoryPage = (props: any) => {
 
     return (
         <div>
-            <h1>{props.data.name}</h1>
             <form onSubmit={addNewSubcategory}>
                 <input
                     type="text"
@@ -44,9 +44,9 @@ const SubCategoryPage = (props: any) => {
                 />
                 <button type="submit">submit</button>
             </form>
-            {subcategories.map((subcategory: any) => (
+            {subcategories.map((subcategory: ISubcategory) => (
                 <div key={subcategory._id}>
-                    <SubCategoryCard
+                    <SubcategoryCard
                         name={subcategory.name}
                         categoryId={categoryId}
                         subcategoryId={subcategory._id}
@@ -57,4 +57,4 @@ const SubCategoryPage = (props: any) => {
     );
 };
 
-export default SubCategoryPage;
+export default SubcategoryPage;
