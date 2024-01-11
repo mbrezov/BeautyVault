@@ -1,5 +1,3 @@
-export type Category = ICategory[];
-
 export interface ICategory {
     _id: string;
     name: string;
