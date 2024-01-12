@@ -33,6 +33,7 @@ const Homepage = ({ categories }: IProps) => {
                         <CategoryCard
                             name={category.name}
                             categoryId={category._id}
+                            cardColor={category.color}
                         />
                     </div>
                 ))}

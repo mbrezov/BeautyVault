@@ -4,14 +4,15 @@ import styles from "./CategoryCard.module.scss";
 interface IProps {
     name: string;
     categoryId: string;
+    cardColor: string;
 }
 
-const CategoryCard = ({ name, categoryId }: IProps) => {
+const CategoryCard = ({ name, categoryId, cardColor }: IProps) => {
     const URL = `/${categoryId}`;
 
     return (
         <NavLink to={URL} style={{ textDecoration: "none" }}>
-            <div className={styles.container}>
+            <div className={styles.container} style={{ background: cardColor }}>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="39"
