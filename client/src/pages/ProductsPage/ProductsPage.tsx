@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import { useParams } from "react-router-dom";
 import { IProduct } from "../../interfaces/interface";
+import styles from "./ProductsPage.module.scss";
 
 interface INewProduct {
     title: string;
@@ -14,6 +15,7 @@ interface INewProduct {
 const ProductsPage = () => {
     const { categoryId, subcategoryId } = useParams();
     const [productData, setProductData] = useState<IProduct[]>([]);
+    const [isDialogOpen, setDialogOpen] = useState(false);
     const [newProduct, setNewProduct] = useState<INewProduct>({
         title: "",
         description: "",
@@ -62,6 +64,7 @@ const ProductsPage = () => {
                     }
                 );
                 console.log(response);
+                setDialogOpen(false);
             } catch (error) {
                 console.error("Error:", error);
             }
@@ -73,71 +76,86 @@ const ProductsPage = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={addNewProduct}>
-                <label>
-                    Title:
-                    <input
-                        type="text"
-                        name="title"
-                        onChange={(e) =>
-                            setNewProduct({
-                                ...newProduct,
-                                title: e.target.value,
-                            })
-                        }
-                    />
-                </label>
-                <br />
-                <label>
-                    Description:
-                    <textarea
-                        name="description"
-                        onChange={(e) =>
-                            setNewProduct({
-                                ...newProduct,
-                                description: e.target.value,
-                            })
-                        }
-                    />
-                </label>
-                <br />
-                <label>
-                    Rating:
-                    <input
-                        type="number"
-                        name="rating"
-                        value={newProduct.rating}
-                        onChange={(e) =>
-                            setNewProduct({
-                                ...newProduct,
-                                rating: parseInt(e.target.value, 6),
-                            })
-                        }
-                    />
-                </label>
-                <br />
-                <label>
-                    Buy:
-                    <select
-                        name="buy"
-                        value={newProduct.buy ? "true" : "false"}
-                        onChange={(e) =>
-                            setNewProduct({
-                                ...newProduct,
-                                buy: e.target.value === "true",
-                            })
-                        }
-                    >
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
-                    </select>
-                </label>
-                <br />
-                <button type="submit">Submit</button>
-            </form>
+        <div className={styles.container}>
+            <button onClick={() => setDialogOpen(true)}>+</button>
+            {isDialogOpen && (
+                <dialog open>
+                    <form onSubmit={addNewProduct}>
+                        <label>
+                            Title:
+                            <input
+                                type="text"
+                                name="title"
+                                onChange={(e) =>
+                                    setNewProduct({
+                                        ...newProduct,
+                                        title: e.target.value,
+                                    })
+                                }
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Description:
+                            <textarea
+                                name="description"
+                                onChange={(e) =>
+                                    setNewProduct({
+                                        ...newProduct,
+                                        description: e.target.value,
+                                    })
+                                }
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Rating:
+                            <input
+                                type="number"
+                                name="rating"
+                                value={newProduct.rating}
+                                onChange={(e) =>
+                                    setNewProduct({
+                                        ...newProduct,
+                                        rating: parseInt(e.target.value, 6),
+                                    })
+                                }
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Buy:
+                            <select
+                                name="buy"
+                                value={newProduct.buy ? "true" : "false"}
+                                onChange={(e) =>
+                                    setNewProduct({
+                                        ...newProduct,
+                                        buy: e.target.value === "true",
+                                    })
+                                }
+                            >
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </label>
+                        <br />
+                        <button type="submit">Submit</button>
+                        <button onClick={() => setDialogOpen(false)}>
+                            Cancel
+                        </button>
+                    </form>
+                </dialog>
+            )}
             {productData.map((product: IProduct) => (
-                <div key={product._id}>
+                <div
+                    key={product._id}
+                    style={
+                        isDialogOpen
+                            ? { filter: "blur(5px)", pointerEvents: "none" }
+                            : {}
+                    }
+                >
                     <ProductCard
                         product={product}
                         categoryId={categoryId}

@@ -3,10 +3,12 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import SubcategoryCard from "../../components/SubcategoryCard/SubcategoryCard";
 import { ISubcategory } from "../../interfaces/interface";
+import styles from "./Subcategory.module.scss";
 
 const SubcategoryPage = () => {
     const [subcategories, setSubcategories] = useState<ISubcategory[]>([]);
     const [newSubcategory, setnewSubcategory] = useState("");
+    const [isDialogOpen, setDialogOpen] = useState(false);
     const { categoryId } = useParams<string>();
 
     useEffect(() => {
@@ -37,22 +39,40 @@ const SubcategoryPage = () => {
                 { name: newSubcategory }
             );
             console.log(response);
+            setDialogOpen(false);
         } catch (error) {
             console.error("Error:", error);
         }
     };
 
     return (
-        <div>
-            <form onSubmit={addNewSubcategory}>
-                <input
-                    type="text"
-                    onChange={(e) => setnewSubcategory(e.target.value)}
-                />
-                <button type="submit">submit</button>
-            </form>
+        <div className={styles.container}>
+            <button onClick={() => setDialogOpen(true)}>+</button>
+            {isDialogOpen && (
+                <dialog open>
+                    <form onSubmit={addNewSubcategory} className={styles.form}>
+                        <input
+                            type="text"
+                            onChange={(e) => {
+                                setnewSubcategory(e.target.value);
+                            }}
+                        />
+                        <button type="submit">submit</button>
+                        <button onClick={() => setDialogOpen(false)}>
+                            Cancel
+                        </button>
+                    </form>
+                </dialog>
+            )}
             {subcategories.map((subcategory: ISubcategory) => (
-                <div key={subcategory._id}>
+                <div
+                    key={subcategory._id}
+                    style={
+                        isDialogOpen
+                            ? { filter: "blur(5px)", pointerEvents: "none" }
+                            : {}
+                    }
+                >
                     <SubcategoryCard
                         name={subcategory.name}
                         categoryId={categoryId}
