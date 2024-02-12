@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import ProductCard from "../../components/ProductCard/ProductCard";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { IProduct } from "../../interfaces/interface";
 import styles from "./ProductsPage.module.scss";
 
@@ -22,6 +22,7 @@ const ProductsPage = () => {
         rating: 0,
         buy: false,
     });
+    let back = useNavigate();
 
     const api = process.env.REACT_APP_PRODUCTS;
 
@@ -77,7 +78,15 @@ const ProductsPage = () => {
 
     return (
         <div className={styles.container}>
-            <button onClick={() => setDialogOpen(true)}>+</button>
+            <button className={styles.back_button} onClick={() => back(-1)}>
+                back
+            </button>
+            <button
+                className={styles.add_button}
+                onClick={() => setDialogOpen(true)}
+            >
+                +
+            </button>
             {isDialogOpen && (
                 <dialog open>
                     <form onSubmit={addNewProduct}>
