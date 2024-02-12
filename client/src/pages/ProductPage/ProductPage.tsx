@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { BackButton } from "../../components/BackButton/BackButton";
 import { IProduct } from "../../interfaces/interface";
 import styles from "./ProductPage.module.scss";
-import { BackIcon } from "../../utility/icons";
 
 const ProductPage = () => {
     const { categoryId, subcategoryId, productId } = useParams();
@@ -36,9 +36,9 @@ const ProductPage = () => {
 
     return (
         <div className={styles.container}>
-            <button onClick={() => back(-1)}>
-                <BackIcon />
-            </button>
+            <div>
+                <BackButton />
+            </div>
             <div>
                 <h1>{productData?.title}</h1>
                 <div> {productData?.description}</div>

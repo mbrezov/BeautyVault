@@ -7,7 +7,7 @@ interface IProps {
     cardColor: string;
 }
 
-const CategoryCard = ({ name, categoryId, cardColor }: IProps) => {
+export const CategoryCard = ({ name, categoryId, cardColor }: IProps) => {
     const URL = `/${categoryId}`;
 
     return (
@@ -30,5 +30,3 @@ const CategoryCard = ({ name, categoryId, cardColor }: IProps) => {
         </NavLink>
     );
 };
-
-export default CategoryCard;

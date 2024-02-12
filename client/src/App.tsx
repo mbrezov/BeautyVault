@@ -1,13 +1,13 @@
 import React from "react";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import axios from "axios";
 import Homepage from "./pages/HomePage/HomePage";
 import SubcategoryPage from "./pages/SubcategoryPage/SubcategoryPage";
 import ProductsPage from "./pages/ProductsPage/ProductsPage";
 import ProductPage from "./pages/ProductPage/ProductPage";
-import styles from "./App.module.scss";
 import { ICategory } from "./interfaces/interface";
+import styles from "./App.module.scss";
 
 function App() {
     const [categories, setCategories] = useState<ICategory[]>([]);

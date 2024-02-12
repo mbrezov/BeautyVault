@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import ProductCard from "../../components/ProductCard/ProductCard";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { ProductCard } from "../../components/ProductCard/ProductCard";
+import { BackButton } from "../../components/BackButton/BackButton";
 import { IProduct } from "../../interfaces/interface";
-import { BackIcon } from "../../utility/icons";
 import styles from "./ProductsPage.module.scss";
 
 interface INewProduct {
@@ -23,7 +23,6 @@ const ProductsPage = () => {
         rating: 0,
         buy: false,
     });
-    let back = useNavigate();
 
     const api = process.env.REACT_APP_PRODUCTS;
 
@@ -79,9 +78,9 @@ const ProductsPage = () => {
 
     return (
         <div className={styles.container}>
-            <button className={styles.back_button} onClick={() => back(-1)}>
-                <BackIcon />
-            </button>
+            <div className={styles.back_button}>
+                <BackButton />
+            </div>
             <button
                 className={styles.add_button}
                 onClick={() => setDialogOpen(true)}

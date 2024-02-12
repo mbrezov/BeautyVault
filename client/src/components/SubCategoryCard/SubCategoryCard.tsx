@@ -7,7 +7,7 @@ interface IProps {
     subcategoryId: string;
 }
 
-const SubcategoryCard = (props: IProps) => {
+export const SubcategoryCard = (props: IProps) => {
     const URL = `/${props.categoryId}/${props.subcategoryId}`;
 
     return (
@@ -18,5 +18,3 @@ const SubcategoryCard = (props: IProps) => {
         </NavLink>
     );
 };
-
-export default SubcategoryCard;

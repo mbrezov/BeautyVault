@@ -1,5 +1,5 @@
 import styles from "./HomePage.module.scss";
-import CategoryCard from "../../components/CategoryCard/CategoryCard";
+import { CategoryCard } from "../../components/CategoryCard/CategoryCard";
 import { ICategory } from "../../interfaces/interface";
 
 interface IProps {

@@ -1,17 +1,16 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
-import SubcategoryCard from "../../components/SubcategoryCard/SubcategoryCard";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { SubcategoryCard } from "../../components/SubcategoryCard/SubcategoryCard";
+import { BackButton } from "../../components/BackButton/BackButton";
 import { ISubcategory } from "../../interfaces/interface";
 import styles from "./Subcategory.module.scss";
-import { BackIcon } from "../../utility/icons";
 
 const SubcategoryPage = () => {
     const [subcategories, setSubcategories] = useState<ISubcategory[]>([]);
     const [newSubcategory, setnewSubcategory] = useState("");
     const [isDialogOpen, setDialogOpen] = useState(false);
     const { categoryId } = useParams<string>();
-    let back = useNavigate();
 
     useEffect(() => {
         const api = process.env.REACT_APP_SUBCATEGORIES;
@@ -49,9 +48,9 @@ const SubcategoryPage = () => {
 
     return (
         <div className={styles.container}>
-            <button className={styles.back_button} onClick={() => back(-1)}>
-                <BackIcon />
-            </button>
+            <div className={styles.back_button}>
+                <BackButton />
+            </div>
             <button
                 className={styles.add_button}
                 onClick={() => setDialogOpen(true)}
