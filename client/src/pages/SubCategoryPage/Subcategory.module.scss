@@ -4,7 +4,11 @@
     align-items: center;
     width: 350px;
 
-    button {
+    .back_button {
+        align-self: flex-start;
+    }
+
+    .add_button {
         align-self: flex-end;
     }
 

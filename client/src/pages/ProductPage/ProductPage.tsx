@@ -1,11 +1,14 @@
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IProduct } from "../../interfaces/interface";
+import styles from "./ProductPage.module.scss";
+import { BackIcon } from "../../utility/icons";
 
 const ProductPage = () => {
     const { categoryId, subcategoryId, productId } = useParams();
     const [productData, setProductData] = useState<IProduct>();
+    let back = useNavigate();
 
     const api = process.env.REACT_APP_PRODUCT;
 
@@ -32,15 +35,20 @@ const ProductPage = () => {
     }, [api, categoryId, subcategoryId, productId]);
 
     return (
-        <div>
-            <h1>{productData?.title}</h1>
-            <div> {productData?.description}</div>
-            <div>{productData?.rating}</div>
-            {productData?.buy === true ? (
-                <div>Kupi</div>
-            ) : (
-                <div>nemoj kupiti</div>
-            )}
+        <div className={styles.container}>
+            <button onClick={() => back(-1)}>
+                <BackIcon />
+            </button>
+            <div>
+                <h1>{productData?.title}</h1>
+                <div> {productData?.description}</div>
+                <div>{productData?.rating}</div>
+                {productData?.buy === true ? (
+                    <div>Kupi</div>
+                ) : (
+                    <div>nemoj kupiti</div>
+                )}
+            </div>
         </div>
     );
 };

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import { useParams, useNavigate } from "react-router-dom";
 import { IProduct } from "../../interfaces/interface";
+import { BackIcon } from "../../utility/icons";
 import styles from "./ProductsPage.module.scss";
 
 interface INewProduct {
@@ -79,7 +80,7 @@ const ProductsPage = () => {
     return (
         <div className={styles.container}>
             <button className={styles.back_button} onClick={() => back(-1)}>
-                back
+                <BackIcon />
             </button>
             <button
                 className={styles.add_button}

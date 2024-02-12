@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import SubcategoryCard from "../../components/SubcategoryCard/SubcategoryCard";
 import { ISubcategory } from "../../interfaces/interface";
 import styles from "./Subcategory.module.scss";
+import { BackIcon } from "../../utility/icons";
 
 const SubcategoryPage = () => {
     const [subcategories, setSubcategories] = useState<ISubcategory[]>([]);
@@ -48,8 +49,15 @@ const SubcategoryPage = () => {
 
     return (
         <div className={styles.container}>
-            <button onClick={() => back(-1)}>back</button>
-            <button onClick={() => setDialogOpen(true)}>+</button>
+            <button className={styles.back_button} onClick={() => back(-1)}>
+                <BackIcon />
+            </button>
+            <button
+                className={styles.add_button}
+                onClick={() => setDialogOpen(true)}
+            >
+                +
+            </button>
             {isDialogOpen && (
                 <dialog open>
                     <form onSubmit={addNewSubcategory} className={styles.form}>
