@@ -1,14 +1,15 @@
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 import { BackButton } from "../../components/BackButton/BackButton";
-import { IProduct } from "../../interfaces/interface";
+//import { IProduct } from "../../interfaces/interface";
 import styles from "./ProductPage.module.scss";
+import { useProductsContext } from "../../hooks/useProductsContext";
 
 const ProductPage = () => {
+    const { product, dispatch } = useProductsContext();
     const { categoryId, subcategoryId, productId } = useParams();
-    const [productData, setProductData] = useState<IProduct>();
-    let back = useNavigate();
+    //const [productData, setProductData] = useState<IProduct>();
 
     const api = process.env.REACT_APP_PRODUCT;
 
@@ -22,7 +23,8 @@ const ProductPage = () => {
                         .replace("productId", productId)
                 )
                 .then((res) => {
-                    setProductData(res.data);
+                    // setProductData(res.data);
+                    dispatch({ type: "SET_PRODUCT", payload: res.data });
                 })
                 .catch((error) => {
                     console.error("Error fetching product data", error);
@@ -32,7 +34,9 @@ const ProductPage = () => {
                 "REACT_APP_PRODUCT environment variable is not defined."
             );
         }
-    }, [api, categoryId, subcategoryId, productId]);
+    }, [api, categoryId, subcategoryId, productId, dispatch]);
+
+    console.log(product, "ovaj log");
 
     return (
         <div className={styles.container}>
@@ -40,10 +44,10 @@ const ProductPage = () => {
                 <BackButton />
             </div>
             <div>
-                <h1>{productData?.title}</h1>
-                <div> {productData?.description}</div>
-                <div>{productData?.rating}</div>
-                {productData?.buy === true ? (
+                <h1>{product?.title}</h1>
+                <div> {product?.description}</div>
+                <div>{product?.rating}</div>
+                {product?.buy === true ? (
                     <div>Kupi</div>
                 ) : (
                     <div>nemoj kupiti</div>

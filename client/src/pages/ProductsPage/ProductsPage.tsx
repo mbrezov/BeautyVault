@@ -6,6 +6,7 @@ import { BackButton } from "../../components/BackButton/BackButton";
 import { IProduct } from "../../interfaces/interface";
 import styles from "./ProductsPage.module.scss";
 import { AddIcon } from "../../utility/icons";
+import { useProductsContext } from "../../hooks/useProductsContext";
 
 interface INewProduct {
     title: string;
@@ -15,8 +16,9 @@ interface INewProduct {
 }
 
 const ProductsPage = () => {
+    const { products, dispatch } = useProductsContext();
     const { categoryId, subcategoryId } = useParams();
-    const [productData, setProductData] = useState<IProduct[]>([]);
+    //const [productData, setProductData] = useState<IProduct[]>([]); //this go away
     const [isDialogOpen, setDialogOpen] = useState(false);
     const [newProduct, setNewProduct] = useState<INewProduct>({
         title: "",
@@ -36,7 +38,8 @@ const ProductsPage = () => {
                         .replace("subcategoryId", subcategoryId)
                 )
                 .then((res) => {
-                    setProductData(res.data);
+                    // setProductData(res.data);
+                    dispatch({ type: "SET_PRODUCTS", payload: res.data });
                 })
                 .catch((error) => {
                     console.error("Error fetching product data", error);
@@ -46,9 +49,7 @@ const ProductsPage = () => {
                 "REACT_APP_PRODUCTS environment variable is not defined."
             );
         }
-    }, [api, categoryId, subcategoryId]);
-
-    console.log(productData);
+    }, [api, categoryId, subcategoryId, dispatch]);
 
     const addNewProduct = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -65,7 +66,8 @@ const ProductsPage = () => {
                         buy: newProduct.buy,
                     }
                 );
-                console.log(response);
+                console.log("Product added:", response.data._id);
+                dispatch({ type: "CREATE_PRODUCT", payload: response.data });
                 setDialogOpen(false);
             } catch (error) {
                 console.error("Error:", error);
@@ -164,22 +166,23 @@ const ProductsPage = () => {
                     </form>
                 </dialog>
             )}
-            {productData.map((product: IProduct) => (
-                <div
-                    key={product._id}
-                    style={
-                        isDialogOpen
-                            ? { filter: "blur(5px)", pointerEvents: "none" }
-                            : {}
-                    }
-                >
-                    <ProductCard
-                        product={product}
-                        categoryId={categoryId}
-                        subcategoryId={subcategoryId}
-                    />
-                </div>
-            ))}
+            {products &&
+                products.map((product: IProduct) => (
+                    <div
+                        key={product._id}
+                        style={
+                            isDialogOpen
+                                ? { filter: "blur(5px)", pointerEvents: "none" }
+                                : {}
+                        }
+                    >
+                        <ProductCard
+                            product={product}
+                            categoryId={categoryId}
+                            subcategoryId={subcategoryId}
+                        />
+                    </div>
+                ))}
         </div>
     );
 };

@@ -26,7 +26,11 @@
         z-index: 1; /* set higher z-index value */
         border-radius: 25px;
         border: none;
-        background-color: aquamarine;
+        // background: rgba(255, 255, 255, 0.17);
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(114, 3, 3, 0.1);
+        backdrop-filter: blur(4.3px);
+        -webkit-backdrop-filter: blur(4.3px);
     }
 
     form {
