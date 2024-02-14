@@ -5,6 +5,7 @@ import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { BackButton } from "../../components/BackButton/BackButton";
 import { IProduct } from "../../interfaces/interface";
 import styles from "./ProductsPage.module.scss";
+import { AddIcon } from "../../utility/icons";
 
 interface INewProduct {
     title: string;
@@ -78,15 +79,17 @@ const ProductsPage = () => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.back_button}>
-                <BackButton />
+            <div className={styles.header}>
+                <div className={styles.back_button}>
+                    <BackButton />
+                </div>
+                <button
+                    className={styles.add_button}
+                    onClick={() => setDialogOpen(true)}
+                >
+                    <AddIcon />
+                </button>
             </div>
-            <button
-                className={styles.add_button}
-                onClick={() => setDialogOpen(true)}
-            >
-                +
-            </button>
             {isDialogOpen && (
                 <dialog open>
                     <form onSubmit={addNewProduct}>
@@ -147,6 +150,11 @@ const ProductsPage = () => {
                                 <option value="true">Yes</option>
                                 <option value="false">No</option>
                             </select>
+                        </label>
+                        <br />
+                        <label>
+                            Click to upload an image
+                            <input type="file" accept="image/png, image/jpg" />
                         </label>
                         <br />
                         <button type="submit">Submit</button>

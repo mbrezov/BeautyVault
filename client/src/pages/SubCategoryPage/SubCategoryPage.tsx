@@ -5,6 +5,7 @@ import { SubcategoryCard } from "../../components/SubcategoryCard/SubcategoryCar
 import { BackButton } from "../../components/BackButton/BackButton";
 import { ISubcategory } from "../../interfaces/interface";
 import styles from "./Subcategory.module.scss";
+import { AddIcon } from "../../utility/icons";
 
 const SubcategoryPage = () => {
     const [subcategories, setSubcategories] = useState<ISubcategory[]>([]);
@@ -48,15 +49,17 @@ const SubcategoryPage = () => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.back_button}>
-                <BackButton />
+            <div className={styles.header}>
+                <div className={styles.back_button}>
+                    <BackButton />
+                </div>
+                <button
+                    className={styles.add_button}
+                    onClick={() => setDialogOpen(true)}
+                >
+                    <AddIcon />
+                </button>
             </div>
-            <button
-                className={styles.add_button}
-                onClick={() => setDialogOpen(true)}
-            >
-                +
-            </button>
             {isDialogOpen && (
                 <dialog open>
                     <form onSubmit={addNewSubcategory} className={styles.form}>

@@ -4,12 +4,21 @@
     align-items: center;
     width: 350px;
 
-    .back_button {
-        align-self: flex-start;
-    }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        width: 100%;
 
-    .add_button {
-        align-self: flex-end;
+        .back_button {
+            align-self: flex-start;
+        }
+
+        .add_button {
+            border: none;
+            background: none;
+            align-self: flex-end;
+        }
     }
 
     dialog {
@@ -17,9 +26,14 @@
         z-index: 1; /* set higher z-index value */
         border-radius: 25px;
         border: none;
+        background-color: aquamarine;
     }
 
     form {
         width: 250px;
+    }
+
+    input[type="file"] {
+        display: none;
     }
 }
