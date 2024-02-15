@@ -21,7 +21,7 @@ const getProducts = async (req, res) => {
 
         const products = subcategory.products;
 
-        res.status(200).json(products);
+        res.status(200).json(products); //Sort needs to be added here (-1 or something like that)
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -87,7 +87,10 @@ const createProduct = async (req, res) => {
 
         console.log("New Product created:", newProduct);
 
-        res.status(200).json(newProduct);
+        res.status(200).json({
+            ...newProduct,
+            _id: subcategory.products[subcategory.products.length - 1]._id,
+        });
     } catch (error) {
         console.error("Error creating product:", error);
         res.status(400).json({ error: error.message });
