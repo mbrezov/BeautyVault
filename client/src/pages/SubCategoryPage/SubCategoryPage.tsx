@@ -6,21 +6,27 @@ import { BackButton } from "../../components/BackButton/BackButton";
 import { ISubcategory } from "../../interfaces/interface";
 import styles from "./Subcategory.module.scss";
 import { AddIcon } from "../../utility/icons";
+import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
 
 const SubcategoryPage = () => {
-    const [subcategories, setSubcategories] = useState<ISubcategory[]>([]);
+    const { subcategories, dispatch } = useSubcategoryContext();
+    // const [subcategories, setSubcategories] = useState<ISubcategory[]>([]);
     const [newSubcategory, setnewSubcategory] = useState("");
     const [isDialogOpen, setDialogOpen] = useState(false);
     const { categoryId } = useParams<string>();
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const api = process.env.REACT_APP_SUBCATEGORIES;
+        setIsLoading(true);
 
         if (api && categoryId) {
             axios
                 .get(api.replace("categoryId", categoryId))
                 .then((res) => {
-                    setSubcategories(res.data);
+                    // setSubcategories(res.data)
+                    dispatch({ type: "SET_SUBCATEGORIES", payload: res.data });
+                    setIsLoading(false);
                 })
                 .catch((error) => {
                     console.log(api.replace(":categoryId", categoryId));
@@ -31,7 +37,7 @@ const SubcategoryPage = () => {
                 "REACT_APP_SUBCATEGORIES environment variable is not defined."
             );
         }
-    }, [categoryId]);
+    }, [categoryId, dispatch]);
 
     const addNewSubcategory = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -41,6 +47,7 @@ const SubcategoryPage = () => {
                 { name: newSubcategory }
             );
             console.log(response);
+            dispatch({ type: "CREATE_SUBCATEGORY", payload: response.data });
             setDialogOpen(false);
         } catch (error) {
             console.error("Error:", error);
@@ -76,22 +83,30 @@ const SubcategoryPage = () => {
                     </form>
                 </dialog>
             )}
-            {subcategories.map((subcategory: ISubcategory) => (
-                <div
-                    key={subcategory._id}
-                    style={
-                        isDialogOpen
-                            ? { filter: "blur(5px)", pointerEvents: "none" }
-                            : {}
-                    }
-                >
-                    <SubcategoryCard
-                        name={subcategory.name}
-                        categoryId={categoryId}
-                        subcategoryId={subcategory._id}
-                    />
-                </div>
-            ))}
+            {!isLoading ? (
+                <>
+                    {subcategories &&
+                        subcategories.map((subcategory: ISubcategory) => (
+                            <div
+                                key={subcategory._id}
+                                style={
+                                    isDialogOpen
+                                        ? {
+                                              filter: "blur(5px)",
+                                              pointerEvents: "none",
+                                          }
+                                        : {}
+                                }
+                            >
+                                <SubcategoryCard
+                                    name={subcategory.name}
+                                    categoryId={categoryId}
+                                    subcategoryId={subcategory._id}
+                                />
+                            </div>
+                        ))}
+                </>
+            ) : null}
         </div>
     );
 };

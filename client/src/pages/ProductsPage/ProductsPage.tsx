@@ -19,6 +19,7 @@ const ProductsPage = () => {
     const { products, dispatch } = useProductsContext();
     const { categoryId, subcategoryId } = useParams();
     //const [productData, setProductData] = useState<IProduct[]>([]); //this go away
+    const [isLoading, setIsLoading] = useState(false);
     const [isDialogOpen, setDialogOpen] = useState(false);
     const [newProduct, setNewProduct] = useState<INewProduct>({
         title: "",
@@ -30,6 +31,7 @@ const ProductsPage = () => {
     const api = process.env.REACT_APP_PRODUCTS;
 
     useEffect(() => {
+        setIsLoading(true);
         if (api && categoryId && subcategoryId) {
             axios
                 .get(
@@ -40,6 +42,7 @@ const ProductsPage = () => {
                 .then((res) => {
                     // setProductData(res.data);
                     dispatch({ type: "SET_PRODUCTS", payload: res.data });
+                    setIsLoading(false);
                 })
                 .catch((error) => {
                     console.error("Error fetching product data", error);
@@ -166,23 +169,30 @@ const ProductsPage = () => {
                     </form>
                 </dialog>
             )}
-            {products &&
-                products.map((product: IProduct) => (
-                    <div
-                        key={product._id}
-                        style={
-                            isDialogOpen
-                                ? { filter: "blur(5px)", pointerEvents: "none" }
-                                : {}
-                        }
-                    >
-                        <ProductCard
-                            product={product}
-                            categoryId={categoryId}
-                            subcategoryId={subcategoryId}
-                        />
-                    </div>
-                ))}
+            {!isLoading ? (
+                <>
+                    {products &&
+                        products.map((product: IProduct) => (
+                            <div
+                                key={product._id}
+                                style={
+                                    isDialogOpen
+                                        ? {
+                                              filter: "blur(5px)",
+                                              pointerEvents: "none",
+                                          }
+                                        : {}
+                                }
+                            >
+                                <ProductCard
+                                    product={product}
+                                    categoryId={categoryId}
+                                    subcategoryId={subcategoryId}
+                                />
+                            </div>
+                        ))}
+                </>
+            ) : null}
         </div>
     );
 };
