@@ -4,9 +4,9 @@ import { useParams } from "react-router-dom";
 import { SubcategoryCard } from "../../components/SubcategoryCard/SubcategoryCard";
 import { BackButton } from "../../components/BackButton/BackButton";
 import { ISubcategory } from "../../interfaces/interface";
-import styles from "./Subcategory.module.scss";
 import { AddIcon } from "../../utility/icons";
 import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
+import styles from "./Subcategory.module.scss";
 
 const SubcategoryPage = () => {
     const { subcategories, dispatch } = useSubcategoryContext();

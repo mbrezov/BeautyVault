@@ -4,9 +4,9 @@ import { useParams } from "react-router-dom";
 import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { BackButton } from "../../components/BackButton/BackButton";
 import { IProduct } from "../../interfaces/interface";
-import styles from "./ProductsPage.module.scss";
 import { AddIcon } from "../../utility/icons";
 import { useProductsContext } from "../../hooks/useProductsContext";
+import styles from "./ProductsPage.module.scss";
 
 interface INewProduct {
     title: string;
@@ -128,8 +128,10 @@ const ProductsPage = () => {
                         <label>
                             Rating:
                             <input
-                                type="number"
+                                type="range"
                                 name="rating"
+                                min="1"
+                                max="5"
                                 value={newProduct.rating}
                                 onChange={(e) =>
                                     setNewProduct({
@@ -138,6 +140,7 @@ const ProductsPage = () => {
                                     })
                                 }
                             />
+                            {newProduct.rating}
                         </label>
                         <br />
                         <label>
