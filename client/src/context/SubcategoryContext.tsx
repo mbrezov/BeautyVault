@@ -16,6 +16,12 @@ export const subcategoryReducer = (state: any, action: any) => {
             return {
                 subcategories: [action.payload, ...state.subcategories],
             };
+        case "DELETE_SUBCATEGORY":
+            return {
+                subcategories: state.subcategories.filter(
+                    (subcategory: any) => subcategory._id !== action.payload
+                ),
+            };
         default:
             return state;
     }

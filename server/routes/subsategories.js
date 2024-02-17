@@ -2,6 +2,7 @@ const express = require("express");
 const {
     getSubcategories,
     createSubcategory,
+    deleteSubcategory,
 } = require("../controllers/subcategoriesController");
 
 const router = express.Router();
@@ -16,6 +17,9 @@ router.post("/category/:categoryId/subcategory", createSubcategory);
 /*TODO*/
 
 //Delete subcategory in category
-/*TODO*/
+router.delete(
+    "/category/:categoryId/subcategory/:subcategoryId",
+    deleteSubcategory
+);
 
 module.exports = router;
