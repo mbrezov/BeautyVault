@@ -3,7 +3,7 @@ const {
     getProducts,
     createProduct,
     getProduct,
-    //deleteProduct,
+    deleteProduct,
 } = require("../controllers/productController");
 
 const router = express.Router();
@@ -26,9 +26,9 @@ router.get(
 );
 
 //Delete product
-/* router.delete(
-    "/category/:categoryId/subcategory/:subcategoryId/products",
+router.delete(
+    "/category/:categoryId/subcategory/:subcategoryId/products/:productId",
     deleteProduct
-); */
+);
 
 module.exports = router;

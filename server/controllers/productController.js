@@ -100,39 +100,34 @@ const createProduct = async (req, res) => {
 //Update product
 
 //Delete product
-/* const deleteProduct = async (req, res) => {
-    const { categoryId, subcategoryId } = req.params;
-    const { productId } = req.body;
+const deleteProduct = async (req, res) => {
+    const { productId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+        return res.status(400).json({ error: "Invalid product Id" });
+    }
 
     try {
-        const category = await Category.findById(categoryId);
+        const products = await Category.findOneAndUpdate(
+            { "subcategory.products._id": productId },
+            { $pull: { "subcategory.$.products": { _id: productId } } },
+            { new: true }
+        );
 
-        if (!category) {
-            return res.status(400).json({ message: "Category not found" });
+        if (!products) {
+            return res.status(400).json({ error: "Product not found" });
         }
 
-        const subcategory = category.subcategory.id(subcategoryId);
-
-        if (!subcategory) {
-            return res.status(400).json({ message: "Subcategory not found" });
-        }
-
-        const product = await subcategory.products.findOneAndDelete({
-            _id: productId,
-        });
-
-        console.log("Product has been deleted:", product);
-
-        res.status(200).json(product);
+        res.status(200).json(products);
     } catch (error) {
-        console.error("Error creating product:", error);
-        res.status(400).json({ error: error.message });
+        console.log(error);
+        return res.status(500).json({ error: "Internal server error" });
     }
-}; */
+};
 
 module.exports = {
     getProducts,
     createProduct,
     getProduct,
-    // deleteProduct,
+    deleteProduct,
 };
