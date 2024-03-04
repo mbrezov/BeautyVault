@@ -8,7 +8,7 @@ const {
 const router = express.Router();
 
 //Get all categories
-router.get("/category", getCategories);
+router.get("/categories", getCategories);
 
 //Get single category
 router.get("/category/:id", getCategory);

@@ -19,29 +19,24 @@ module.exports = mongoose.model("Category", categorySchema);
 
 const mongoose = require("mongoose");
 
-const productSchema = new mongoose.Schema(
-    {
-        title: {
-            type: String,
-            required: true,
-        },
-        description: {
-            type: String,
-            required: true,
-        },
-        rating: {
-            type: Number,
-            min: 1,
-            max: 5,
-        },
-        buy: {
-            type: Boolean,
-        },
+const productSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
     },
-    {
-        timestamps: true,
-    }
-);
+    description: {
+        type: String,
+        required: true,
+    },
+    rating: {
+        type: Number,
+        min: 1,
+        max: 5,
+    },
+    buy: {
+        type: Boolean,
+    },
+});
 
 const subcategorySchema = new mongoose.Schema({
     name: {

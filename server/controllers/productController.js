@@ -98,6 +98,50 @@ const createProduct = async (req, res) => {
 };
 
 //Update product
+const updateProduct = async (req, res) => {
+    const { categoryId, subcategoryId, productId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+        return res.status(400).json({ error: "Invalid product Id" });
+    }
+
+    try {
+        const category = await Category.findById(categoryId);
+
+        if (!category) {
+            return res.status(400).json({
+                error: "Category not found. Please make sure that Id is valid.",
+            });
+        }
+
+        const subcategory = category.subcategory.id(subcategoryId);
+
+        if (!subcategory) {
+            return res.status(400).json({
+                message:
+                    "Subcategory not found. Please make sure that Id is valid.",
+            });
+        }
+
+        const product = subcategory.products.id(productId);
+
+        if (!product) {
+            return res.status(400).json({
+                message:
+                    "Product not found. Please make sure that Id is valid.",
+            });
+        }
+
+        product.set(req.body);
+
+        await category.save();
+
+        res.status(200).json(product);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+};
 
 //Delete product
 const deleteProduct = async (req, res) => {
@@ -130,4 +174,5 @@ module.exports = {
     createProduct,
     getProduct,
     deleteProduct,
+    updateProduct,
 };
