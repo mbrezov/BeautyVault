@@ -78,10 +78,35 @@ const deleteSubcategory = async (req, res) => {
 };
 
 //update subcategory in category
-/*TODO*/
+const updateSubcategory = async (req, res) => {
+    const { categoryId, subcategoryId } = req.params;
+    try {
+        const category = await Category.findById(categoryId);
+
+        if (!category) {
+            return res.status(404).json({ message: "Category not found" });
+        }
+
+        const subcategory = await category.subcategory.id(subcategoryId);
+
+        if (!subcategory) {
+            return res.status(404).json({ message: "Subcategory not found" });
+        }
+
+        subcategory.set(req.body);
+
+        await category.save();
+
+        res.status(200).json(subcategory);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
 
 module.exports = {
     getSubcategories,
     createSubcategory,
     deleteSubcategory,
+    updateSubcategory,
 };

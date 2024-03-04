@@ -3,6 +3,7 @@ const {
     getSubcategories,
     createSubcategory,
     deleteSubcategory,
+    updateSubcategory,
 } = require("../controllers/subcategoriesController");
 
 const router = express.Router();
@@ -14,7 +15,10 @@ router.get("/category/:categoryId/subcategory", getSubcategories);
 router.post("/category/:categoryId/subcategory", createSubcategory);
 
 //Update subcategory in category
-/*TODO*/
+router.patch(
+    "/category/:categoryId/subcategory/:subcategoryId",
+    updateSubcategory
+);
 
 //Delete subcategory in category
 router.delete(
