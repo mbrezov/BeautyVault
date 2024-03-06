@@ -1,6 +1,32 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const Category = require("../models/categoryModel");
+const dotenv = require("dotenv");
+const {
+    S3Client,
+    PutObjectCommand,
+    GetObjectCommand,
+} = require("@aws-sdk/client-s3");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const crypto = require("crypto");
+
+dotenv.config();
+
+const bucketName = process.env.BUCKET_NAME;
+const bucketRegion = process.env.BUCKET_REGION;
+const accessKey = process.env.ACCESS_KEY;
+const secretAccessKey = process.env.SECRET_ACCESS_KEY;
+
+const randomImgName = () => crypto.randomBytes(32).toString("hex"); //random image name generator
+
+//
+const s3 = new S3Client({
+    region: bucketRegion,
+    credentials: {
+        accessKeyId: accessKey,
+        secretAccessKey: secretAccessKey,
+    },
+});
 
 //Get all products in subcategory
 const getProducts = async (req, res) => {
@@ -20,6 +46,16 @@ const getProducts = async (req, res) => {
         }
 
         const products = subcategory.products;
+
+        for (const product of products) {
+            const getObjectParams = {
+                Bucket: bucketName,
+                Key: product.img,
+            };
+            const command = new GetObjectCommand(getObjectParams);
+            const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+            product.imgUrl = url;
+        }
 
         res.status(200).json(products); //Sort needs to be added here (-1 or something like that)
     } catch (error) {
@@ -50,6 +86,16 @@ const getProduct = async (req, res) => {
             return res.status(400).json({ message: "product not found" });
         }
 
+        const getObjectParams = {
+            Bucket: bucketName,
+            Key: product.img,
+        };
+
+        const command = new GetObjectCommand(getObjectParams);
+        const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+
+        product.imgUrl = url;
+
         res.status(200).json(product);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -60,6 +106,16 @@ const getProduct = async (req, res) => {
 const createProduct = async (req, res) => {
     const { categoryId, subcategoryId } = req.params;
     const { title, description, rating, buy } = req.body;
+    const imgName = randomImgName();
+
+    const params = {
+        Bucket: bucketName,
+        Key: imgName,
+        Body: req.file.buffer,
+        ContentType: req.file.mimetype,
+    };
+
+    const command = new PutObjectCommand(params);
 
     try {
         const category = await Category.findById(categoryId);
@@ -74,11 +130,14 @@ const createProduct = async (req, res) => {
             return res.status(400).json({ message: "Subcategory not found" });
         }
 
+        await s3.send(command);
+
         const newProduct = {
             title,
             description,
             rating,
             buy,
+            img: imgName,
         };
 
         subcategory.products.push(newProduct);

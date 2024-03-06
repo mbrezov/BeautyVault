@@ -36,6 +36,12 @@ const productSchema = new mongoose.Schema({
     buy: {
         type: Boolean,
     },
+    img: {
+        type: String,
+    },
+    imgUrl: {
+        type: String,
+    },
 });
 
 const subcategorySchema = new mongoose.Schema({

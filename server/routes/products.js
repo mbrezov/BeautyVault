@@ -1,3 +1,4 @@
+const multer = require("multer");
 const express = require("express");
 const {
     getProducts,
@@ -9,6 +10,9 @@ const {
 
 const router = express.Router();
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
 //Get all products from subcategory
 router.get(
     "/category/:categoryId/subcategory/:subcategoryId/products",
@@ -18,9 +22,11 @@ router.get(
 //Create a new product
 router.post(
     "/category/:categoryId/subcategory/:subcategoryId/products",
+    upload.single("img"),
     createProduct
 );
 
+//Get product
 router.get(
     "/category/:categoryId/subcategory/:subcategoryId/products/:productId",
     getProduct

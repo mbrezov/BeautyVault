@@ -51,32 +51,6 @@ const createSubcategory = async (req, res) => {
     }
 };
 
-//delete subcategory in category
-const deleteSubcategory = async (req, res) => {
-    const { subcategoryId } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(subcategoryId)) {
-        return res.status(404).json({ error: "Invalid subcategory id" });
-    }
-
-    try {
-        const subcategory = await Category.findOneAndUpdate(
-            { "subcategory._id": subcategoryId },
-            { $pull: { subcategory: { _id: subcategoryId } } },
-            { new: true }
-        );
-
-        if (!subcategory) {
-            return res.status(404).json({ error: "Subcategory not found" });
-        }
-
-        res.status(200).json(subcategory);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Internal server error" });
-    }
-};
-
 //update subcategory in category
 const updateSubcategory = async (req, res) => {
     const { categoryId, subcategoryId } = req.params;
@@ -100,6 +74,32 @@ const updateSubcategory = async (req, res) => {
         res.status(200).json(subcategory);
     } catch (error) {
         console.log(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+//delete subcategory in category
+const deleteSubcategory = async (req, res) => {
+    const { subcategoryId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(subcategoryId)) {
+        return res.status(404).json({ error: "Invalid subcategory id" });
+    }
+
+    try {
+        const subcategory = await Category.findOneAndUpdate(
+            { "subcategory._id": subcategoryId },
+            { $pull: { subcategory: { _id: subcategoryId } } },
+            { new: true }
+        );
+
+        if (!subcategory) {
+            return res.status(404).json({ error: "Subcategory not found" });
+        }
+
+        res.status(200).json(subcategory);
+    } catch (error) {
+        console.error(error);
         res.status(500).json({ error: "Internal server error" });
     }
 };
