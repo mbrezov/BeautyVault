@@ -6,6 +6,7 @@ const {
     S3Client,
     PutObjectCommand,
     GetObjectCommand,
+    DeleteObjectCommand,
 } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const crypto = require("crypto");
@@ -17,9 +18,10 @@ const bucketRegion = process.env.BUCKET_REGION;
 const accessKey = process.env.ACCESS_KEY;
 const secretAccessKey = process.env.SECRET_ACCESS_KEY;
 
-const randomImgName = () => crypto.randomBytes(32).toString("hex"); //random image name generator
+//random image name generator
+const randomImgName = () => crypto.randomBytes(32).toString("hex");
 
-//
+//creating s3 client bucket
 const s3 = new S3Client({
     region: bucketRegion,
     credentials: {
@@ -47,6 +49,7 @@ const getProducts = async (req, res) => {
 
         const products = subcategory.products;
 
+        //getting images for products
         for (const product of products) {
             const getObjectParams = {
                 Bucket: bucketName,
@@ -204,24 +207,53 @@ const updateProduct = async (req, res) => {
 
 //Delete product
 const deleteProduct = async (req, res) => {
-    const { productId } = req.params;
+    const { categoryId, subcategoryId, productId } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(productId)) {
         return res.status(400).json({ error: "Invalid product Id" });
     }
 
     try {
-        const products = await Category.findOneAndUpdate(
-            { "subcategory.products._id": productId },
-            { $pull: { "subcategory.$.products": { _id: productId } } },
-            { new: true }
-        );
+        const category = await Category.findById(categoryId);
 
-        if (!products) {
-            return res.status(400).json({ error: "Product not found" });
+        if (!category) {
+            return res.status(400).json({
+                error: "Category not found. Please make sure that Id is valid.",
+            });
         }
 
-        res.status(200).json(products);
+        const subcategory = category.subcategory.id(subcategoryId);
+
+        if (!subcategory) {
+            return res.status(400).json({
+                message:
+                    "Subcategory not found. Please make sure that Id is valid.",
+            });
+        }
+
+        const product = subcategory.products.id(productId);
+
+        if (!product) {
+            return res.status(400).json({
+                message:
+                    "Product not found. Please make sure that Id is valid.",
+            });
+        }
+
+        const parms = {
+            Bucket: bucketName,
+            Key: product.img,
+        };
+
+        const command = new DeleteObjectCommand(parms);
+
+        await s3.send(command);
+
+        const deletedProduct = subcategory.products.remove(productId);
+
+        await category.save();
+
+        res.status(200).json(deletedProduct);
     } catch (error) {
         console.log(error);
         return res.status(500).json({ error: "Internal server error" });
