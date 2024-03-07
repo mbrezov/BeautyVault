@@ -1,8 +1,7 @@
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { BackButton } from "../../components/BackButton/BackButton";
-// import { IProduct } from "../../interfaces/interface";
 import styles from "./ProductPage.module.scss";
 import { useProductsContext } from "../../hooks/useProductsContext";
 
@@ -10,7 +9,7 @@ const ProductPage = () => {
     const { product, dispatch } = useProductsContext();
     const { categoryId, subcategoryId, productId } = useParams();
     const [isLoading, setIsLoading] = useState(false);
-    //const [productData, setProductData] = useState<IProduct>();
+    const navigate = useNavigate();
 
     const api = process.env.REACT_APP_PRODUCT;
 
@@ -25,8 +24,7 @@ const ProductPage = () => {
                         .replace("productId", productId)
                 )
                 .then((res) => {
-                    // setProductData(res.data);
-                    dispatch({ type: "SET_PRODUCT", payload: res.data });
+                    dispatch({ type: "GET_PRODUCT", payload: res.data });
                     setIsLoading(false);
                 })
                 .catch((error) => {
@@ -39,6 +37,26 @@ const ProductPage = () => {
         }
     }, [api, categoryId, subcategoryId, productId, dispatch]);
 
+    const handleClick = async () => {
+        if (api && categoryId && subcategoryId && productId) {
+            try {
+                await axios.delete(
+                    api
+                        .replace("categoryId", categoryId)
+                        .replace("subcategoryId", subcategoryId)
+                        .replace("productId", productId)
+                );
+                navigate(-1);
+            } catch (error) {
+                console.log(error);
+            }
+        } else {
+            console.error(
+                "REACT_APP_PRODUCT environment variable is not defined."
+            );
+        }
+    };
+
     return (
         <>
             {!isLoading ? (
@@ -47,6 +65,7 @@ const ProductPage = () => {
                         <BackButton />
                     </div>
                     <div>
+                        <button onClick={handleClick}>DELEETE</button>
                         <h1>{product?.title}</h1>
                         <div> {product?.description}</div>
                         <div>{product?.rating}</div>
@@ -56,6 +75,12 @@ const ProductPage = () => {
                             <div>nemoj kupiti</div>
                         )}
                     </div>
+                    <img
+                        width="128"
+                        height="128"
+                        alt="palcehodler"
+                        src={product?.imgUrl}
+                    />
                 </div>
             ) : null}
         </>

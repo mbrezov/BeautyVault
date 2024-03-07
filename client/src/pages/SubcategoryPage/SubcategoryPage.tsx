@@ -10,11 +10,12 @@ import styles from "./Subcategory.module.scss";
 
 const SubcategoryPage = () => {
     const { subcategories, dispatch } = useSubcategoryContext();
-    // const [subcategories, setSubcategories] = useState<ISubcategory[]>([]);
     const [newSubcategory, setnewSubcategory] = useState("");
     const [isDialogOpen, setDialogOpen] = useState(false);
     const { categoryId } = useParams<string>();
     const [isLoading, setIsLoading] = useState(false);
+
+    const api = process.env.REACT_APP_SUBCATEGORIES;
 
     useEffect(() => {
         const api = process.env.REACT_APP_SUBCATEGORIES;
@@ -24,7 +25,6 @@ const SubcategoryPage = () => {
             axios
                 .get(api.replace("categoryId", categoryId))
                 .then((res) => {
-                    // setSubcategories(res.data)
                     dispatch({ type: "SET_SUBCATEGORIES", payload: res.data });
                     setIsLoading(false);
                 })
@@ -42,13 +42,18 @@ const SubcategoryPage = () => {
     const addNewSubcategory = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.post(
-                `http://localhost:4000/api/category/${categoryId}/subcategory`,
-                { name: newSubcategory }
-            );
-            console.log(response);
-            dispatch({ type: "CREATE_SUBCATEGORY", payload: response.data });
-            setDialogOpen(false);
+            if (api && categoryId) {
+                const response = await axios.post(
+                    api.replace("categoryId", categoryId),
+                    { name: newSubcategory }
+                );
+                console.log(response);
+                dispatch({
+                    type: "CREATE_SUBCATEGORY",
+                    payload: response.data,
+                });
+                setDialogOpen(false);
+            }
         } catch (error) {
             console.error("Error:", error);
         }
@@ -106,7 +111,9 @@ const SubcategoryPage = () => {
                             </div>
                         ))}
                 </>
-            ) : null}
+            ) : (
+                <div>Loading</div>
+            )}
         </div>
     );
 };

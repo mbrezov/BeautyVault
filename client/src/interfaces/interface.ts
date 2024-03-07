@@ -18,4 +18,6 @@ export interface IProduct {
     rating: number;
     buy: boolean;
     _id: string;
+    img: string;
+    imgUrl: string;
 }

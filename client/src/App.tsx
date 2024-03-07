@@ -31,8 +31,6 @@ function App() {
         }
     }, []);
 
-    console.log("eto mene");
-
     return (
         <BrowserRouter>
             <div className={styles.container}>

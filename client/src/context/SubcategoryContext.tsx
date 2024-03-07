@@ -5,6 +5,7 @@ export const SubcategoryContext = createContext<any>(null);
 export const subcategoryReducer = (state: any, action: any) => {
     switch (action.type) {
         case "SET_SUBCATEGORIES":
+            console.log(state.subcategories, "get");
             return {
                 subcategories: action.payload,
             };
@@ -13,10 +14,12 @@ export const subcategoryReducer = (state: any, action: any) => {
                 subcategory: action.payload,
             };
         case "CREATE_SUBCATEGORY":
+            console.log(state.subcategories, "create");
             return {
                 subcategories: [action.payload, ...state.subcategories],
             };
         case "DELETE_SUBCATEGORY":
+            console.log(state.subcategories, "delete");
             return {
                 subcategories: state.subcategories.filter(
                     (subcategory: any) => subcategory._id !== action.payload

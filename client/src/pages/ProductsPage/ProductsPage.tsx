@@ -13,12 +13,12 @@ interface INewProduct {
     description: string;
     rating: number;
     buy: boolean;
+    img: File | string;
 }
 
 const ProductsPage = () => {
     const { products, dispatch } = useProductsContext();
     const { categoryId, subcategoryId } = useParams();
-    //const [productData, setProductData] = useState<IProduct[]>([]); //this go away
     const [isLoading, setIsLoading] = useState(false);
     const [isDialogOpen, setDialogOpen] = useState(false);
     const [newProduct, setNewProduct] = useState<INewProduct>({
@@ -26,6 +26,7 @@ const ProductsPage = () => {
         description: "",
         rating: 0,
         buy: false,
+        img: "",
     });
 
     const api = process.env.REACT_APP_PRODUCTS;
@@ -41,7 +42,7 @@ const ProductsPage = () => {
                 )
                 .then((res) => {
                     // setProductData(res.data);
-                    dispatch({ type: "SET_PRODUCTS", payload: res.data });
+                    dispatch({ type: "GET_PRODUCTS", payload: res.data });
                     setIsLoading(false);
                 })
                 .catch((error) => {
@@ -58,15 +59,22 @@ const ProductsPage = () => {
         e.preventDefault();
         if (api && categoryId && subcategoryId) {
             try {
+                const formData = new FormData();
+                formData.append("title", newProduct.title);
+                formData.append("description", newProduct.description);
+                formData.append("rating", String(newProduct.rating));
+                formData.append("buy", String(newProduct.buy));
+                formData.append("img", newProduct.img);
+
                 const response = await axios.post(
                     api
                         .replace("categoryId", categoryId)
                         .replace("subcategoryId", subcategoryId),
+                    formData,
                     {
-                        title: newProduct.title,
-                        description: newProduct.description,
-                        rating: newProduct.rating,
-                        buy: newProduct.buy,
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
                     }
                 );
                 console.log("Product added:", response.data._id);
@@ -162,7 +170,16 @@ const ProductsPage = () => {
                         <br />
                         <label>
                             Click to upload an image
-                            <input type="file" accept="image/png, image/jpg" />
+                            <input
+                                type="file"
+                                accept="image/png, image/jpg"
+                                onChange={(e) =>
+                                    setNewProduct({
+                                        ...newProduct,
+                                        img: e.target.files?.[0] || "",
+                                    })
+                                }
+                            />
                         </label>
                         <br />
                         <button type="submit">Submit</button>
