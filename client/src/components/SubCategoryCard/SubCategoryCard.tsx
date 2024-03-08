@@ -14,6 +14,7 @@ export const SubcategoryCard = (props: IProps) => {
     const { dispatch } = useSubcategoryContext();
     const api = process.env.REACT_APP_SUBCATEGORIES;
 
+    //delete subcategory
     const handleClick = async () => {
         try {
             await axios.delete(`${api}/${props.subcategoryId}`);

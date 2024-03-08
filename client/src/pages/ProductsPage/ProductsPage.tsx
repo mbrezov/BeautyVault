@@ -6,6 +6,7 @@ import { BackButton } from "../../components/BackButton/BackButton";
 import { IProduct } from "../../interfaces/interface";
 import { AddIcon } from "../../utility/icons";
 import { useProductsContext } from "../../hooks/useProductsContext";
+import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
 import styles from "./ProductsPage.module.scss";
 
 interface INewProduct {
@@ -18,6 +19,7 @@ interface INewProduct {
 
 const ProductsPage = () => {
     const { products, dispatch } = useProductsContext();
+    const { subcategories } = useSubcategoryContext();
     const { categoryId, subcategoryId } = useParams();
     const [isLoading, setIsLoading] = useState(false);
     const [isDialogOpen, setDialogOpen] = useState(false);
@@ -41,7 +43,6 @@ const ProductsPage = () => {
                         .replace("subcategoryId", subcategoryId)
                 )
                 .then((res) => {
-                    // setProductData(res.data);
                     dispatch({ type: "GET_PRODUCTS", payload: res.data });
                     setIsLoading(false);
                 })
@@ -89,6 +90,22 @@ const ProductsPage = () => {
             );
         }
     };
+
+    //using session storage for getting subcategory title
+    useEffect(() => {
+        if (subcategories) {
+            subcategories.forEach((subcategory: any) => {
+                if (subcategory._id === subcategoryId) {
+                    sessionStorage.setItem(
+                        "subcategory_title",
+                        subcategory.name
+                    );
+                }
+            });
+        }
+    }, [subcategories, subcategoryId]);
+
+    const subcategoryTitle = sessionStorage.getItem("subcategory_title");
 
     return (
         <div className={styles.container}>
@@ -191,6 +208,7 @@ const ProductsPage = () => {
             )}
             {!isLoading ? (
                 <>
+                    <div>{subcategoryTitle}</div>
                     {products &&
                         products.map((product: IProduct) => (
                             <div

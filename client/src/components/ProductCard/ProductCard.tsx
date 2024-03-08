@@ -16,7 +16,7 @@ export const ProductCard = ({ product, categoryId, subcategoryId }: IProps) => {
 
     const api = process.env.REACT_APP_PRODUCT;
 
-    const handleClick = async () => {
+    const deleteProduct = async () => {
         if (api && categoryId && subcategoryId && product._id) {
             try {
                 await axios.delete(
@@ -59,7 +59,7 @@ export const ProductCard = ({ product, categoryId, subcategoryId }: IProps) => {
                     />
                 </div>
             </NavLink>
-            <button onClick={handleClick}>DELEETE</button>
+            <button onClick={deleteProduct}>DELEETE</button>
         </>
     );
 };
