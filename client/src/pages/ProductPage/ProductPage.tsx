@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { BackButton } from "../../components/BackButton/BackButton";
 import styles from "./ProductPage.module.scss";
 import { useProductsContext } from "../../hooks/useProductsContext";
+import { Like, Dislike } from "../../utility/icons";
 
 const ProductPage = () => {
     const { product, dispatch } = useProductsContext();
@@ -58,32 +59,32 @@ const ProductPage = () => {
     };
 
     return (
-        <>
+        <div className={styles.container}>
+            <div className={styles.header}>
+                <div className={styles.back_button}>
+                    <BackButton />
+                </div>
+            </div>
             {!isLoading ? (
-                <div className={styles.container}>
-                    <div>
-                        <BackButton />
-                    </div>
-                    <div>
-                        <button onClick={handleClick}>DELEETE</button>
-                        <h1>{product?.title}</h1>
-                        <div> {product?.description}</div>
-                        <div>{product?.rating}</div>
-                        {product?.buy === true ? (
-                            <div>Kupi</div>
-                        ) : (
-                            <div>nemoj kupiti</div>
-                        )}
-                    </div>
+                <div className={styles.product_card}>
                     <img
-                        width="128"
-                        height="128"
+                        width="340"
+                        height="340"
                         alt="palcehodler"
                         src={product?.imgUrl}
                     />
+                    {/*        <button onClick={handleClick}>DELEETE</button>*/}
+                    <h2 className={styles.title}>{product?.title}</h2>
+                    <div className={styles.description}>
+                        {product?.description}
+                    </div>
+                    <div className={styles.rating}>{product?.rating}</div>
+                    <div className={styles.buy}>
+                        {product?.buy === true ? <Like /> : <Dislike />}
+                    </div>
                 </div>
             ) : null}
-        </>
+        </div>
     );
 };
 

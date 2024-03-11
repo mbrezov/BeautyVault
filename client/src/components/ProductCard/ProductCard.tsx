@@ -3,6 +3,7 @@ import styles from "./ProductCard.module.scss";
 import { IProduct } from "../../interfaces/interface";
 import { useProductsContext } from "../../hooks/useProductsContext";
 import axios from "axios";
+import { Dislike, Like, NoImage } from "../../utility/icons";
 
 interface IProps {
     product: IProduct;
@@ -39,24 +40,26 @@ export const ProductCard = ({ product, categoryId, subcategoryId }: IProps) => {
         }
     };
 
+    console.log(product.buy);
+
     return (
         <>
             <NavLink to={URL} style={{ textDecoration: "none" }}>
                 <div className={styles.container}>
-                    <h1>{product.title}</h1>
-
-                    {product.buy === true ? (
-                        <div>Kupi</div>
+                    {product.imgUrl ? (
+                        <img
+                            width="100"
+                            height="100"
+                            alt="error"
+                            src={product.imgUrl}
+                        />
                     ) : (
-                        <div>Nemoj kupiti</div>
+                        <NoImage />
                     )}
-                    <div>{product.rating}</div>
-                    <img
-                        width="64"
-                        height="64"
-                        alt="palcehodler"
-                        src={product.imgUrl}
-                    />
+                    <h1>{product.title}</h1>
+                    <div className={styles.info}>
+                        <div className={styles.rating}>{product.rating}</div>
+                    </div>
                 </div>
             </NavLink>
             <button onClick={deleteProduct}>DELEETE</button>

@@ -4,6 +4,13 @@
     align-items: center;
     width: 350px;
 
+    .category_title {
+        font-weight: bold;
+
+        align-self: center;
+        font-size: 1.25rem;
+    }
+
     .header {
         display: flex;
         justify-content: space-between;

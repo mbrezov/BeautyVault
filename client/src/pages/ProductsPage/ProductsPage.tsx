@@ -98,7 +98,8 @@ const ProductsPage = () => {
                 if (subcategory._id === subcategoryId) {
                     sessionStorage.setItem(
                         "subcategory_title",
-                        subcategory.name
+                        subcategory.name.charAt(0).toUpperCase() +
+                            subcategory.name.slice(1)
                     );
                 }
             });
@@ -113,6 +114,7 @@ const ProductsPage = () => {
                 <div className={styles.back_button}>
                     <BackButton />
                 </div>
+                <div className={styles.category_title}>{subcategoryTitle}</div>
                 <button
                     className={styles.add_button}
                     onClick={() => setDialogOpen(true)}
@@ -208,7 +210,6 @@ const ProductsPage = () => {
             )}
             {!isLoading ? (
                 <>
-                    <div>{subcategoryTitle}</div>
                     {products &&
                         products.map((product: IProduct) => (
                             <div
