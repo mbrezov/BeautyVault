@@ -1,6 +1,7 @@
 .h1 {
     align-self: flex-start;
     margin-left: 40px;
+    color: #010101;
 }
 
 .container {
@@ -8,4 +9,5 @@
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, 1fr);
     gap: 25px;
+    margin-bottom: 20px;
 }
