@@ -78,8 +78,9 @@ const ProductPage = () => {
                     <div className={styles.description}>
                         {product?.description}
                     </div>
-                    <div className={styles.rating}>{product?.rating}</div>
-                    <div className={styles.buy}>
+
+                    <div className={styles.rating}>
+                        {product?.rating} |
                         {product?.buy === true ? <Like /> : <Dislike />}
                     </div>
                 </div>

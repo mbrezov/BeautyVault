@@ -55,27 +55,14 @@
             justify-content: center;
             align-items: center;
             position: absolute;
+            gap: 2px;
             right: 0;
-            width: 30px;
+            width: 70px;
             height: 30px;
             border-radius: 100px;
             background-color: #839788;
             margin: 10px 20px 0px 0px;
             font-weight: 900;
-        }
-
-        .buy {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-            background-color: #839788;
-            margin: 10px 0px 0px 20px;
-            width: 30px;
-            height: 30px;
-            border-radius: 100px;
         }
     }
 }
