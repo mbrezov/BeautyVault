@@ -1,3 +1,8 @@
+button {
+    border: none;
+    background: none;
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -16,15 +21,18 @@
 
         .action_buttons {
             align-self: flex-end;
+        }
+    }
 
-            .add_button {
-                border: none;
-                background: none;
-            }
-            .edit_button {
-                border: none;
-                background: none;
-            }
+    .card_container {
+        position: relative;
+
+        .delete_button {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            right: 0;
+            margin: 35px 0px 0px 20px;
         }
     }
 

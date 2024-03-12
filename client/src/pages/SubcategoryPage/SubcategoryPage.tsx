@@ -14,6 +14,7 @@ const SubcategoryPage = () => {
     const [isDialogOpen, setDialogOpen] = useState(false);
     const { categoryId } = useParams<string>();
     const [isLoading, setIsLoading] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
 
     const api = process.env.REACT_APP_SUBCATEGORIES;
 
@@ -73,7 +74,11 @@ const SubcategoryPage = () => {
         }
     };
 
-    console.log(subcategories);
+    const enableEditing = (e: any) => {
+        isEditing === false ? setIsEditing(true) : setIsEditing(false);
+    };
+
+    console.log(isEditing);
 
     return (
         <div className={styles.container}>
@@ -82,7 +87,10 @@ const SubcategoryPage = () => {
                     <BackButton />
                 </div>
                 <div className={styles.action_buttons}>
-                    <button className={styles.edit_button}>
+                    <button
+                        className={styles.edit_button}
+                        onClick={(e) => enableEditing(e)}
+                    >
                         <Edit />
                     </button>
                     <button
@@ -114,6 +122,7 @@ const SubcategoryPage = () => {
                     {subcategories &&
                         subcategories.map((subcategory: ISubcategory) => (
                             <div
+                                className={styles.card_container}
                                 key={subcategory._id}
                                 style={
                                     isDialogOpen
@@ -130,13 +139,16 @@ const SubcategoryPage = () => {
                                     subcategoryId={subcategory._id}
                                 />
 
-                                <button
-                                    onClick={() =>
-                                        deleteSubcategory(subcategory._id)
-                                    }
-                                >
-                                    <Delete />
-                                </button>
+                                {isEditing && (
+                                    <button
+                                        className={styles.delete_button}
+                                        onClick={() =>
+                                            deleteSubcategory(subcategory._id)
+                                        }
+                                    >
+                                        <Delete />
+                                    </button>
+                                )}
                             </div>
                         ))}
                 </>
