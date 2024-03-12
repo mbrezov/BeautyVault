@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { SubcategoryCard } from "../../components/SubcategoryCard/SubcategoryCard";
 import { BackButton } from "../../components/BackButton/BackButton";
 import { ISubcategory } from "../../interfaces/interface";
-import { Add, Delete } from "../../utility/icons";
+import { Add, Delete, Edit } from "../../utility/icons";
 import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
 import styles from "./SubcategoryPage.module.scss";
 
@@ -81,12 +81,17 @@ const SubcategoryPage = () => {
                 <div className={styles.back_button}>
                     <BackButton />
                 </div>
-                <button
-                    className={styles.add_button}
-                    onClick={() => setDialogOpen(true)}
-                >
-                    <Add />
-                </button>
+                <div className={styles.action_buttons}>
+                    <button className={styles.edit_button}>
+                        <Edit />
+                    </button>
+                    <button
+                        className={styles.add_button}
+                        onClick={() => setDialogOpen(true)}
+                    >
+                        <Add />
+                    </button>
+                </div>
             </div>
             {isDialogOpen && (
                 <dialog open>

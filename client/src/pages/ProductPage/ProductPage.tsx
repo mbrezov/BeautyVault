@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { BackButton } from "../../components/BackButton/BackButton";
 import styles from "./ProductPage.module.scss";
 import { useProductsContext } from "../../hooks/useProductsContext";
-import { Like, Dislike } from "../../utility/icons";
+import { Like, Dislike, Edit } from "../../utility/icons";
 
 const ProductPage = () => {
     const { product, dispatch } = useProductsContext();
@@ -38,7 +38,7 @@ const ProductPage = () => {
         }
     }, [api, categoryId, subcategoryId, productId, dispatch]);
 
-    const handleClick = async () => {
+    const deleteProduct = async () => {
         if (api && categoryId && subcategoryId && productId) {
             try {
                 await axios.delete(
@@ -64,6 +64,9 @@ const ProductPage = () => {
                 <div className={styles.back_button}>
                     <BackButton />
                 </div>
+                <button className={styles.edit_button}>
+                    <Edit />
+                </button>
             </div>
             {!isLoading ? (
                 <div className={styles.product_card}>
@@ -73,7 +76,7 @@ const ProductPage = () => {
                         alt="palcehodler"
                         src={product?.imgUrl}
                     />
-                    {/*        <button onClick={handleClick}>DELEETE</button>*/}
+                    {/*        <button onClick={deleteProduct}>DELEETE</button>*/}
                     <h2 className={styles.title}>{product?.title}</h2>
                     <div className={styles.description}>
                         {product?.description}
