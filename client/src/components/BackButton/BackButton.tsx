@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { BackIcon } from "../../utility/icons";
+import { Back } from "../../utility/icons";
 import styles from "./BackButton.module.scss";
 
 export const BackButton = () => {
@@ -7,7 +7,7 @@ export const BackButton = () => {
     return (
         <div>
             <button className={styles.container} onClick={() => back(-1)}>
-                <BackIcon />
+                <Back />
             </button>
         </div>
     );

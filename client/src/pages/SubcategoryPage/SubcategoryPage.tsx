@@ -4,9 +4,9 @@ import { useParams } from "react-router-dom";
 import { SubcategoryCard } from "../../components/SubcategoryCard/SubcategoryCard";
 import { BackButton } from "../../components/BackButton/BackButton";
 import { ISubcategory } from "../../interfaces/interface";
-import { AddIcon } from "../../utility/icons";
+import { Add, Delete } from "../../utility/icons";
 import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
-import styles from "./Subcategory.module.scss";
+import styles from "./SubcategoryPage.module.scss";
 
 const SubcategoryPage = () => {
     const { subcategories, dispatch } = useSubcategoryContext();
@@ -59,6 +59,22 @@ const SubcategoryPage = () => {
         }
     };
 
+    const deleteSubcategory = async (subcategoryId: string) => {
+        try {
+            await axios.delete(`${api}/${subcategoryId}`);
+
+            console.log(`Deleted subcategory with ID ${subcategoryId}`);
+            dispatch({
+                type: "DELETE_SUBCATEGORY",
+                payload: subcategoryId,
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    console.log(subcategories);
+
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -69,7 +85,7 @@ const SubcategoryPage = () => {
                     className={styles.add_button}
                     onClick={() => setDialogOpen(true)}
                 >
-                    <AddIcon />
+                    <Add />
                 </button>
             </div>
             {isDialogOpen && (
@@ -108,6 +124,14 @@ const SubcategoryPage = () => {
                                     categoryId={categoryId}
                                     subcategoryId={subcategory._id}
                                 />
+
+                                <button
+                                    onClick={() =>
+                                        deleteSubcategory(subcategory._id)
+                                    }
+                                >
+                                    <Delete />
+                                </button>
                             </div>
                         ))}
                 </>

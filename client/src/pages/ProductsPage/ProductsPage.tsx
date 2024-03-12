@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { BackButton } from "../../components/BackButton/BackButton";
 import { IProduct } from "../../interfaces/interface";
-import { AddIcon } from "../../utility/icons";
+import { Add } from "../../utility/icons";
 import { useProductsContext } from "../../hooks/useProductsContext";
 import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
 import styles from "./ProductsPage.module.scss";
@@ -119,7 +119,7 @@ const ProductsPage = () => {
                     className={styles.add_button}
                     onClick={() => setDialogOpen(true)}
                 >
-                    <AddIcon />
+                    <Add />
                 </button>
             </div>
             {isDialogOpen && (
