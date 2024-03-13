@@ -1,14 +1,32 @@
-import styles from "./HomePage.module.scss";
-import { CategoryCard } from "../../components/CategoryCard/CategoryCard";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { ICategory } from "../../interfaces/interface";
-import { useState } from "react";
+import { CategoryCard } from "../../components/CategoryCard/CategoryCard";
+import styles from "./HomePage.module.scss";
 
-interface IProps {
-    categories: ICategory[];
-}
+const Homepage = () => {
+    const [categories, setCategories] = useState<ICategory[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-const Homepage = ({ categories }: IProps) => {
-    const [isLoading, setIsLoading] = useState(false);
+    useEffect(() => {
+        const api = process.env.REACT_APP_CATEGORIES;
+
+        if (api) {
+            axios
+                .get(api)
+                .then((res) => {
+                    setCategories(res.data);
+                    setIsLoading(false);
+                })
+                .catch((error) => {
+                    console.error("Error fetching categories:", error);
+                });
+        } else {
+            console.error(
+                "REACT_APP_CATEGORIES environment variable is not defined."
+            );
+        }
+    }, []);
 
     return (
         <>

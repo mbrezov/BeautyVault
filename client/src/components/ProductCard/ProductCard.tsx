@@ -1,9 +1,9 @@
-import { NavLink } from "react-router-dom";
-import styles from "./ProductCard.module.scss";
-import { IProduct } from "../../interfaces/interface";
-import { useProductsContext } from "../../hooks/useProductsContext";
 import axios from "axios";
+import { useProductsContext } from "../../hooks/useProductsContext";
+import { NavLink } from "react-router-dom";
+import { IProduct } from "../../interfaces/interface";
 import { Dislike, Like, NoImage } from "../../utility/icons";
+import styles from "./ProductCard.module.scss";
 
 interface IProps {
     product: IProduct;
@@ -39,8 +39,6 @@ export const ProductCard = ({ product, categoryId, subcategoryId }: IProps) => {
             );
         }
     };
-
-    console.log(product.buy);
 
     return (
         <>

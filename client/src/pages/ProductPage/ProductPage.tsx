@@ -1,21 +1,20 @@
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { BackButton } from "../../components/BackButton/BackButton";
-import styles from "./ProductPage.module.scss";
 import { useProductsContext } from "../../hooks/useProductsContext";
+import { useNavigate, useParams } from "react-router-dom";
+import { BackButton } from "../../components/BackButton/BackButton";
 import { Like, Dislike, Edit } from "../../utility/icons";
+import styles from "./ProductPage.module.scss";
 
 const ProductPage = () => {
     const { product, dispatch } = useProductsContext();
     const { categoryId, subcategoryId, productId } = useParams();
-    const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
+    //const navigate = useNavigate();
 
     const api = process.env.REACT_APP_PRODUCT;
 
     useEffect(() => {
-        setIsLoading(true);
         if (api && categoryId && subcategoryId && productId) {
             axios
                 .get(
@@ -38,7 +37,7 @@ const ProductPage = () => {
         }
     }, [api, categoryId, subcategoryId, productId, dispatch]);
 
-    const deleteProduct = async () => {
+    /*const deleteProduct = async () => {
         if (api && categoryId && subcategoryId && productId) {
             try {
                 await axios.delete(
@@ -56,7 +55,7 @@ const ProductPage = () => {
                 "REACT_APP_PRODUCT environment variable is not defined."
             );
         }
-    };
+    };*/
 
     return (
         <div className={styles.container}>

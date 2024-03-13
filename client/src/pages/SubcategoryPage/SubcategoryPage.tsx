@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { SubcategoryCard } from "../../components/SubcategoryCard/SubcategoryCard";
 import { BackButton } from "../../components/BackButton/BackButton";
 import { ISubcategory } from "../../interfaces/interface";
-import { Add, Delete, Edit } from "../../utility/icons";
+import { Add, Cancel, Delete, Edit } from "../../utility/icons";
 import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
 import styles from "./SubcategoryPage.module.scss";
 
@@ -74,11 +74,9 @@ const SubcategoryPage = () => {
         }
     };
 
-    const enableEditing = (e: any) => {
+    const enableEditing = (e: React.FormEvent) => {
         isEditing === false ? setIsEditing(true) : setIsEditing(false);
     };
-
-    console.log(isEditing);
 
     return (
         <div className={styles.container}>
@@ -104,16 +102,17 @@ const SubcategoryPage = () => {
             {isDialogOpen && (
                 <dialog open>
                     <form onSubmit={addNewSubcategory} className={styles.form}>
+                        <button onClick={() => setDialogOpen(false)}>
+                            <Cancel />
+                        </button>
                         <input
                             type="text"
+                            placeholder="Title"
                             onChange={(e) => {
                                 setnewSubcategory(e.target.value);
                             }}
                         />
                         <button type="submit">submit</button>
-                        <button onClick={() => setDialogOpen(false)}>
-                            Cancel
-                        </button>
                     </form>
                 </dialog>
             )}

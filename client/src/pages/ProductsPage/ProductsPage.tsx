@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ProductCard } from "../../components/ProductCard/ProductCard";
-import { BackButton } from "../../components/BackButton/BackButton";
-import { IProduct } from "../../interfaces/interface";
-import { Add } from "../../utility/icons";
 import { useProductsContext } from "../../hooks/useProductsContext";
 import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
+import { IProduct } from "../../interfaces/interface";
+import { ProductCard } from "../../components/ProductCard/ProductCard";
+import { BackButton } from "../../components/BackButton/BackButton";
+import { Add } from "../../utility/icons";
 import styles from "./ProductsPage.module.scss";
 
 interface INewProduct {
