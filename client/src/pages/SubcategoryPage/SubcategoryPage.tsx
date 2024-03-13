@@ -4,13 +4,13 @@ import { useParams } from "react-router-dom";
 import { SubcategoryCard } from "../../components/SubcategoryCard/SubcategoryCard";
 import { BackButton } from "../../components/BackButton/BackButton";
 import { ISubcategory } from "../../interfaces/interface";
-import { Add, Cancel, Delete, Edit } from "../../utility/icons";
+import { Add, Delete, Edit } from "../../utility/icons";
 import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
 import styles from "./SubcategoryPage.module.scss";
 
 const SubcategoryPage = () => {
     const { subcategories, dispatch } = useSubcategoryContext();
-    const [newSubcategory, setnewSubcategory] = useState("");
+    const [newSubcategory, setNewSubcategory] = useState("");
     const [isDialogOpen, setDialogOpen] = useState(false);
     const { categoryId } = useParams<string>();
     const [isLoading, setIsLoading] = useState(false);
@@ -42,6 +42,9 @@ const SubcategoryPage = () => {
 
     const addNewSubcategory = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!newSubcategory) {
+            alert("Please enter subcategory title.");
+        }
         try {
             if (api && categoryId) {
                 const response = await axios.post(
@@ -54,6 +57,7 @@ const SubcategoryPage = () => {
                     payload: response.data,
                 });
                 setDialogOpen(false);
+                setNewSubcategory("");
             }
         } catch (error) {
             console.error("Error:", error);
@@ -102,17 +106,20 @@ const SubcategoryPage = () => {
             {isDialogOpen && (
                 <dialog open>
                     <form onSubmit={addNewSubcategory} className={styles.form}>
-                        <button onClick={() => setDialogOpen(false)}>
-                            <Cancel />
-                        </button>
+                        <p>Enter subcategory title</p>
                         <input
                             type="text"
                             placeholder="Title"
                             onChange={(e) => {
-                                setnewSubcategory(e.target.value);
+                                setNewSubcategory(e.target.value);
                             }}
                         />
-                        <button type="submit">submit</button>
+                        <div className={styles.buttons}>
+                            <button type="submit">Submit</button>
+                            <button onClick={() => setDialogOpen(false)}>
+                                Cancel
+                            </button>
+                        </div>
                     </form>
                 </dialog>
             )}

@@ -9,11 +9,11 @@ const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
 );
 root.render(
-    <React.StrictMode>
+    <>
         <SubcategoryContextProvider>
             <ProductsContextProvider>
                 <App />
             </ProductsContextProvider>
         </SubcategoryContextProvider>
-    </React.StrictMode>
+    </>
 );
