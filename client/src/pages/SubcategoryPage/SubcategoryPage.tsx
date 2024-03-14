@@ -109,11 +109,15 @@ const SubcategoryPage = () => {
                         <p>Enter subcategory title</p>
                         <input
                             type="text"
+                            maxLength={50}
                             placeholder="Title"
                             onChange={(e) => {
                                 setNewSubcategory(e.target.value);
                             }}
                         />
+                        <div className={styles.max_length}>
+                            Max length of the title is 50 characters
+                        </div>
                         <div className={styles.buttons}>
                             <button type="submit">Submit</button>
                             <button onClick={() => setDialogOpen(false)}>
@@ -143,6 +147,7 @@ const SubcategoryPage = () => {
                                     name={subcategory.name}
                                     categoryId={categoryId}
                                     subcategoryId={subcategory._id}
+                                    editing={isEditing}
                                 />
 
                                 {isEditing && (
