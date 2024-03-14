@@ -49,6 +49,8 @@ const getProducts = async (req, res) => {
 
         const products = subcategory.products;
 
+        products.sort((a, b) => b.rating - a.rating);
+
         //getting images for products
         for (const product of products) {
             const getObjectParams = {
@@ -60,7 +62,7 @@ const getProducts = async (req, res) => {
             product.imgUrl = url;
         }
 
-        res.status(200).json(products); //Sort needs to be added here (-1 or something like that)
+        res.status(200).json(products);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
