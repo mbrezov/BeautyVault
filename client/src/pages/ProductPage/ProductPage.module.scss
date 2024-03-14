@@ -21,6 +21,15 @@
         }
     }
 
+    .delete_button {
+        border-radius: 20px;
+        letter-spacing: 4px;
+        font-weight: 600;
+        background-color: #839788;
+        width: 80%;
+        height: 25px;
+    }
+
     .product_card {
         width: 340px;
         display: flex;

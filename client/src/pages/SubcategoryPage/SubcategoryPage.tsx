@@ -46,7 +46,7 @@ const SubcategoryPage = () => {
             alert("Please enter subcategory title.");
         }
         try {
-            if (api && categoryId) {
+            if (api && categoryId && newSubcategory) {
                 const response = await axios.post(
                     api.replace("categoryId", categoryId),
                     { name: newSubcategory }

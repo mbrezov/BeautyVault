@@ -10,7 +10,8 @@ const ProductPage = () => {
     const { product, dispatch } = useProductsContext();
     const { categoryId, subcategoryId, productId } = useParams();
     const [isLoading, setIsLoading] = useState(true);
-    //const navigate = useNavigate();
+    const [isEditing, setIsEditing] = useState(false);
+    const navigate = useNavigate();
 
     const api = process.env.REACT_APP_PRODUCT;
 
@@ -37,7 +38,7 @@ const ProductPage = () => {
         }
     }, [api, categoryId, subcategoryId, productId, dispatch]);
 
-    /*const deleteProduct = async () => {
+    const deleteProduct = async () => {
         if (api && categoryId && subcategoryId && productId) {
             try {
                 await axios.delete(
@@ -55,7 +56,11 @@ const ProductPage = () => {
                 "REACT_APP_PRODUCT environment variable is not defined."
             );
         }
-    };*/
+    };
+
+    const enableEditing = (e: React.FormEvent) => {
+        isEditing === false ? setIsEditing(true) : setIsEditing(false);
+    };
 
     return (
         <div className={styles.container}>
@@ -63,29 +68,41 @@ const ProductPage = () => {
                 <div className={styles.back_button}>
                     <BackButton />
                 </div>
-                <button className={styles.edit_button}>
+                <button
+                    className={styles.edit_button}
+                    onClick={(e) => enableEditing(e)}
+                >
                     <Edit />
                 </button>
             </div>
             {!isLoading ? (
-                <div className={styles.product_card}>
-                    <img
-                        width="340"
-                        height="340"
-                        alt="palcehodler"
-                        src={product?.imgUrl}
-                    />
-                    {/*        <button onClick={deleteProduct}>DELEETE</button>*/}
-                    <h2 className={styles.title}>{product?.title}</h2>
-                    <div className={styles.description}>
-                        {product?.description}
-                    </div>
+                <>
+                    {isEditing && (
+                        <button
+                            className={styles.delete_button}
+                            onClick={deleteProduct}
+                        >
+                            DELETE
+                        </button>
+                    )}
+                    <div className={styles.product_card}>
+                        <img
+                            width="340"
+                            height="340"
+                            alt="palcehodler"
+                            src={product?.imgUrl}
+                        />
+                        <h2 className={styles.title}>{product?.title}</h2>
+                        <div className={styles.description}>
+                            {product?.description}
+                        </div>
 
-                    <div className={styles.rating}>
-                        {product?.rating} |
-                        {product?.buy === true ? <Like /> : <Dislike />}
+                        <div className={styles.rating}>
+                            {product?.rating} |
+                            {product?.buy === true ? <Like /> : <Dislike />}
+                        </div>
                     </div>
-                </div>
+                </>
             ) : null}
         </div>
     );
