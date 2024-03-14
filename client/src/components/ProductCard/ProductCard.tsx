@@ -1,8 +1,8 @@
-import axios from "axios";
-import { useProductsContext } from "../../hooks/useProductsContext";
+// import axios from "axios";
+// import { useProductsContext } from "../../hooks/useProductsContext";
 import { NavLink } from "react-router-dom";
 import { IProduct } from "../../interfaces/interface";
-import { Dislike, Like, NoImage } from "../../utility/icons";
+import { NoImage } from "../../utility/icons";
 import styles from "./ProductCard.module.scss";
 
 interface IProps {
@@ -13,32 +13,32 @@ interface IProps {
 
 export const ProductCard = ({ product, categoryId, subcategoryId }: IProps) => {
     const URL = `/${categoryId}/${subcategoryId}/${product._id}`;
-    const { dispatch } = useProductsContext();
+    // const { dispatch } = useProductsContext();
 
-    const api = process.env.REACT_APP_PRODUCT;
+    // const api = process.env.REACT_APP_PRODUCT;
 
-    const deleteProduct = async () => {
-        if (api && categoryId && subcategoryId && product._id) {
-            try {
-                await axios.delete(
-                    api
-                        .replace("categoryId", categoryId)
-                        .replace("subcategoryId", subcategoryId)
-                        .replace("productId", product._id)
-                );
-                dispatch({
-                    type: "DELETE_PRODUCT",
-                    payload: product._id,
-                });
-            } catch (error) {
-                console.log(error);
-            }
-        } else {
-            console.error(
-                "REACT_APP_PRODUCT environment variable is not defined."
-            );
-        }
-    };
+    // const deleteProduct = async () => {
+    //     if (api && categoryId && subcategoryId && product._id) {
+    //         try {
+    //             await axios.delete(
+    //                 api
+    //                     .replace("categoryId", categoryId)
+    //                     .replace("subcategoryId", subcategoryId)
+    //                     .replace("productId", product._id)
+    //             );
+    //             dispatch({
+    //                 type: "DELETE_PRODUCT",
+    //                 payload: product._id,
+    //             });
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     } else {
+    //         console.error(
+    //             "REACT_APP_PRODUCT environment variable is not defined."
+    //         );
+    //     }
+    // };
 
     return (
         <>
@@ -60,7 +60,6 @@ export const ProductCard = ({ product, categoryId, subcategoryId }: IProps) => {
                     </div>
                 </div>
             </NavLink>
-            <button onClick={deleteProduct}>DELEETE</button>
         </>
     );
 };

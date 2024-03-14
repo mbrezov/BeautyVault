@@ -5,18 +5,28 @@ interface IProps {
     name: string;
     categoryId: string | undefined;
     subcategoryId: string;
+    editing: true | false;
 }
 
-export const SubcategoryCard = (props: IProps) => {
-    const URL = `/${props.categoryId}/${props.subcategoryId}`;
+export const SubcategoryCard = ({
+    name,
+    categoryId,
+    subcategoryId,
+    editing,
+}: IProps) => {
+    const URL = `/${categoryId}/${subcategoryId}`;
 
     return (
         <>
-            <NavLink to={URL} style={{ textDecoration: "none" }}>
-                <div className={styles.container}>
-                    <h1>{props.name}</h1>
-                </div>
-            </NavLink>
+            <div className={styles.container}>
+                {editing ? (
+                    <input type="text" placeholder={name} maxLength={50} />
+                ) : (
+                    <NavLink to={URL} style={{ textDecoration: "none" }}>
+                        <h1>{name}</h1>
+                    </NavLink>
+                )}
+            </div>
         </>
     );
 };

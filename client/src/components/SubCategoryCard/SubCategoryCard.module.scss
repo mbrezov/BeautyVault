@@ -5,7 +5,8 @@
     flex-direction: column;
     background-color: #839788;
     width: 340px;
-    height: 80px;
+    min-height: 80px;
+    max-height: fit-content;
     border-radius: 25px;
     margin-top: 10px;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -13,5 +14,26 @@
     h1 {
         color: #010101;
         font-size: 1.5rem;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    input {
+        background-color: #839788;
+        font-size: 1.5rem;
+        font-weight: 600;
+        width: 70%;
+        border-radius: 10px;
+        padding: 5px;
+        border-color: #99b09f;
+    }
+
+    input:focus {
+        outline: none;
+    }
+
+    ::-webkit-input-placeholder {
+        text-align: center;
+        color: #010101b9;
     }
 }
