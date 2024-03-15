@@ -77,31 +77,66 @@ const ProductPage = () => {
             </div>
             {!isLoading ? (
                 <>
-                    {isEditing && (
-                        <button
-                            className={styles.delete_button}
-                            onClick={deleteProduct}
-                        >
-                            DELETE
-                        </button>
-                    )}
-                    <div className={styles.product_card}>
-                        <img
-                            width="340"
-                            height="340"
-                            alt="palcehodler"
-                            src={product?.imgUrl}
-                        />
-                        <h2 className={styles.title}>{product?.title}</h2>
-                        <div className={styles.description}>
-                            {product?.description}
-                        </div>
+                    {isEditing ? (
+                        <>
+                            <button
+                                className={styles.delete_button}
+                                onClick={deleteProduct}
+                            >
+                                DELETE
+                            </button>
+                            <div className={styles.product_card}>
+                                <img
+                                    width="340"
+                                    height="340"
+                                    alt="palcehodler"
+                                    src={product?.imgUrl}
+                                />
+                                <input
+                                    className={styles.edit_title}
+                                    type="text"
+                                    placeholder={product?.title}
+                                />
+                                <input
+                                    className={styles.edit_description}
+                                    type="text"
+                                    placeholder={product?.description}
+                                />
+                                <div className={styles.rating}>
+                                    <input
+                                        type="number"
+                                        placeholder={product?.rating}
+                                        min={1}
+                                        max={5}
+                                    />
+                                    |
+                                    {product?.buy === true ? (
+                                        <Like />
+                                    ) : (
+                                        <Dislike />
+                                    )}
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className={styles.product_card}>
+                            <img
+                                width="340"
+                                height="340"
+                                alt="palcehodler"
+                                src={product?.imgUrl}
+                            />
+                            <h2 className={styles.title}>{product?.title}</h2>
+                            <div className={styles.description}>
+                                {product?.description}
+                            </div>
 
-                        <div className={styles.rating}>
-                            {product?.rating} |
-                            {product?.buy === true ? <Like /> : <Dislike />}
+                            <div className={styles.rating}>
+                                {product?.rating} |
+                                {product?.buy === true ? <Like /> : <Dislike />}
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </>
             ) : null}
         </div>

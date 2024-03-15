@@ -16,16 +16,17 @@
         font-size: 1.5rem;
         padding-left: 20px;
         padding-right: 20px;
+        word-break: break-all;
     }
 
     input {
         background-color: #839788;
+        border-color: #99b09f;
         font-size: 1.5rem;
         font-weight: 600;
         width: 70%;
         border-radius: 10px;
         padding: 5px;
-        border-color: #99b09f;
     }
 
     input:focus {
