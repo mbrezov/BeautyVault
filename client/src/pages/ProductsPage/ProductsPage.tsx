@@ -30,6 +30,7 @@ const ProductsPage = () => {
         buy: false,
         img: "",
     });
+    const [fileName, setFileName] = useState("");
 
     const api = process.env.REACT_APP_PRODUCTS;
 
@@ -81,6 +82,7 @@ const ProductsPage = () => {
                 console.log("Product added:", response.data._id);
                 dispatch({ type: "CREATE_PRODUCT", payload: response.data });
                 setDialogOpen(false);
+                setFileName("");
             } catch (error) {
                 console.error("Error:", error);
             }
@@ -107,6 +109,14 @@ const ProductsPage = () => {
     }, [subcategories, subcategoryId]);
 
     const subcategoryTitle = sessionStorage.getItem("subcategory_title");
+
+    const handelImageUpload = (e: any) => {
+        setNewProduct({
+            ...newProduct,
+            img: e.target.files?.[0] || "",
+        });
+        setFileName(e.target.files?.[0].name);
+    };
 
     return (
         <div className={styles.container}>
@@ -192,17 +202,18 @@ const ProductsPage = () => {
                             <input
                                 type="file"
                                 accept="image/png, image/jpg"
-                                onChange={(e) =>
-                                    setNewProduct({
-                                        ...newProduct,
-                                        img: e.target.files?.[0] || "",
-                                    })
-                                }
+                                onChange={(e) => handelImageUpload(e)}
                             />
                         </label>
+                        <span> {fileName}</span>
                         <br />
                         <button type="submit">Submit</button>
-                        <button onClick={() => setDialogOpen(false)}>
+                        <button
+                            onClick={() => {
+                                setDialogOpen(false);
+                                setFileName("");
+                            }}
+                        >
                             Cancel
                         </button>
                     </form>
