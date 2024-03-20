@@ -127,47 +127,105 @@ const SubcategoryPage = () => {
                     </form>
                 </dialog>
             )}
-            {!isLoading ? (
-                <>
-                    {subcategories &&
-                        subcategories.map((subcategory: ISubcategory) => (
-                            <div
-                                className={styles.card_container}
-                                key={subcategory._id}
-                                style={
-                                    isDialogOpen
-                                        ? {
-                                              filter: "blur(5px)",
-                                              pointerEvents: "none",
-                                          }
-                                        : {}
-                                }
-                            >
-                                <SubcategoryCard
-                                    name={subcategory.name}
-                                    categoryId={categoryId}
-                                    subcategoryId={subcategory._id}
-                                    editing={isEditing}
-                                />
+            {subcategories && subcategories.length > 0 ? (
+                !isLoading ? (
+                    <>
+                        {subcategories &&
+                            subcategories.map((subcategory: ISubcategory) => (
+                                <div
+                                    className={styles.card_container}
+                                    key={subcategory._id}
+                                    style={
+                                        isDialogOpen
+                                            ? {
+                                                  filter: "blur(5px)",
+                                                  pointerEvents: "none",
+                                              }
+                                            : {}
+                                    }
+                                >
+                                    <SubcategoryCard
+                                        name={subcategory.name}
+                                        categoryId={categoryId}
+                                        subcategoryId={subcategory._id}
+                                        editing={isEditing}
+                                    />
 
-                                {isEditing && (
-                                    <button
-                                        className={styles.delete_button}
-                                        onClick={() =>
-                                            deleteSubcategory(subcategory._id)
-                                        }
-                                    >
-                                        <Delete />
-                                    </button>
-                                )}
-                            </div>
-                        ))}
-                </>
+                                    {isEditing && (
+                                        <button
+                                            className={styles.delete_button}
+                                            onClick={() =>
+                                                deleteSubcategory(
+                                                    subcategory._id
+                                                )
+                                            }
+                                        >
+                                            <Delete />
+                                        </button>
+                                    )}
+                                </div>
+                            ))}
+                    </>
+                ) : (
+                    <div>Loading ...</div>
+                )
             ) : (
-                <div>Loading</div>
+                <div className={styles.no_content}>
+                    To add a subcategory, please press the '+' button.
+                </div>
             )}
         </div>
     );
 };
 
 export default SubcategoryPage;
+
+/*
+            {!isLoading ? (
+                subcategories && subcategories.length > 0 ? (
+                    <>
+                        {subcategories &&
+                            subcategories.map((subcategory: ISubcategory) => (
+                                <div
+                                    className={styles.card_container}
+                                    key={subcategory._id}
+                                    style={
+                                        isDialogOpen
+                                            ? {
+                                                  filter: "blur(5px)",
+                                                  pointerEvents: "none",
+                                              }
+                                            : {}
+                                    }
+                                >
+                                    <SubcategoryCard
+                                        name={subcategory.name}
+                                        categoryId={categoryId}
+                                        subcategoryId={subcategory._id}
+                                        editing={isEditing}
+                                    />
+
+                                    {isEditing && (
+                                        <button
+                                            className={styles.delete_button}
+                                            onClick={() =>
+                                                deleteSubcategory(
+                                                    subcategory._id
+                                                )
+                                            }
+                                        >
+                                            <Delete />
+                                        </button>
+                                    )}
+                                </div>
+                            ))}
+                    </>
+                ) : (
+                    <div className={styles.no_content}>
+                        To add a subcategory, please press the '+' button.
+                    </div>
+                )
+            ) : (
+                <div>Loading ...</div>
+            )}
+*/
