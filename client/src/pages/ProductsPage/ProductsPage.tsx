@@ -110,12 +110,12 @@ const ProductsPage = () => {
 
     const subcategoryTitle = sessionStorage.getItem("subcategory_title");
 
-    const handelImageUpload = (e: any) => {
+    const handelImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewProduct({
             ...newProduct,
             img: e.target.files?.[0] || "",
         });
-        setFileName(e.target.files?.[0].name);
+        e.target.files?.[0].name && setFileName(e.target.files?.[0].name);
     };
 
     return (
@@ -135,7 +135,7 @@ const ProductsPage = () => {
             {isDialogOpen && (
                 <dialog open>
                     <form onSubmit={addNewProduct}>
-                        <label>
+                        <label className={styles.add_product_title}>
                             Title:
                             <input
                                 type="text"
@@ -149,7 +149,7 @@ const ProductsPage = () => {
                             />
                         </label>
                         <br />
-                        <label>
+                        <label className={styles.add_product_description}>
                             Description:
                             <textarea
                                 name="description"
