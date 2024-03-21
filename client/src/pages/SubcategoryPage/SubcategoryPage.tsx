@@ -85,7 +85,17 @@ const SubcategoryPage = () => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
+            <div
+                className={styles.header}
+                style={
+                    isDialogOpen
+                        ? {
+                              filter: "blur(5px)",
+                              pointerEvents: "none",
+                          }
+                        : {}
+                }
+            >
                 <div className={styles.back_button}>
                     <BackButton />
                 </div>
@@ -167,7 +177,17 @@ const SubcategoryPage = () => {
                         ))}
                 </>
             ) : (
-                <div className={styles.no_content}>
+                <div
+                    className={styles.no_content}
+                    style={
+                        isDialogOpen
+                            ? {
+                                  filter: "blur(5px)",
+                                  pointerEvents: "none",
+                              }
+                            : {}
+                    }
+                >
                     To add a subcategory, please press the '+' button.
                 </div>
             )}
