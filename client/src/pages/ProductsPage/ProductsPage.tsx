@@ -6,7 +6,7 @@ import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
 import { IProduct } from "../../interfaces/interface";
 import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { BackButton } from "../../components/BackButton/BackButton";
-import { Add } from "../../utility/icons";
+import { Add, Dislike, Like } from "../../utility/icons";
 import styles from "./ProductsPage.module.scss";
 
 interface INewProduct {
@@ -120,7 +120,17 @@ const ProductsPage = () => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
+            <div
+                className={styles.header}
+                style={
+                    isDialogOpen
+                        ? {
+                              filter: "blur(5px)",
+                              pointerEvents: "none",
+                          }
+                        : {}
+                }
+            >
                 <div className={styles.back_button}>
                     <BackButton />
                 </div>
@@ -134,7 +144,7 @@ const ProductsPage = () => {
             </div>
             {isDialogOpen && (
                 <dialog open>
-                    <form onSubmit={addNewProduct}>
+                    <form>
                         <label className={styles.add_product_title}>
                             Title:
                             <input
@@ -162,7 +172,7 @@ const ProductsPage = () => {
                             />
                         </label>
                         <br />
-                        <label>
+                        <label className={styles.add_product_rating}>
                             Rating:
                             <input
                                 type="range"
@@ -180,22 +190,40 @@ const ProductsPage = () => {
                             {newProduct.rating}
                         </label>
                         <br />
-                        <label>
+                        <div className={styles.add_product_buy}>
                             Buy:
-                            <select
-                                name="buy"
-                                value={newProduct.buy ? "true" : "false"}
-                                onChange={(e) =>
-                                    setNewProduct({
-                                        ...newProduct,
-                                        buy: e.target.value === "true",
-                                    })
-                                }
-                            >
-                                <option value="true">Yes</option>
-                                <option value="false">No</option>
-                            </select>
-                        </label>
+                            {!newProduct.buy ? (
+                                <button
+                                    type="button"
+                                    className={styles.add_product_buy_button}
+                                    onClick={() =>
+                                        setNewProduct({
+                                            ...newProduct,
+                                            buy: true,
+                                        })
+                                    }
+                                >
+                                    <div className={styles.button_dislike}>
+                                        <Dislike />
+                                    </div>
+                                </button>
+                            ) : (
+                                <button
+                                    type="button"
+                                    className={styles.add_product_buy_button}
+                                    onClick={() =>
+                                        setNewProduct({
+                                            ...newProduct,
+                                            buy: false,
+                                        })
+                                    }
+                                >
+                                    <div className={styles.button_like}>
+                                        <Like />
+                                    </div>
+                                </button>
+                            )}
+                        </div>
                         <br />
                         <label>
                             Click to upload an image
@@ -205,17 +233,23 @@ const ProductsPage = () => {
                                 onChange={(e) => handelImageUpload(e)}
                             />
                         </label>
-                        <span> {fileName}</span>
+                        <span className={styles.add_product_filename}>
+                            {fileName}
+                        </span>
                         <br />
-                        <button type="submit">Submit</button>
-                        <button
-                            onClick={() => {
-                                setDialogOpen(false);
-                                setFileName("");
-                            }}
-                        >
-                            Cancel
-                        </button>
+                        <div className={styles.add_product_buttons}>
+                            <button type="submit" onClick={addNewProduct}>
+                                Submit
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setDialogOpen(false);
+                                    setFileName("");
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </div>
                     </form>
                 </dialog>
             )}
