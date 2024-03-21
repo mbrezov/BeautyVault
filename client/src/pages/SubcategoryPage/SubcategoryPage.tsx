@@ -100,12 +100,14 @@ const SubcategoryPage = () => {
                     <BackButton />
                 </div>
                 <div className={styles.action_buttons}>
-                    <button
-                        className={styles.edit_button}
-                        onClick={(e) => enableEditing(e)}
-                    >
-                        <Edit />
-                    </button>
+                    {subcategories && subcategories.length > 0 && (
+                        <button
+                            className={styles.edit_button}
+                            onClick={(e) => enableEditing(e)}
+                        >
+                            <Edit />
+                        </button>
+                    )}
                     <button
                         className={styles.add_button}
                         onClick={() => setDialogOpen(true)}
