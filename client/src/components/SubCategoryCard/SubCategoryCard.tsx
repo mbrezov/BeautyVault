@@ -22,7 +22,17 @@ export const SubcategoryCard = ({
                 {editing ? (
                     <input type="text" placeholder={name} maxLength={50} />
                 ) : (
-                    <NavLink to={URL} style={{ textDecoration: "none" }}>
+                    <NavLink
+                        to={URL}
+                        style={{
+                            textDecoration: "none",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            width: "100%",
+                            height: "100%",
+                        }}
+                    >
                         <h1>{name}</h1>
                     </NavLink>
                 )}
