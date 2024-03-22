@@ -3,19 +3,15 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useProductsContext } from "../../hooks/useProductsContext";
 import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
-import { IProduct } from "../../interfaces/interface";
+import {
+    ISubcategory,
+    IProduct,
+    INewProduct,
+} from "../../interfaces/interface";
 import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { BackButton } from "../../components/BackButton/BackButton";
 import { Add, Dislike, Like } from "../../utility/icons";
 import styles from "./ProductsPage.module.scss";
-
-interface INewProduct {
-    title: string;
-    description: string;
-    rating: number;
-    buy: boolean;
-    img: File | string;
-}
 
 const ProductsPage = () => {
     const { products, dispatch } = useProductsContext();
@@ -23,6 +19,7 @@ const ProductsPage = () => {
     const { categoryId, subcategoryId } = useParams();
     const [isLoading, setIsLoading] = useState(false);
     const [isDialogOpen, setDialogOpen] = useState(false);
+    const [fileName, setFileName] = useState("");
     const [newProduct, setNewProduct] = useState<INewProduct>({
         title: "",
         description: "",
@@ -30,7 +27,6 @@ const ProductsPage = () => {
         buy: false,
         img: "",
     });
-    const [fileName, setFileName] = useState("");
 
     const api = process.env.REACT_APP_PRODUCTS;
 
@@ -96,7 +92,7 @@ const ProductsPage = () => {
     //using session storage for getting subcategory title
     useEffect(() => {
         if (subcategories) {
-            subcategories.forEach((subcategory: any) => {
+            subcategories.forEach((subcategory: ISubcategory) => {
                 if (subcategory._id === subcategoryId) {
                     sessionStorage.setItem(
                         "subcategory_title",

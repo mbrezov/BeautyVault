@@ -21,3 +21,11 @@ export interface IProduct {
     img: string;
     imgUrl: string;
 }
+
+export interface INewProduct {
+    title: string;
+    description: string;
+    rating: number;
+    buy: boolean;
+    img: File | string;
+}
