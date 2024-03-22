@@ -69,11 +69,13 @@ const SubcategoryPage = () => {
         try {
             await axios.delete(`${api}/${subcategoryId}`);
 
-            console.log(`Deleted subcategory with ID ${subcategoryId}`);
+            //console.log(`Deleted subcategory with ID ${subcategoryId}`);
             dispatch({
                 type: "DELETE_SUBCATEGORY",
                 payload: subcategoryId,
             });
+            //checks if its 1 because react state is late by one event **TODO - fix so the state is updated in the real-time**
+            subcategories.length === 1 && setIsEditing(false);
         } catch (error) {
             console.error(error);
         }
