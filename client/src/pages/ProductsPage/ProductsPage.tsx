@@ -249,7 +249,9 @@ const ProductsPage = () => {
                     </form>
                 </dialog>
             )}
-            {!isLoading ? (
+            {isLoading ? (
+                <div>Loading...</div>
+            ) : products && products.length > 0 ? (
                 <>
                     {products &&
                         products.map((product: IProduct) => (
@@ -272,7 +274,21 @@ const ProductsPage = () => {
                             </div>
                         ))}
                 </>
-            ) : null}
+            ) : (
+                <div
+                    className={styles.no_content}
+                    style={
+                        isDialogOpen
+                            ? {
+                                  filter: "blur(5px)",
+                                  pointerEvents: "none",
+                              }
+                            : {}
+                    }
+                >
+                    To add a product, please press the '+' button.
+                </div>
+            )}
         </div>
     );
 };
