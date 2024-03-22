@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useProductsContext } from "../../hooks/useProductsContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { BackButton } from "../../components/BackButton/BackButton";
-import { Like, Dislike, Edit } from "../../utility/icons";
+import { Like, Dislike, Edit, Done } from "../../utility/icons";
 import styles from "./ProductPage.module.scss";
 
 const ProductPage = () => {
@@ -72,7 +72,7 @@ const ProductPage = () => {
                     className={styles.edit_button}
                     onClick={(e) => enableEditing(e)}
                 >
-                    <Edit />
+                    {isEditing ? <Done /> : <Edit />}
                 </button>
             </div>
             {!isLoading ? (
