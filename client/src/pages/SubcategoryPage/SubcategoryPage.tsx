@@ -7,39 +7,48 @@ import { ISubcategory } from "../../interfaces/interface";
 import { Add, Delete, Done, Edit } from "../../utility/icons";
 import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
 import styles from "./SubcategoryPage.module.scss";
+import { SubcategoryCardSkeleton } from "../../components/SubcategoryCard/SubcategoryCardSkeleton";
 
 const SubcategoryPage = () => {
     const { subcategories, dispatch } = useSubcategoryContext();
     const [newSubcategory, setNewSubcategory] = useState("");
     const [isDialogOpen, setDialogOpen] = useState(false);
     const { categoryId } = useParams<string>();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
 
     const api = process.env.REACT_APP_SUBCATEGORIES;
 
     useEffect(() => {
-        const api = process.env.REACT_APP_SUBCATEGORIES;
-        setIsLoading(true);
+        const cancelToken = axios.CancelToken.source();
 
         if (api && categoryId) {
             axios
-                .get(api.replace("categoryId", categoryId))
+                .get(api.replace("categoryId", categoryId), {
+                    cancelToken: cancelToken.token,
+                })
                 .then((res) => {
                     dispatch({ type: "SET_SUBCATEGORIES", payload: res.data });
-
                     setIsLoading(false);
                 })
-                .catch((error) => {
-                    console.log(api.replace(":categoryId", categoryId));
-                    console.error("Error fetching categories:", error);
+                .catch((error: any) => {
+                    if (axios.isCancel(error)) {
+                        console.log("Canceled");
+                    } else {
+                        console.log(api.replace(":categoryId", categoryId));
+                        console.error("Error fetching categories:", error);
+                    }
                 });
         } else {
             console.error(
                 "REACT_APP_SUBCATEGORIES environment variable is not defined."
             );
         }
-    }, [categoryId, dispatch]);
+
+        return () => {
+            cancelToken.cancel();
+        };
+    }, [categoryId, dispatch, api]);
 
     const addNewSubcategory = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -140,7 +149,7 @@ const SubcategoryPage = () => {
                 </dialog>
             )}
             {isLoading ? (
-                <div>Loading ...</div>
+                <SubcategoryCardSkeleton cards={5} />
             ) : subcategories && subcategories.length > 0 ? (
                 <>
                     {subcategories &&
