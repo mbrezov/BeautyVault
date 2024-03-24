@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useProductsContext } from "../../hooks/useProductsContext";
 import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
@@ -21,6 +21,7 @@ const ProductsPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isDialogOpen, setDialogOpen] = useState(false);
     const [fileName, setFileName] = useState("");
+    const [subcategoryTitle, setSubcategoryTitle] = useState<string | null>();
     const [newProduct, setNewProduct] = useState<INewProduct>({
         title: "",
         description: "",
@@ -102,9 +103,8 @@ const ProductsPage = () => {
                 }
             });
         }
+        setSubcategoryTitle(sessionStorage.getItem("subcategory_title"));
     }, [subcategories, subcategoryId]);
-
-    const subcategoryTitle = sessionStorage.getItem("subcategory_title");
 
     const handelImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewProduct({
