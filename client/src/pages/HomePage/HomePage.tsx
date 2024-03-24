@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 import { ICategory } from "../../interfaces/interface";
 import { CategoryCard } from "../../components/CategoryCard/CategoryCard";
 import styles from "./HomePage.module.scss";
+import HomePageSkeleton from "../../components/Skeletons/HomePageSkeleton";
 
 const Homepage = () => {
     const [categories, setCategories] = useState<ICategory[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const api = process.env.REACT_APP_CATEGORIES;
 
     useEffect(() => {
-        const api = process.env.REACT_APP_CATEGORIES;
-
         if (api) {
             axios
                 .get(api)
@@ -26,11 +26,13 @@ const Homepage = () => {
                 "REACT_APP_CATEGORIES environment variable is not defined."
             );
         }
-    }, []);
+    }, [api]);
 
     return (
         <>
-            {!isLoading ? (
+            {isLoading ? (
+                <HomePageSkeleton />
+            ) : (
                 <div>
                     <h1>Kategorije</h1>
                     <div className={styles.container}>
@@ -45,7 +47,7 @@ const Homepage = () => {
                         ))}
                     </div>
                 </div>
-            ) : null}
+            )}
         </>
     );
 };
