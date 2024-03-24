@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { BackButton } from "../../components/BackButton/BackButton";
 import { Like, Dislike, Edit, Done } from "../../utility/icons";
 import styles from "./ProductPage.module.scss";
+import ProductPageSkeleton from "../../components/Skeletons/ProductPageSkeleton";
 
 const ProductPage = () => {
     const { product, dispatch } = useProductsContext();
@@ -75,7 +76,9 @@ const ProductPage = () => {
                     {isEditing ? <Done /> : <Edit />}
                 </button>
             </div>
-            {!isLoading ? (
+            {isLoading ? (
+                <ProductPageSkeleton />
+            ) : (
                 <>
                     {isEditing ? (
                         <>
@@ -138,7 +141,7 @@ const ProductPage = () => {
                         </div>
                     )}
                 </>
-            ) : null}
+            )}
         </div>
     );
 };

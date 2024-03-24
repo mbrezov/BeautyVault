@@ -12,12 +12,13 @@ import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { BackButton } from "../../components/BackButton/BackButton";
 import { Add, Dislike, Like } from "../../utility/icons";
 import styles from "./ProductsPage.module.scss";
+import { ProductCardSkeleton } from "../../components/Skeletons/ProductCardSkeleton";
 
 const ProductsPage = () => {
     const { products, dispatch } = useProductsContext();
     const { subcategories } = useSubcategoryContext();
     const { categoryId, subcategoryId } = useParams();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isDialogOpen, setDialogOpen] = useState(false);
     const [fileName, setFileName] = useState("");
     const [newProduct, setNewProduct] = useState<INewProduct>({
@@ -31,7 +32,6 @@ const ProductsPage = () => {
     const api = process.env.REACT_APP_PRODUCTS;
 
     useEffect(() => {
-        setIsLoading(true);
         if (api && categoryId && subcategoryId) {
             axios
                 .get(
@@ -250,7 +250,7 @@ const ProductsPage = () => {
                 </dialog>
             )}
             {isLoading ? (
-                <div>Loading...</div>
+                <ProductCardSkeleton />
             ) : products && products.length > 0 ? (
                 <>
                     {products &&

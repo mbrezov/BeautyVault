@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import { IProduct } from "../../interfaces/interface";
 import { NoImage } from "../../utility/icons";
 import styles from "./ProductCard.module.scss";
+import Skeleton from "react-loading-skeleton";
 
 interface IProps {
     product: IProduct;
@@ -52,7 +53,7 @@ export const ProductCard = ({ product, categoryId, subcategoryId }: IProps) => {
                             src={product.imgUrl}
                         />
                     ) : (
-                        <NoImage />
+                        <Skeleton width={100} height={100} borderRadius={20} />
                     )}
                     <h1>{product.title}</h1>
                     <div className={styles.info}>
