@@ -95,17 +95,17 @@ const ProductPage = () => {
                                     alt="palcehodler"
                                     src={product?.imgUrl}
                                 />
-                                <input
+                                <textarea
                                     className={styles.edit_title}
-                                    type="text"
-                                    placeholder={product?.title}
+                                    rows={5}
+                                    value={product?.title}
                                 />
-                                <input
+                                <textarea
                                     className={styles.edit_description}
-                                    type="text"
-                                    placeholder={product?.description}
+                                    rows={15}
+                                    value={product?.description}
                                 />
-                                <div className={styles.rating}>
+                                <div className={styles.edit_rating}>
                                     <input
                                         type="number"
                                         placeholder={product?.rating}
@@ -133,7 +133,6 @@ const ProductPage = () => {
                             <div className={styles.description}>
                                 {product?.description}
                             </div>
-
                             <div className={styles.rating}>
                                 {product?.rating} |
                                 {product?.buy === true ? <Like /> : <Dislike />}
