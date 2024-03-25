@@ -2,9 +2,8 @@
 // import { useProductsContext } from "../../hooks/useProductsContext";
 import { NavLink } from "react-router-dom";
 import { IProduct } from "../../interfaces/interface";
-import { NoImage } from "../../utility/icons";
 import styles from "./ProductCard.module.scss";
-import Skeleton from "react-loading-skeleton";
+import { ThreeCircles } from "react-loader-spinner";
 
 interface IProps {
     product: IProduct;
@@ -46,14 +45,17 @@ export const ProductCard = ({ product, categoryId, subcategoryId }: IProps) => {
             <NavLink to={URL} style={{ textDecoration: "none" }}>
                 <div className={styles.container}>
                     {product.imgUrl ? (
-                        <img
-                            width="100"
-                            height="100"
-                            alt="error"
-                            src={product.imgUrl}
-                        />
+                        <img alt="error" src={product.imgUrl} />
                     ) : (
-                        <Skeleton width={100} height={100} borderRadius={20} />
+                        <ThreeCircles
+                            visible={true}
+                            height="70"
+                            width="70"
+                            color="#b0bbb0"
+                            ariaLabel="three-circles-loading"
+                            wrapperStyle={{ padding: "15px" }}
+                            wrapperClass=""
+                        />
                     )}
                     <h1>{product.title}</h1>
                     <div className={styles.info}>
