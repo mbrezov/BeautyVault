@@ -141,7 +141,12 @@ const SubcategoryPage = () => {
                         </div>
                         <div className={styles.buttons}>
                             <button type="submit">Submit</button>
-                            <button onClick={() => setDialogOpen(false)}>
+                            <button
+                                onClick={() => {
+                                    setNewSubcategory("");
+                                    setDialogOpen(false);
+                                }}
+                            >
                                 Cancel
                             </button>
                         </div>
