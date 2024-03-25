@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useProductsContext } from "../../hooks/useProductsContext";
 import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
@@ -146,6 +146,8 @@ const ProductsPage = () => {
                             <input
                                 type="text"
                                 name="title"
+                                placeholder="Max length of the title is 200 characters"
+                                maxLength={200}
                                 onChange={(e) =>
                                     setNewProduct({
                                         ...newProduct,
@@ -158,7 +160,9 @@ const ProductsPage = () => {
                         <label className={styles.add_product_description}>
                             Description:
                             <textarea
+                                maxLength={600}
                                 name="description"
+                                placeholder="Max length of the description is 600 characters"
                                 onChange={(e) =>
                                     setNewProduct({
                                         ...newProduct,
