@@ -6,8 +6,8 @@ import { BackButton } from "../../components/BackButton/BackButton";
 import { ISubcategory } from "../../interfaces/interface";
 import { Add, Delete, Done, Edit } from "../../utility/icons";
 import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
+import { Hearts } from "react-loader-spinner";
 import styles from "./SubcategoryPage.module.scss";
-import { SubcategoryCardSkeleton } from "../../components/SubcategoryCard/SubcategoryCardSkeleton";
 
 const SubcategoryPage = () => {
     const { subcategories, dispatch } = useSubcategoryContext();
@@ -154,7 +154,15 @@ const SubcategoryPage = () => {
                 </dialog>
             )}
             {isLoading ? (
-                <SubcategoryCardSkeleton cards={5} />
+                <Hearts
+                    height="150"
+                    width="150"
+                    color="#839788"
+                    ariaLabel="hearts-loading"
+                    wrapperStyle={{ marginTop: "150px" }}
+                    wrapperClass=""
+                    visible={true}
+                />
             ) : subcategories && subcategories.length > 0 ? (
                 <>
                     {subcategories &&

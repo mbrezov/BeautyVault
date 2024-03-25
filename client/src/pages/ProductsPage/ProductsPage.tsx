@@ -11,8 +11,8 @@ import {
 import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { BackButton } from "../../components/BackButton/BackButton";
 import { Add, Dislike, Like } from "../../utility/icons";
+import { Hearts } from "react-loader-spinner";
 import styles from "./ProductsPage.module.scss";
-import { ProductCardSkeleton } from "../../components/Skeletons/ProductCardSkeleton";
 
 const ProductsPage = () => {
     const { products, dispatch } = useProductsContext();
@@ -254,7 +254,15 @@ const ProductsPage = () => {
                 </dialog>
             )}
             {isLoading ? (
-                <ProductCardSkeleton />
+                <Hearts
+                    height="150"
+                    width="150"
+                    color="#839788"
+                    ariaLabel="hearts-loading"
+                    wrapperStyle={{ marginTop: "150px" }}
+                    wrapperClass=""
+                    visible={true}
+                />
             ) : products && products.length > 0 ? (
                 <>
                     {products &&
