@@ -68,16 +68,6 @@ textarea::-webkit-scrollbar {
         filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
         will-change: filter; // Safari shadow bug fix
 
-        // input {
-        //     background-color: #839788;
-        //     border-color: #99b09f;
-        //     border-radius: 10px;
-        // }
-
-        input:focus {
-            outline: none;
-        }
-
         .rating {
             display: flex;
             justify-content: center;
@@ -117,24 +107,19 @@ textarea::-webkit-scrollbar {
             align-self: flex-start;
             margin: 0;
             padding: 5px 10px 0px 10px;
+            font-size: 1.4rem;
         }
 
         .edit_title {
             align-self: flex-start;
+            box-sizing: border-box;
             width: 100%;
-            // margin: 10px 10px 0px 10px;
-            // padding: 5px 10px 0px 5px;
-            font-weight: 500;
             height: auto;
-            font-size: 1.5rem; /* Adjust the font size to match the <h1> size */
-            margin: 0;
             padding: 5px 10px 0px 10px;
-            white-space: pre-wrap; /* Allow the text to wrap */
+            font-size: 1.4rem;
+            font-weight: 700;
+            white-space: pre-wrap;
             overflow-wrap: break-word;
-        }
-
-        .edit_title::placeholder {
-            white-space: normal;
         }
 
         .description {
@@ -145,24 +130,14 @@ textarea::-webkit-scrollbar {
         }
 
         .edit_description {
-            // width: 100%;
-            // padding: 5px 10px 0px 10px;
-            // box-sizing: border-box;
-            // min-height: 100%;
-            // overflow: hidden;
-            // margin: 15px 10px 20px 10px;
-            // padding: 10px 10px 20px 5px;
-            font-size: 0.75rem;
-            // white-space: pre-wrap;
-            // overflow-wrap: break-word;
-
             align-self: flex-start;
+            box-sizing: border-box;
             width: 100%;
-            padding: 10px;
-
-            border: 1px solid #ccc;
-            resize: none;
-            overflow: hidden; /* Hide overflow to prevent scrollbars */
+            height: auto;
+            font-size: 0.9rem;
+            padding: 10px 10px 20px 10px;
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
         }
 
         .edit_description::placeholder {

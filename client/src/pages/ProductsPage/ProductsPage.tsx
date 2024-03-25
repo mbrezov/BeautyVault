@@ -32,6 +32,22 @@ const ProductsPage = () => {
 
     const api = process.env.REACT_APP_PRODUCTS;
 
+    //using session storage for getting subcategory title
+    useEffect(() => {
+        if (subcategories) {
+            subcategories.forEach((subcategory: ISubcategory) => {
+                if (subcategory._id === subcategoryId) {
+                    sessionStorage.setItem(
+                        "subcategory_title",
+                        subcategory.name.charAt(0).toUpperCase() +
+                            subcategory.name.slice(1)
+                    );
+                }
+            });
+        }
+        setSubcategoryTitle(sessionStorage.getItem("subcategory_title"));
+    }, [subcategories, subcategoryId]);
+
     useEffect(() => {
         if (api && categoryId && subcategoryId) {
             axios
@@ -90,22 +106,6 @@ const ProductsPage = () => {
         }
     };
 
-    //using session storage for getting subcategory title
-    useEffect(() => {
-        if (subcategories) {
-            subcategories.forEach((subcategory: ISubcategory) => {
-                if (subcategory._id === subcategoryId) {
-                    sessionStorage.setItem(
-                        "subcategory_title",
-                        subcategory.name.charAt(0).toUpperCase() +
-                            subcategory.name.slice(1)
-                    );
-                }
-            });
-        }
-        setSubcategoryTitle(sessionStorage.getItem("subcategory_title"));
-    }, [subcategories, subcategoryId]);
-
     const handelImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNewProduct({
             ...newProduct,
@@ -146,8 +146,8 @@ const ProductsPage = () => {
                             <input
                                 type="text"
                                 name="title"
-                                placeholder="Max length of the title is 200 characters"
-                                maxLength={200}
+                                placeholder="Max length of the title is 100 characters"
+                                maxLength={100}
                                 onChange={(e) =>
                                     setNewProduct({
                                         ...newProduct,
@@ -160,9 +160,9 @@ const ProductsPage = () => {
                         <label className={styles.add_product_description}>
                             Description:
                             <textarea
-                                maxLength={600}
+                                maxLength={700}
                                 name="description"
-                                placeholder="Max length of the description is 600 characters"
+                                placeholder="Max length of the description is 700 characters"
                                 onChange={(e) =>
                                     setNewProduct({
                                         ...newProduct,

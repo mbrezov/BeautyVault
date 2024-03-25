@@ -97,7 +97,7 @@ const ProductPage = () => {
                                 />
                                 <textarea
                                     className={styles.edit_title}
-                                    rows={5}
+                                    rows={4}
                                     value={product?.title}
                                 />
                                 <textarea
