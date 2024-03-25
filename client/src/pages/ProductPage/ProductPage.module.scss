@@ -96,6 +96,17 @@ textarea::-webkit-scrollbar {
             background-color: #839788;
             margin: 10px 20px 0px 0px;
             font-weight: 900;
+
+            input {
+                background-color: #839788;
+                border: none;
+            }
+
+            input::placeholder {
+                color: rgba(0, 0, 0, 0.6);
+                font-weight: 900;
+                font-size: 1rem;
+            }
         }
 
         img {
@@ -120,6 +131,7 @@ textarea::-webkit-scrollbar {
             font-weight: 700;
             white-space: pre-wrap;
             overflow-wrap: break-word;
+            color: rgba(0, 0, 0, 0.6);
         }
 
         .description {
@@ -138,6 +150,7 @@ textarea::-webkit-scrollbar {
             padding: 10px 10px 20px 10px;
             white-space: pre-wrap;
             overflow-wrap: break-word;
+            color: rgba(0, 0, 0, 0.6);
         }
 
         .edit_description::placeholder {
