@@ -101,13 +101,13 @@ const ProductPage = () => {
                     {isEditing ? (
                         <CheckIcon
                             style={{
-                                width: "24px",
-                                height: "24px",
+                                width: "30px",
+                                height: "30px",
                             }}
                         />
                     ) : (
                         <PencilSquareIcon
-                            style={{ width: "24px", height: "24px" }}
+                            style={{ width: "30px", height: "30px" }}
                         />
                     )}
                 </button>

@@ -35,14 +35,14 @@ textarea::-webkit-scrollbar {
         justify-content: space-between;
         margin-top: 10px;
         width: 100%;
+        height: 35px;
 
         .back_button {
             align-self: flex-start;
         }
 
         .edit_button {
-            border: none;
-            background: none;
+            align-self: flex-end;
         }
     }
 
