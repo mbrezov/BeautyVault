@@ -8,6 +8,12 @@ import { Add, Delete, Done, Edit } from "../../utility/icons";
 import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
 import { Hearts } from "react-loader-spinner";
 import styles from "./SubcategoryPage.module.scss";
+import {
+    CheckIcon,
+    PencilSquareIcon,
+    SquaresPlusIcon,
+    TrashIcon,
+} from "@heroicons/react/24/outline";
 
 const SubcategoryPage = () => {
     const { subcategories, dispatch } = useSubcategoryContext();
@@ -116,11 +122,24 @@ const SubcategoryPage = () => {
                             className={styles.edit_button}
                             onClick={(e) => enableEditing(e)}
                         >
-                            {isEditing ? <Done /> : <Edit />}
+                            {isEditing ? (
+                                <CheckIcon
+                                    style={{
+                                        width: "30px",
+                                        height: "30px",
+                                    }}
+                                />
+                            ) : (
+                                <PencilSquareIcon
+                                    style={{ width: "30px", height: "30px" }}
+                                />
+                            )}
                         </button>
                     )}
                     <button onClick={() => setDialogOpen(true)}>
-                        <Add />
+                        <SquaresPlusIcon
+                            style={{ width: "30px", height: "30px" }}
+                        />
                     </button>
                 </div>
             </div>
@@ -193,7 +212,12 @@ const SubcategoryPage = () => {
                                             deleteSubcategory(subcategory._id)
                                         }
                                     >
-                                        <Delete />
+                                        <TrashIcon
+                                            style={{
+                                                width: "24px",
+                                                height: "24px",
+                                            }}
+                                        />
                                     </button>
                                 )}
                             </div>

@@ -13,6 +13,7 @@ import { BackButton } from "../../components/BackButton/BackButton";
 import { Add, Dislike, Like } from "../../utility/icons";
 import { Hearts } from "react-loader-spinner";
 import styles from "./ProductsPage.module.scss";
+import { SquaresPlusIcon } from "@heroicons/react/24/outline";
 
 const ProductsPage = () => {
     const { products, dispatch } = useProductsContext();
@@ -135,7 +136,9 @@ const ProductsPage = () => {
                     className={styles.add_button}
                     onClick={() => setDialogOpen(true)}
                 >
-                    <Add />
+                    <SquaresPlusIcon
+                        style={{ width: "30px", height: "30px" }}
+                    />
                 </button>
             </div>
             {isDialogOpen && (
