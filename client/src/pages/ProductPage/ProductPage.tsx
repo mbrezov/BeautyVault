@@ -7,6 +7,12 @@ import { Like, Dislike, Edit, Done } from "../../utility/icons";
 import styles from "./ProductPage.module.scss";
 import ProductPageSkeleton from "../../components/Skeletons/ProductPageSkeleton";
 import { IProduct } from "../../interfaces/interface";
+import {
+    CheckIcon,
+    CloudArrowUpIcon,
+    PencilSquareIcon,
+    TrashIcon,
+} from "@heroicons/react/24/outline";
 
 const ProductPage = () => {
     const { product, dispatch } = useProductsContext();
@@ -92,7 +98,18 @@ const ProductPage = () => {
                     className={styles.edit_button}
                     onClick={(e) => enableEditing(e)}
                 >
-                    {isEditing ? <Done /> : <Edit />}
+                    {isEditing ? (
+                        <CheckIcon
+                            style={{
+                                width: "24px",
+                                height: "24px",
+                            }}
+                        />
+                    ) : (
+                        <PencilSquareIcon
+                            style={{ width: "24px", height: "24px" }}
+                        />
+                    )}
                 </button>
             </div>
             {isLoading ? (
@@ -101,18 +118,22 @@ const ProductPage = () => {
                 <>
                     {isEditing ? (
                         <>
-                            {/* <button
+                            <button
                                 className={styles.delete_button}
                                 onClick={deleteProduct}
                             >
-                                DELETE
+                                <TrashIcon
+                                    style={{ width: "24px", height: "24px" }}
+                                />
                             </button>
                             <button
                                 className={styles.delete_button}
                                 onClick={updateProduct}
                             >
-                                Update
-                            </button> */}
+                                <CloudArrowUpIcon
+                                    style={{ width: "24px", height: "24px" }}
+                                />
+                            </button>
                             <div className={styles.product_card}>
                                 <img
                                     width="340"
