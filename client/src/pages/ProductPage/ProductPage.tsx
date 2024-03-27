@@ -6,6 +6,7 @@ import { BackButton } from "../../components/BackButton/BackButton";
 import { Like, Dislike, Edit, Done } from "../../utility/icons";
 import styles from "./ProductPage.module.scss";
 import ProductPageSkeleton from "../../components/Skeletons/ProductPageSkeleton";
+import { IProduct } from "../../interfaces/interface";
 
 const ProductPage = () => {
     const { product, dispatch } = useProductsContext();
@@ -13,6 +14,15 @@ const ProductPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const navigate = useNavigate();
+    const [updatedProduct, setUpdatedProduct] = useState<IProduct>({
+        title: "",
+        description: "",
+        rating: 0,
+        buy: false,
+        _id: "",
+        img: "",
+        imgUrl: "",
+    });
 
     const api = process.env.REACT_APP_PRODUCT;
 
@@ -39,6 +49,15 @@ const ProductPage = () => {
         }
     }, [api, categoryId, subcategoryId, productId, dispatch]);
 
+    const enableEditing = (e: React.FormEvent) => {
+        if (!isEditing) {
+            setIsEditing(true);
+            setUpdatedProduct(product);
+        } else {
+            setIsEditing(false);
+        }
+    };
+
     const deleteProduct = async () => {
         if (api && categoryId && subcategoryId && productId) {
             try {
@@ -59,8 +78,8 @@ const ProductPage = () => {
         }
     };
 
-    const enableEditing = (e: React.FormEvent) => {
-        isEditing === false ? setIsEditing(true) : setIsEditing(false);
+    const updateProduct = () => {
+        alert("Im working :)");
     };
 
     return (
@@ -82,12 +101,18 @@ const ProductPage = () => {
                 <>
                     {isEditing ? (
                         <>
-                            <button
+                            {/* <button
                                 className={styles.delete_button}
                                 onClick={deleteProduct}
                             >
                                 DELETE
                             </button>
+                            <button
+                                className={styles.delete_button}
+                                onClick={updateProduct}
+                            >
+                                Update
+                            </button> */}
                             <div className={styles.product_card}>
                                 <img
                                     width="340"
@@ -98,12 +123,24 @@ const ProductPage = () => {
                                 <textarea
                                     className={styles.edit_title}
                                     rows={4}
-                                    value={product?.title}
+                                    value={updatedProduct?.title}
+                                    onChange={(e) =>
+                                        setUpdatedProduct({
+                                            ...updatedProduct,
+                                            title: e.target.value,
+                                        })
+                                    }
                                 />
                                 <textarea
                                     className={styles.edit_description}
                                     rows={15}
-                                    value={product?.description}
+                                    value={updatedProduct?.description}
+                                    onChange={(e) =>
+                                        setUpdatedProduct({
+                                            ...updatedProduct,
+                                            description: e.target.value,
+                                        })
+                                    }
                                 />
                                 <div className={styles.edit_rating}>
                                     <input
