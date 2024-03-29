@@ -10,10 +10,13 @@ import {
 } from "../../interfaces/interface";
 import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { BackButton } from "../../components/BackButton/BackButton";
-import { Add, Dislike, Like } from "../../utility/icons";
 import { Hearts } from "react-loader-spinner";
 import styles from "./ProductsPage.module.scss";
-import { SquaresPlusIcon } from "@heroicons/react/24/outline";
+import {
+    HandThumbDownIcon,
+    HandThumbUpIcon,
+    SquaresPlusIcon,
+} from "@heroicons/react/24/outline";
 
 const ProductsPage = () => {
     const { products, dispatch } = useProductsContext();
@@ -207,7 +210,7 @@ const ProductsPage = () => {
                                     }
                                 >
                                     <div className={styles.button_dislike}>
-                                        <Dislike />
+                                        <HandThumbDownIcon />
                                     </div>
                                 </button>
                             ) : (
@@ -222,7 +225,7 @@ const ProductsPage = () => {
                                     }
                                 >
                                     <div className={styles.button_like}>
-                                        <Like />
+                                        <HandThumbUpIcon />
                                     </div>
                                 </button>
                             )}

@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { SubcategoryCard } from "../../components/SubcategoryCard/SubcategoryCard";
 import { BackButton } from "../../components/BackButton/BackButton";
 import { ISubcategory } from "../../interfaces/interface";
-import { Add, Delete, Done, Edit } from "../../utility/icons";
 import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
 import { Hearts } from "react-loader-spinner";
 import styles from "./SubcategoryPage.module.scss";

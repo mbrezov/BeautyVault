@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import { useProductsContext } from "../../hooks/useProductsContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { BackButton } from "../../components/BackButton/BackButton";
-import { Like, Dislike, Edit, Done } from "../../utility/icons";
 import styles from "./ProductPage.module.scss";
 import ProductPageSkeleton from "../../components/Skeletons/ProductPageSkeleton";
 import { IProduct } from "../../interfaces/interface";
 import {
     CheckIcon,
     CloudArrowUpIcon,
+    HandThumbDownIcon,
+    HandThumbUpIcon,
     PencilSquareIcon,
     TrashIcon,
 } from "@heroicons/react/24/outline";
@@ -172,9 +173,19 @@ const ProductPage = () => {
                                     />
                                     |
                                     {product?.buy === true ? (
-                                        <Like />
+                                        <HandThumbUpIcon
+                                            style={{
+                                                width: "24px",
+                                                height: "24px",
+                                            }}
+                                        />
                                     ) : (
-                                        <Dislike />
+                                        <HandThumbDownIcon
+                                            style={{
+                                                width: "24px",
+                                                height: "24px",
+                                            }}
+                                        />
                                     )}
                                 </div>
                             </div>
@@ -193,7 +204,21 @@ const ProductPage = () => {
                             </div>
                             <div className={styles.rating}>
                                 {product?.rating} |
-                                {product?.buy === true ? <Like /> : <Dislike />}
+                                {product?.buy === true ? (
+                                    <HandThumbUpIcon
+                                        style={{
+                                            width: "24px",
+                                            height: "24px",
+                                        }}
+                                    />
+                                ) : (
+                                    <HandThumbDownIcon
+                                        style={{
+                                            width: "24px",
+                                            height: "24px",
+                                        }}
+                                    />
+                                )}
                             </div>
                         </div>
                     )}
