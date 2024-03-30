@@ -9,11 +9,13 @@ const categoryRoutes = require("./routes/categories");
 const subcategoryRoutes = require("./routes/subsategories");
 
 // enables cors for the specific URL
-app.use(
-    cors({
-        origin: `${process.env.CORS_URL}`,
-    })
-);
+// app.use(
+//     cors({
+//         origin: `${process.env.CORS_URL_NGROK}`,
+//     })
+// );
+
+app.use(cors());
 
 app.use(express.json()); // adds middleware to parse incoming JSON requests. It enables the server to handle JSON data in the request body.
 
