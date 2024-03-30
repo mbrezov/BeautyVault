@@ -9,11 +9,10 @@ import { IProduct } from "../../interfaces/interface";
 import {
     CheckIcon,
     CloudArrowUpIcon,
-    HandThumbDownIcon,
-    HandThumbUpIcon,
     PencilSquareIcon,
     TrashIcon,
 } from "@heroicons/react/24/outline";
+import { HandThumbDownIcon, HandThumbUpIcon } from "@heroicons/react/24/solid";
 
 const ProductPage = () => {
     const { product, dispatch } = useProductsContext();
