@@ -126,18 +126,27 @@ const SubcategoryPage = () => {
                                     style={{
                                         width: "30px",
                                         height: "30px",
+                                        color: "black",
                                     }}
                                 />
                             ) : (
                                 <PencilSquareIcon
-                                    style={{ width: "30px", height: "30px" }}
+                                    style={{
+                                        width: "30px",
+                                        height: "30px",
+                                        color: "black",
+                                    }}
                                 />
                             )}
                         </button>
                     )}
                     <button onClick={() => setDialogOpen(true)}>
                         <SquaresPlusIcon
-                            style={{ width: "30px", height: "30px" }}
+                            style={{
+                                width: "30px",
+                                height: "30px",
+                                color: "black",
+                            }}
                         />
                     </button>
                 </div>
@@ -215,6 +224,7 @@ const SubcategoryPage = () => {
                                             style={{
                                                 width: "24px",
                                                 height: "24px",
+                                                color: "black",
                                             }}
                                         />
                                     </button>

@@ -103,11 +103,16 @@ const ProductPage = () => {
                             style={{
                                 width: "30px",
                                 height: "30px",
+                                color: "black",
                             }}
                         />
                     ) : (
                         <PencilSquareIcon
-                            style={{ width: "30px", height: "30px" }}
+                            style={{
+                                width: "30px",
+                                height: "30px",
+                                color: "black",
+                            }}
                         />
                     )}
                 </button>
@@ -123,7 +128,11 @@ const ProductPage = () => {
                                 onClick={deleteProduct}
                             >
                                 <TrashIcon
-                                    style={{ width: "24px", height: "24px" }}
+                                    style={{
+                                        width: "24px",
+                                        height: "24px",
+                                        color: "black",
+                                    }}
                                 />
                             </button>
                             <button
@@ -131,7 +140,11 @@ const ProductPage = () => {
                                 onClick={updateProduct}
                             >
                                 <CloudArrowUpIcon
-                                    style={{ width: "24px", height: "24px" }}
+                                    style={{
+                                        width: "24px",
+                                        height: "24px",
+                                        color: "black",
+                                    }}
                                 />
                             </button>
                             <div className={styles.product_card}>

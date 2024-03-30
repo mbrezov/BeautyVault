@@ -8,7 +8,9 @@ export const BackButton = () => {
     return (
         <div>
             <button className={styles.container} onClick={() => back(-1)}>
-                <ArrowUturnLeftIcon style={{ width: "30px", height: "30px" }} />
+                <ArrowUturnLeftIcon
+                    style={{ width: "30px", height: "30px", color: "black" }}
+                />
             </button>
         </div>
     );

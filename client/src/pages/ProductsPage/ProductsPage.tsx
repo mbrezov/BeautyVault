@@ -12,11 +12,8 @@ import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { BackButton } from "../../components/BackButton/BackButton";
 import { Hearts } from "react-loader-spinner";
 import styles from "./ProductsPage.module.scss";
-import {
-    HandThumbDownIcon,
-    HandThumbUpIcon,
-    SquaresPlusIcon,
-} from "@heroicons/react/24/outline";
+import { SquaresPlusIcon } from "@heroicons/react/24/outline";
+import { HandThumbDownIcon, HandThumbUpIcon } from "@heroicons/react/24/solid";
 
 const ProductsPage = () => {
     const { products, dispatch } = useProductsContext();
@@ -140,7 +137,11 @@ const ProductsPage = () => {
                     onClick={() => setDialogOpen(true)}
                 >
                     <SquaresPlusIcon
-                        style={{ width: "30px", height: "30px" }}
+                        style={{
+                            width: "30px",
+                            height: "30px",
+                            color: "black",
+                        }}
                     />
                 </button>
             </div>
@@ -210,7 +211,12 @@ const ProductsPage = () => {
                                     }
                                 >
                                     <div className={styles.button_dislike}>
-                                        <HandThumbDownIcon />
+                                        <HandThumbDownIcon
+                                            style={{
+                                                width: "24px",
+                                                height: "24px",
+                                            }}
+                                        />
                                     </div>
                                 </button>
                             ) : (
@@ -225,7 +231,12 @@ const ProductsPage = () => {
                                     }
                                 >
                                     <div className={styles.button_like}>
-                                        <HandThumbUpIcon />
+                                        <HandThumbUpIcon
+                                            style={{
+                                                width: "24px",
+                                                height: "24px",
+                                            }}
+                                        />
                                     </div>
                                 </button>
                             )}
