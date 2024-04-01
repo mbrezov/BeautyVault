@@ -5,6 +5,8 @@ import SubcategoryPage from "./pages/SubcategoryPage/SubcategoryPage";
 import ProductsPage from "./pages/ProductsPage/ProductsPage";
 import ProductPage from "./pages/ProductPage/ProductPage";
 import styles from "./App.module.scss";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import SignupPage from "./pages/SignupPage/SignupPage";
 import { SkeletonTheme } from "react-loading-skeleton";
 
 function App() {
@@ -13,7 +15,9 @@ function App() {
             <BrowserRouter>
                 <div className={styles.container}>
                     <Routes>
-                        <Route index element={<Homepage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/signup" element={<SignupPage />} />
+                        <Route path="/" element={<Homepage />} />
                         <Route
                             path="/:categoryId"
                             element={<SubcategoryPage />}
