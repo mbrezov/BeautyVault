@@ -27,8 +27,6 @@ export const useSignup = () => {
                 dispatch({ type: "LOGIN", payload: response.data });
 
                 setIsLoading(false);
-
-                console.log(response);
             } catch (error) {
                 setIsLoading(false);
                 const err = error as AxiosError;
