@@ -25,10 +25,18 @@ const productSchema = new mongoose.Schema({
     imgUrl: {
         type: String,
     },
+    user_id: {
+        type: String,
+        required: true,
+    },
 });
 
 const subcategorySchema = new mongoose.Schema({
     name: {
+        type: String,
+        required: true,
+    },
+    user_id: {
         type: String,
         required: true,
     },
@@ -45,6 +53,7 @@ const categorySchema = new mongoose.Schema({
         required: false,
         default: "#a6a6a6",
     },
+
     subcategory: [subcategorySchema],
 });
 

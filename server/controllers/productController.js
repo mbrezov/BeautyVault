@@ -36,6 +36,7 @@ const getProducts = async (req, res) => {
 
     try {
         const category = await Category.findById(categoryId);
+        const user_id = req.user._id.toString();
 
         if (!category) {
             return res.status(400).json({ message: "Category not found" });
@@ -47,7 +48,9 @@ const getProducts = async (req, res) => {
             return res.status(400).json({ message: "Subcategory not found" });
         }
 
-        const products = subcategory.products;
+        const products = subcategory.products.filter(
+            (prod) => prod.user_id === user_id
+        );
 
         products.sort((a, b) => b.rating - a.rating);
 
@@ -74,6 +77,7 @@ const getProduct = async (req, res) => {
 
     try {
         const category = await Category.findById(categoryId);
+        const user_id = req.user._id.toString();
 
         if (!category) {
             return res.status(400).json({ message: "Category not found" });
@@ -124,6 +128,7 @@ const createProduct = async (req, res) => {
 
     try {
         const category = await Category.findById(categoryId);
+        const user_id = req.user._id.toString();
 
         if (!category) {
             return res.status(400).json({ message: "Category not found" });
@@ -143,6 +148,7 @@ const createProduct = async (req, res) => {
             rating,
             buy,
             img: imgName,
+            user_id,
         };
 
         subcategory.products.push(newProduct);
