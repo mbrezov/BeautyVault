@@ -3,15 +3,15 @@ import { AxiosError } from "axios";
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 
-export const useSignup = () => {
-    const [signupError, setSignupError] = useState<any>(null);
-    const [isSignupLoading, setIsSignupLoading] = useState(Boolean);
+export const useLogin = () => {
+    const [loginError, setLoginError] = useState<any>(null);
+    const [isLoginLoading, setIsLoginLoading] = useState(Boolean);
     const { dispatch } = useAuthContext();
 
-    const signup = async (email: string, password: string) => {
-        setIsSignupLoading(true);
+    const login = async (email: string, password: string) => {
+        setIsLoginLoading(true);
 
-        const api = process.env.REACT_APP_SIGNUP;
+        const api = process.env.REACT_APP_LOGIN;
 
         if (api) {
             try {
@@ -26,18 +26,18 @@ export const useSignup = () => {
                 //update the auth context
                 dispatch({ type: "LOGIN", payload: response.data });
 
-                setIsSignupLoading(false);
+                setIsLoginLoading(false);
             } catch (error) {
-                setIsSignupLoading(false);
+                setIsLoginLoading(false);
                 const err = error as AxiosError;
-                setSignupError(err.response?.data);
+                setLoginError(err.response?.data);
             }
         } else {
             console.error(
-                "REACT_APP_SIGNUP environment variable is not defined."
+                "REACT_APP_LOGIN environment variable is not defined."
             );
         }
     };
 
-    return { signup, isSignupLoading, signupError };
+    return { login, isLoginLoading, loginError };
 };

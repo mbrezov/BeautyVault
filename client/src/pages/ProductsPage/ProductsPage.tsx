@@ -14,6 +14,7 @@ import { Hearts } from "react-loader-spinner";
 import styles from "./ProductsPage.module.scss";
 import { SquaresPlusIcon } from "@heroicons/react/24/outline";
 import { HandThumbDownIcon, HandThumbUpIcon } from "@heroicons/react/24/solid";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const ProductsPage = () => {
     const { products, dispatch } = useProductsContext();
@@ -30,7 +31,7 @@ const ProductsPage = () => {
         buy: false,
         img: "",
     });
-
+    const { user } = useAuthContext();
     const api = process.env.REACT_APP_PRODUCTS;
 
     //using session storage for getting subcategory title
@@ -51,25 +52,29 @@ const ProductsPage = () => {
 
     useEffect(() => {
         if (api && categoryId && subcategoryId) {
-            axios
-                .get(
-                    api
-                        .replace("categoryId", categoryId)
-                        .replace("subcategoryId", subcategoryId)
-                )
-                .then((res) => {
-                    dispatch({ type: "GET_PRODUCTS", payload: res.data });
-                    setIsLoading(false);
-                })
-                .catch((error) => {
-                    console.error("Error fetching product data", error);
-                });
+            user &&
+                axios
+                    .get(
+                        api
+                            .replace("categoryId", categoryId)
+                            .replace("subcategoryId", subcategoryId),
+                        {
+                            headers: { Authorization: `Bearer ${user.token}` },
+                        }
+                    )
+                    .then((res) => {
+                        dispatch({ type: "GET_PRODUCTS", payload: res.data });
+                        setIsLoading(false);
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching product data", error);
+                    });
         } else {
             console.error(
                 "REACT_APP_PRODUCTS environment variable is not defined."
             );
         }
-    }, [api, categoryId, subcategoryId, dispatch]);
+    }, [api, categoryId, subcategoryId, dispatch, user]);
 
     const addNewProduct = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -90,6 +95,7 @@ const ProductsPage = () => {
                     {
                         headers: {
                             "Content-Type": "multipart/form-data",
+                            Authorization: `Bearer ${user.token}`,
                         },
                     }
                 );
