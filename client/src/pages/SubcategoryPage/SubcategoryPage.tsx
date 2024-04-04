@@ -13,6 +13,7 @@ import {
     SquaresPlusIcon,
     TrashIcon,
 } from "@heroicons/react/24/outline";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const SubcategoryPage = () => {
     const { subcategories, dispatch } = useSubcategoryContext();
@@ -21,29 +22,34 @@ const SubcategoryPage = () => {
     const { categoryId } = useParams<string>();
     const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
-
+    const { user } = useAuthContext();
     const api = process.env.REACT_APP_SUBCATEGORIES;
 
     useEffect(() => {
         const cancelToken = axios.CancelToken.source();
 
         if (api && categoryId) {
-            axios
-                .get(api.replace("categoryId", categoryId), {
-                    cancelToken: cancelToken.token,
-                })
-                .then((res) => {
-                    dispatch({ type: "SET_SUBCATEGORIES", payload: res.data });
-                    setIsLoading(false);
-                })
-                .catch((error: any) => {
-                    if (axios.isCancel(error)) {
-                        console.log("Canceled");
-                    } else {
-                        console.log(api.replace(":categoryId", categoryId));
-                        console.error("Error fetching categories:", error);
-                    }
-                });
+            user &&
+                axios
+                    .get(api.replace("categoryId", categoryId), {
+                        headers: { Authorization: `Bearer ${user.token}` },
+                        cancelToken: cancelToken.token,
+                    })
+                    .then((res) => {
+                        dispatch({
+                            type: "SET_SUBCATEGORIES",
+                            payload: res.data,
+                        });
+                        setIsLoading(false);
+                    })
+                    .catch((error: any) => {
+                        if (axios.isCancel(error)) {
+                            console.log("Canceled");
+                        } else {
+                            console.log(api.replace(":categoryId", categoryId));
+                            console.error("Error fetching categories:", error);
+                        }
+                    });
         } else {
             console.error(
                 "REACT_APP_SUBCATEGORIES environment variable is not defined."
@@ -53,7 +59,7 @@ const SubcategoryPage = () => {
         return () => {
             cancelToken.cancel();
         };
-    }, [categoryId, dispatch, api]);
+    }, [categoryId, dispatch, api, user]);
 
     const addNewSubcategory = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -64,7 +70,10 @@ const SubcategoryPage = () => {
             if (api && categoryId && newSubcategory) {
                 const response = await axios.post(
                     api.replace("categoryId", categoryId),
-                    { name: newSubcategory }
+                    { name: newSubcategory },
+                    {
+                        headers: { Authorization: `Bearer ${user.token}` },
+                    }
                 );
                 console.log(response);
                 dispatch({
@@ -81,7 +90,9 @@ const SubcategoryPage = () => {
 
     const deleteSubcategory = async (subcategoryId: string) => {
         try {
-            await axios.delete(`${api}/${subcategoryId}`);
+            await axios.delete(`${api}/${subcategoryId}`, {
+                headers: { Authorization: `Bearer ${user.token}` },
+            });
 
             //console.log(`Deleted subcategory with ID ${subcategoryId}`);
             dispatch({

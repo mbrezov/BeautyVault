@@ -1,7 +1,18 @@
-.h1 {
-    align-self: flex-start;
-    margin-left: 40px;
-    color: #010101;
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    h1 {
+        align-self: flex-start;
+        color: #010101;
+    }
+
+    button {
+        align-self: flex-end;
+        align-self: center;
+    }
 }
 
 .container {
@@ -10,4 +21,12 @@
     grid-template-rows: repeat(3, 1fr);
     gap: 25px;
     margin-bottom: 20px;
+}
+
+dialog {
+    margin-top: 10rem;
+    z-index: 1;
+    border-radius: 20px;
+    border: none;
+    background-color: #efdddf;
 }

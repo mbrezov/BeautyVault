@@ -7,6 +7,7 @@ const app = express();
 const productRoutes = require("./routes/products");
 const categoryRoutes = require("./routes/categories");
 const subcategoryRoutes = require("./routes/subsategories");
+const userRoutes = require("./routes/user");
 
 // enables cors for the specific URL
 // app.use(
@@ -27,6 +28,8 @@ app.use((req, res, next) => {
 
 // adds routes to the main routte "/api", for example, for the categoryRoutes it adds "/categories", "/category/:id" to the "/api" path
 app.use("/api", categoryRoutes, subcategoryRoutes, productRoutes);
+
+app.use("/api/user", userRoutes);
 
 //connects to the database
 mongoose

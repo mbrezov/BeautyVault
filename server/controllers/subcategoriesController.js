@@ -5,6 +5,7 @@ const Category = require("../models/categoryModel");
 //get all subcategories from category
 const getSubcategories = async (req, res) => {
     const { categoryId } = req.params;
+    const user_id = req.user._id.toString();
 
     try {
         const category = await Category.findById(categoryId);
@@ -12,8 +13,10 @@ const getSubcategories = async (req, res) => {
         if (!category) {
             return res.status(404).json({ message: "Category not found" });
         }
-
-        const subcategory = category.subcategory;
+        console.log(user_id);
+        const subcategory = category.subcategory.filter(
+            (sub) => sub.user_id === user_id
+        );
 
         res.status(200).json(subcategory);
     } catch (error) {
@@ -28,12 +31,15 @@ const createSubcategory = async (req, res) => {
 
     try {
         const category = await Category.findById(categoryId);
+        const user_id = req.user._id.toString();
+
+        console.log(user_id);
 
         if (!category) {
             return res.status(404).json({ message: "Category not found" });
         }
 
-        const newSubcategory = { name };
+        const newSubcategory = { name, user_id };
 
         category.subcategory.push(newSubcategory);
 

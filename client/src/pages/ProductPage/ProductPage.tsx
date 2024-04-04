@@ -13,6 +13,7 @@ import {
     TrashIcon,
 } from "@heroicons/react/24/outline";
 import { HandThumbDownIcon, HandThumbUpIcon } from "@heroicons/react/24/solid";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 const ProductPage = () => {
     const { product, dispatch } = useProductsContext();
@@ -29,31 +30,35 @@ const ProductPage = () => {
         img: "",
         imgUrl: "",
     });
-
+    const { user } = useAuthContext();
     const api = process.env.REACT_APP_PRODUCT;
 
     useEffect(() => {
         if (api && categoryId && subcategoryId && productId) {
-            axios
-                .get(
-                    api
-                        .replace("categoryId", categoryId)
-                        .replace("subcategoryId", subcategoryId)
-                        .replace("productId", productId)
-                )
-                .then((res) => {
-                    dispatch({ type: "GET_PRODUCT", payload: res.data });
-                    setIsLoading(false);
-                })
-                .catch((error) => {
-                    console.error("Error fetching product data", error);
-                });
+            user &&
+                axios
+                    .get(
+                        api
+                            .replace("categoryId", categoryId)
+                            .replace("subcategoryId", subcategoryId)
+                            .replace("productId", productId),
+                        {
+                            headers: { Authorization: `Bearer ${user.token}` },
+                        }
+                    )
+                    .then((res) => {
+                        dispatch({ type: "GET_PRODUCT", payload: res.data });
+                        setIsLoading(false);
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching product data", error);
+                    });
         } else {
             console.error(
                 "REACT_APP_PRODUCT environment variable is not defined."
             );
         }
-    }, [api, categoryId, subcategoryId, productId, dispatch]);
+    }, [api, categoryId, subcategoryId, productId, dispatch, user]);
 
     const enableEditing = (e: React.FormEvent) => {
         if (!isEditing) {
@@ -71,7 +76,8 @@ const ProductPage = () => {
                     api
                         .replace("categoryId", categoryId)
                         .replace("subcategoryId", subcategoryId)
-                        .replace("productId", productId)
+                        .replace("productId", productId),
+                    { headers: { Authorization: `Bearer ${user.token}` } }
                 );
                 navigate(-1);
             } catch (error) {
