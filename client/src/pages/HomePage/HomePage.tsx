@@ -47,57 +47,66 @@ const Homepage = () => {
     return (
         <>
             {isDialogOpen && !logoutDialog && (
-                <dialog
-                    open
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "20px",
-                    }}
-                >
-                    <button onClick={(e) => setDialogOpen(false)}>
-                        <XMarkIcon style={{ width: "24px", height: "24px" }} />
-                    </button>
-                    <UserCircleIcon style={{ width: "64px", height: "64px" }} />
-                    {user && (
-                        <span>
-                            <EnvelopeIcon
+                <dialog open className={styles.account_dialog}>
+                    <div className={styles.account_header}>
+                        <p>Account</p>
+                        <button
+                            onClick={(e) => setDialogOpen(false)}
+                            className={styles.cancel_button}
+                        >
+                            <XMarkIcon
                                 style={{ width: "24px", height: "24px" }}
                             />
-                            {user.email}
-                        </span>
-                    )}
+                        </button>
+                    </div>
+                    <UserCircleIcon
+                        style={{
+                            width: "64px",
+                            height: "64px",
+                            alignSelf: "center",
+                            marginTop: "5px",
+                        }}
+                    />
+                    <div className={styles.email}>
+                        <EnvelopeIcon
+                            style={{ width: "24px", height: "24px" }}
+                        />
+                        <p>{user.email}</p>
+                    </div>
                     <button
                         onClick={() => {
                             setLogoutDialog(true);
                         }}
+                        className={styles.logout_button}
                     >
                         <ArrowRightStartOnRectangleIcon
                             style={{ width: "24px", height: "24px" }}
                         />
-                        Logout
+                        <p>Logout</p>
                     </button>
                 </dialog>
             )}
             {logoutDialog && (
-                <dialog open>
-                    <div>Are you sure you want to logout?</div>
-                    <button
-                        onClick={() => {
-                            logout();
-                            setLogoutDialog(false);
-                            setDialogOpen(false);
-                        }}
-                    >
-                        Yes
-                    </button>
-                    <button
-                        onClick={() => {
-                            setLogoutDialog(false);
-                        }}
-                    >
-                        Cancel
-                    </button>
+                <dialog open className={styles.logout_dialog}>
+                    <p>Are you sure you want to logout?</p>
+                    <div className={styles.buttons}>
+                        <button
+                            onClick={() => {
+                                logout();
+                                setLogoutDialog(false);
+                                setDialogOpen(false);
+                            }}
+                        >
+                            <p>Yes</p>
+                        </button>
+                        <button
+                            onClick={() => {
+                                setLogoutDialog(false);
+                            }}
+                        >
+                            <p>Cancel</p>
+                        </button>
+                    </div>
                 </dialog>
             )}
             {isLoading ? (
