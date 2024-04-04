@@ -25,14 +25,14 @@ userSchema.statics.signup = async function (email, password) {
         throw Error("Email is not valid");
     }
 
-    if (!validator.isStrongPassword(password)) {
-        throw Error("Password is not string enough");
-    }
-
     const exists = await this.findOne({ email });
 
     if (exists) {
         throw Error(`Email ${email} already exists`);
+    }
+
+    if (!validator.isStrongPassword(password)) {
+        throw Error("Password is not strong enough");
     }
 
     const salt = await bcrypt.genSalt(10);
