@@ -97,7 +97,7 @@ const AuthPage = () => {
                 </form>
             ) : (
                 <form onSubmit={handleSignup}>
-                    <h1>Signup</h1>
+                    <h1>Sign up</h1>
                     <p>Create your account</p>
                     <span>
                         <EnvelopeIcon
@@ -195,7 +195,7 @@ const AuthPage = () => {
             )}
             {authMethod === "signup" ? (
                 <div className={styles.switch_message}>
-                    <p>Don't have an account?</p>
+                    <p>Already have an account?</p>
                     <button onClick={() => setAuthMethod("login")}>
                         Login
                     </button>
@@ -204,7 +204,7 @@ const AuthPage = () => {
                 <div className={styles.switch_message}>
                     <p>Don't have an account?</p>
                     <button onClick={() => setAuthMethod("signup")}>
-                        Signup
+                        Sign up
                     </button>
                 </div>
             )}
