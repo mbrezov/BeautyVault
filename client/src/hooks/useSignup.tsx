@@ -8,10 +8,20 @@ export const useSignup = () => {
     const [isSignupLoading, setIsSignupLoading] = useState(Boolean);
     const { dispatch } = useAuthContext();
 
-    const signup = async (email: string, password: string) => {
+    const signup = async (
+        email: string,
+        password: string,
+        confirmPassword: string
+    ) => {
         setIsSignupLoading(true);
 
         const api = process.env.REACT_APP_SIGNUP;
+
+        if (password !== confirmPassword) {
+            setIsSignupLoading(false);
+            setSignupError("Confirmed password is not matching");
+            return { signup, isSignupLoading, signupError };
+        }
 
         if (api) {
             try {
