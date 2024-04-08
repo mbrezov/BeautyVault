@@ -17,12 +17,13 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 
 const SubcategoryPage = () => {
     const { subcategories, dispatch } = useSubcategoryContext();
-    const [newSubcategory, setNewSubcategory] = useState("");
+    const [newSubcategory, setNewSubcategory] = useState<String>("");
     const [isDialogOpen, setDialogOpen] = useState(false);
     const { categoryId } = useParams<string>();
     const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const { user } = useAuthContext();
+
     const api = process.env.REACT_APP_SUBCATEGORIES;
 
     useEffect(() => {
