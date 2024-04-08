@@ -4,12 +4,26 @@ import "react-loading-skeleton/dist/skeleton.css";
 const HomePageSkeleton = () => {
     return (
         <div>
-            <Skeleton
-                width={180}
-                height={35}
-                borderRadius={12}
-                style={{ marginTop: "30px", marginBottom: "20px" }}
-            />
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                }}
+            >
+                <Skeleton
+                    width={180}
+                    height={35}
+                    borderRadius={12}
+                    style={{ marginTop: "20px", marginBottom: "20px" }}
+                />
+                <Skeleton
+                    circle
+                    width={35}
+                    height={35}
+                    style={{ marginRight: "10px" }}
+                />
+            </div>
             <div
                 style={{
                     display: "grid",
