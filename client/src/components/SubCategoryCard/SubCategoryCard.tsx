@@ -6,7 +6,7 @@ interface IProps {
     name: string;
     categoryId: string | undefined;
     subcategoryId: string;
-    editing: true | false;
+    editing?: boolean;
     user: any;
     onNameChange: (newName: string) => void; // callback prop
 }

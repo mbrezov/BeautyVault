@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { ICategory } from "../../interfaces/interface";
+import { ICategory, IStatus } from "../../interfaces/interface";
 import { CategoryCard } from "../../components/CategoryCard/CategoryCard";
 import styles from "./HomePage.module.scss";
 import HomePageSkeleton from "../../components/Skeletons/HomePageSkeleton";
@@ -14,12 +14,14 @@ import { useLogout } from "../../hooks/useLogout";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 const Homepage = () => {
-    const [categories, setCategories] = useState<ICategory[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isDialogOpen, setDialogOpen] = useState(false);
-    const [logoutDialog, setLogoutDialog] = useState(false);
     const { logout } = useLogout();
     const { user } = useAuthContext();
+    const [categories, setCategories] = useState<ICategory[]>([]);
+    const [status, setStatus] = useState<IStatus>({
+        isLoading: true,
+        isDialogOpen: false,
+        isLogoutDialogOpen: false,
+    });
 
     const api = process.env.REACT_APP_CATEGORIES;
 
@@ -32,7 +34,10 @@ const Homepage = () => {
                     })
                     .then((res) => {
                         setCategories(res.data);
-                        setIsLoading(false);
+                        setStatus((prevStatus) => ({
+                            ...prevStatus,
+                            isLoading: false,
+                        }));
                     })
                     .catch((error) => {
                         console.error("Error fetching categories:", error);
@@ -46,12 +51,17 @@ const Homepage = () => {
 
     return (
         <>
-            {isDialogOpen && !logoutDialog && (
+            {status.isDialogOpen && !status.isLogoutDialogOpen && (
                 <dialog open className={styles.account_dialog}>
                     <div className={styles.account_header}>
                         <p>Account</p>
                         <button
-                            onClick={(e) => setDialogOpen(false)}
+                            onClick={(e) =>
+                                setStatus((prevStatus) => ({
+                                    ...prevStatus,
+                                    isDialogOpen: false,
+                                }))
+                            }
                             className={styles.cancel_button}
                         >
                             <XMarkIcon
@@ -75,7 +85,10 @@ const Homepage = () => {
                     </div>
                     <button
                         onClick={() => {
-                            setLogoutDialog(true);
+                            setStatus((prevStatus) => ({
+                                ...prevStatus,
+                                isLogoutDialogOpen: true,
+                            }));
                         }}
                         className={styles.logout_button}
                     >
@@ -86,22 +99,28 @@ const Homepage = () => {
                     </button>
                 </dialog>
             )}
-            {logoutDialog && (
+            {status.isLogoutDialogOpen && (
                 <dialog open className={styles.logout_dialog}>
                     <p>Are you sure you want to logout?</p>
                     <div className={styles.buttons}>
                         <button
                             onClick={() => {
                                 logout();
-                                setLogoutDialog(false);
-                                setDialogOpen(false);
+                                setStatus((prevStatus) => ({
+                                    ...prevStatus,
+                                    isLogoutDialogOpen: false,
+                                    isDialogOpen: false,
+                                }));
                             }}
                         >
                             <p>Yes</p>
                         </button>
                         <button
                             onClick={() => {
-                                setLogoutDialog(false);
+                                setStatus((prevStatus) => ({
+                                    ...prevStatus,
+                                    isLogoutDialogOpen: false,
+                                }));
                             }}
                         >
                             <p>Cancel</p>
@@ -109,12 +128,12 @@ const Homepage = () => {
                     </div>
                 </dialog>
             )}
-            {isLoading ? (
+            {status.isLoading ? (
                 <HomePageSkeleton />
             ) : (
                 <div
                     style={
-                        isDialogOpen
+                        status.isDialogOpen
                             ? {
                                   filter: "blur(5px)",
                                   pointerEvents: "none",
@@ -124,7 +143,14 @@ const Homepage = () => {
                 >
                     <div className={styles.header}>
                         <h1>Kategorije</h1>
-                        <button onClick={(e) => setDialogOpen(true)}>
+                        <button
+                            onClick={(e) =>
+                                setStatus((prevStatus) => ({
+                                    ...prevStatus,
+                                    isDialogOpen: true,
+                                }))
+                            }
+                        >
                             <UserCircleIcon
                                 style={{ width: "40px", height: "40px" }}
                             />

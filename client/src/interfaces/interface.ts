@@ -32,6 +32,7 @@ export interface INewProduct {
 
 export interface IStatus {
     isLoading: boolean;
-    isEditing: boolean;
+    isEditing?: boolean;
     isDialogOpen: boolean;
+    isLogoutDialogOpen?: boolean;
 }
