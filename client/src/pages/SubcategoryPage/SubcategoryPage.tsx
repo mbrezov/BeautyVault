@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { SubcategoryCard } from "../../components/SubcategoryCard/SubcategoryCard";
 import { BackButton } from "../../components/BackButton/BackButton";
-import { ISubcategory } from "../../interfaces/interface";
+import { ISubcategory, IStatus } from "../../interfaces/interface";
 import { useSubcategoryContext } from "../../hooks/useSubcategoryContext";
 import { Hearts } from "react-loader-spinner";
 import styles from "./SubcategoryPage.module.scss";
@@ -14,21 +14,37 @@ import {
     TrashIcon,
 } from "@heroicons/react/24/outline";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import CSS from "csstype";
 
 const SubcategoryPage = () => {
+    const { categoryId } = useParams<string>();
     const { subcategories, dispatch } = useSubcategoryContext();
     const [newSubcategory, setNewSubcategory] = useState<String>("");
-    const [isDialogOpen, setDialogOpen] = useState(false);
-    const { categoryId } = useParams<string>();
-    const [isLoading, setIsLoading] = useState(true);
-    const [isEditing, setIsEditing] = useState(false);
-    const { user } = useAuthContext();
+    const [status, setStatus] = useState<IStatus>({
+        isLoading: true,
+        isEditing: false,
+        isDialogOpen: false,
+    });
+    const [newNameSubcategory, setNewNameSubcategry] = useState({
+        newName: "",
+        id: "",
+    });
 
+    const { user } = useAuthContext();
     const api = process.env.REACT_APP_SUBCATEGORIES;
+
+    //style that checks if a dialog is opened and applies if it is
+    const dialogStatusStyle = (isDialogOpen: boolean): CSS.Properties => {
+        return isDialogOpen
+            ? {
+                  filter: "blur(5px)",
+                  pointerEvents: "none",
+              }
+            : {};
+    };
 
     useEffect(() => {
         const cancelToken = axios.CancelToken.source();
-
         if (api && categoryId) {
             user &&
                 axios
@@ -41,7 +57,10 @@ const SubcategoryPage = () => {
                             type: "SET_SUBCATEGORIES",
                             payload: res.data,
                         });
-                        setIsLoading(false);
+                        setStatus((prevStatus) => ({
+                            ...prevStatus,
+                            isLoading: false,
+                        }));
                     })
                     .catch((error: any) => {
                         if (axios.isCancel(error)) {
@@ -56,7 +75,6 @@ const SubcategoryPage = () => {
                 "REACT_APP_SUBCATEGORIES environment variable is not defined."
             );
         }
-
         return () => {
             cancelToken.cancel();
         };
@@ -76,12 +94,15 @@ const SubcategoryPage = () => {
                         headers: { Authorization: `Bearer ${user.token}` },
                     }
                 );
-                console.log(response);
+                console.log(response.data, "napravljena");
                 dispatch({
                     type: "CREATE_SUBCATEGORY",
                     payload: response.data,
                 });
-                setDialogOpen(false);
+                setStatus((prevStatus) => ({
+                    ...prevStatus,
+                    isDialogOpen: false,
+                }));
                 setNewSubcategory("");
             }
         } catch (error) {
@@ -94,65 +115,106 @@ const SubcategoryPage = () => {
             await axios.delete(`${api}/${subcategoryId}`, {
                 headers: { Authorization: `Bearer ${user.token}` },
             });
-
             //console.log(`Deleted subcategory with ID ${subcategoryId}`);
             dispatch({
                 type: "DELETE_SUBCATEGORY",
                 payload: subcategoryId,
             });
             //checks if its 1 because react state is late by one event **TODO - fix so the state is updated in the real-time**
-            subcategories.length === 1 && setIsEditing(false);
+            subcategories.length === 1 &&
+                setStatus((prevStatus) => ({
+                    ...prevStatus,
+                    isEditing: false,
+                }));
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const updateSubcategory = async (e: React.FormEvent) => {
+        setStatus((prevStatus) => ({ ...prevStatus, isLoading: true }));
+        try {
+            const response = await axios.patch(
+                `http://localhost:4000/api/category/${categoryId}/subcategory/${newNameSubcategory.id}`,
+                { name: newNameSubcategory.newName },
+                {
+                    headers: { Authorization: `Bearer ${user.token}` },
+                }
+            );
+            dispatch({
+                type: "UPDATE_SUBCATEGORY",
+                payload: response.data,
+            });
+            setStatus((prevStatus) => ({
+                ...prevStatus,
+                isLoading: false,
+            }));
         } catch (error) {
             console.error(error);
         }
     };
 
     const enableEditing = (e: React.FormEvent) => {
-        isEditing === false ? setIsEditing(true) : setIsEditing(false);
+        status.isEditing === false
+            ? setStatus((prevStatus) => ({ ...prevStatus, isEditing: true }))
+            : setStatus((prevStatus) => ({ ...prevStatus, isEditing: false }));
     };
 
     return (
         <div className={styles.container}>
             <div
                 className={styles.header}
-                style={
-                    isDialogOpen
-                        ? {
-                              filter: "blur(5px)",
-                              pointerEvents: "none",
-                          }
-                        : {}
-                }
+                style={dialogStatusStyle(status.isDialogOpen)}
             >
                 <div className={styles.back_button}>
                     <BackButton />
                 </div>
                 <div className={styles.action_buttons}>
                     {subcategories && subcategories.length > 0 && (
-                        <button
-                            className={styles.edit_button}
-                            onClick={(e) => enableEditing(e)}
-                        >
-                            {isEditing ? (
-                                <CheckIcon
-                                    style={{
-                                        width: "30px",
-                                        height: "30px",
-                                        color: "black",
+                        <>
+                            {status.isEditing ? (
+                                <button
+                                    className={styles.edit_button}
+                                    onClick={(e) => {
+                                        enableEditing(e);
+                                        newNameSubcategory.newName.length > 0 &&
+                                            updateSubcategory(e);
                                     }}
-                                />
+                                >
+                                    <CheckIcon
+                                        style={{
+                                            width: "30px",
+                                            height: "30px",
+                                            color: "black",
+                                        }}
+                                    />
+                                </button>
                             ) : (
-                                <PencilSquareIcon
-                                    style={{
-                                        width: "30px",
-                                        height: "30px",
-                                        color: "black",
+                                <button
+                                    className={styles.edit_button}
+                                    onClick={(e) => {
+                                        enableEditing(e);
                                     }}
-                                />
+                                >
+                                    <PencilSquareIcon
+                                        style={{
+                                            width: "30px",
+                                            height: "30px",
+                                            color: "black",
+                                        }}
+                                    />
+                                </button>
                             )}
-                        </button>
+                        </>
                     )}
-                    <button onClick={() => setDialogOpen(true)}>
+                    <button
+                        onClick={() =>
+                            setStatus((prevStatus) => ({
+                                ...prevStatus,
+                                isDialogOpen: true,
+                            }))
+                        }
+                    >
                         <SquaresPlusIcon
                             style={{
                                 width: "30px",
@@ -163,7 +225,7 @@ const SubcategoryPage = () => {
                     </button>
                 </div>
             </div>
-            {isDialogOpen && (
+            {status.isDialogOpen && (
                 <dialog open>
                     <form onSubmit={addNewSubcategory} className={styles.form}>
                         <p>Enter subcategory title</p>
@@ -183,7 +245,10 @@ const SubcategoryPage = () => {
                             <button
                                 onClick={() => {
                                     setNewSubcategory("");
-                                    setDialogOpen(false);
+                                    setStatus((prevStatus) => ({
+                                        ...prevStatus,
+                                        isDialogOpen: false,
+                                    }));
                                 }}
                             >
                                 Cancel
@@ -192,7 +257,7 @@ const SubcategoryPage = () => {
                     </form>
                 </dialog>
             )}
-            {isLoading ? (
+            {status.isLoading ? (
                 <Hearts
                     height="150"
                     width="150"
@@ -209,23 +274,23 @@ const SubcategoryPage = () => {
                             <div
                                 className={styles.card_container}
                                 key={subcategory._id}
-                                style={
-                                    isDialogOpen
-                                        ? {
-                                              filter: "blur(5px)",
-                                              pointerEvents: "none",
-                                          }
-                                        : {}
-                                }
+                                style={dialogStatusStyle(status.isDialogOpen)}
                             >
                                 <SubcategoryCard
                                     name={subcategory.name}
                                     categoryId={categoryId}
                                     subcategoryId={subcategory._id}
-                                    editing={isEditing}
+                                    editing={status.isEditing}
+                                    user={user}
+                                    onNameChange={(newName) =>
+                                        setNewNameSubcategry({
+                                            newName: newName,
+                                            id: subcategory._id,
+                                        })
+                                    }
                                 />
 
-                                {isEditing && (
+                                {status.isEditing && (
                                     <button
                                         className={styles.delete_button}
                                         onClick={() =>
@@ -247,14 +312,7 @@ const SubcategoryPage = () => {
             ) : (
                 <div
                     className={styles.no_content}
-                    style={
-                        isDialogOpen
-                            ? {
-                                  filter: "blur(5px)",
-                                  pointerEvents: "none",
-                              }
-                            : {}
-                    }
+                    style={dialogStatusStyle(status.isDialogOpen)}
                 >
                     To add a subcategory, please press the '+' button.
                 </div>

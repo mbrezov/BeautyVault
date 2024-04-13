@@ -1,4 +1,5 @@
 import { createContext, useReducer } from "react";
+import { ISubcategory } from "../interfaces/interface";
 
 export const SubcategoryContext = createContext<any>(null);
 
@@ -19,7 +20,18 @@ export const subcategoryReducer = (state: any, action: any) => {
         case "DELETE_SUBCATEGORY":
             return {
                 subcategories: state.subcategories.filter(
-                    (subcategory: any) => subcategory._id !== action.payload
+                    (subcategory: ISubcategory) =>
+                        subcategory._id !== action.payload
+                ),
+            };
+        case "UPDATE_SUBCATEGORY":
+            return {
+                ...state,
+                subcategories: state.subcategories.map(
+                    (subcategory: ISubcategory) =>
+                        subcategory._id === action.payload._id
+                            ? action.payload
+                            : subcategory
                 ),
             };
         default:

@@ -12,7 +12,10 @@ import { ProductCard } from "../../components/ProductCard/ProductCard";
 import { BackButton } from "../../components/BackButton/BackButton";
 import { Hearts } from "react-loader-spinner";
 import styles from "./ProductsPage.module.scss";
-import { SquaresPlusIcon } from "@heroicons/react/24/outline";
+import {
+    // ArrowRightEndOnRectangleIcon,
+    SquaresPlusIcon,
+} from "@heroicons/react/24/outline";
 import { HandThumbDownIcon, HandThumbUpIcon } from "@heroicons/react/24/solid";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
@@ -121,6 +124,12 @@ const ProductsPage = () => {
         e.target.files?.[0].name && setFileName(e.target.files?.[0].name);
     };
 
+    function calculateRows(descriptionLength: number) {
+        const rows = Math.ceil(descriptionLength / 40);
+        console.log(rows);
+        return rows;
+    }
+
     return (
         <div className={styles.container}>
             <div
@@ -176,6 +185,9 @@ const ProductsPage = () => {
                                 maxLength={700}
                                 name="description"
                                 placeholder="Max length of the description is 700 characters"
+                                rows={calculateRows(
+                                    newProduct.description.length
+                                )}
                                 onChange={(e) =>
                                     setNewProduct({
                                         ...newProduct,

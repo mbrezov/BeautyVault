@@ -29,3 +29,9 @@ export interface INewProduct {
     buy: boolean;
     img: File | string;
 }
+
+export interface IStatus {
+    isLoading: boolean;
+    isEditing: boolean;
+    isDialogOpen: boolean;
+}

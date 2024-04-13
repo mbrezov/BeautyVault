@@ -7,6 +7,8 @@ interface IProps {
     categoryId: string | undefined;
     subcategoryId: string;
     editing: true | false;
+    user: any;
+    onNameChange: (newName: string) => void; // callback prop
 }
 
 export const SubcategoryCard = ({
@@ -14,15 +16,21 @@ export const SubcategoryCard = ({
     categoryId,
     subcategoryId,
     editing,
+    onNameChange,
 }: IProps) => {
     const URL = `/${categoryId}/${subcategoryId}`;
-    const [updatedSubcategory, setUpdatedSubcategory] = useState("");
+    const [updatedName, setUpdatedName] = useState("");
 
     useEffect(() => {
         if (editing) {
-            setUpdatedSubcategory(name);
+            setUpdatedName(name);
         }
     }, [editing, name]);
+
+    const handleNameChange = (newName: string) => {
+        setUpdatedName(newName);
+        onNameChange(newName);
+    };
 
     return (
         <>
@@ -30,16 +38,16 @@ export const SubcategoryCard = ({
                 {editing ? (
                     <textarea
                         className={styles.edit_subcategory_name}
-                        value={updatedSubcategory as string}
+                        value={updatedName as string}
                         maxLength={50}
                         rows={
-                            updatedSubcategory.length > 40
+                            updatedName.length > 40
                                 ? 3
-                                : updatedSubcategory.length > 20
+                                : updatedName.length > 20
                                 ? 2
                                 : 1
                         }
-                        onChange={(e) => setUpdatedSubcategory(e.target.value)}
+                        onChange={(e) => handleNameChange(e.target.value)}
                     />
                 ) : (
                     <NavLink
