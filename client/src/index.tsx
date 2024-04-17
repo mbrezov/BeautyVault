@@ -5,6 +5,7 @@ import App from "./App";
 import { ProductsContextProvider } from "./context/ProductsContext";
 import { SubcategoryContextProvider } from "./context/SubcategoryContext";
 import { AuthContextProvider } from "./context/AuthContext";
+import { MantineProvider } from "@mantine/core";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
@@ -14,7 +15,9 @@ root.render(
         <AuthContextProvider>
             <SubcategoryContextProvider>
                 <ProductsContextProvider>
-                    <App />
+                    <MantineProvider>
+                        <App />
+                    </MantineProvider>
                 </ProductsContextProvider>
             </SubcategoryContextProvider>
         </AuthContextProvider>

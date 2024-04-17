@@ -13,14 +13,16 @@ import {
     TrashIcon,
 } from "@heroicons/react/24/outline";
 import { HandThumbDownIcon, HandThumbUpIcon } from "@heroicons/react/24/solid";
+import { Textarea, NumberInput } from "@mantine/core";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 const ProductPage = () => {
+    const navigate = useNavigate();
+    const { user } = useAuthContext();
     const { product, dispatch } = useProductsContext();
     const { categoryId, subcategoryId, productId } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
-    const navigate = useNavigate();
     const [updatedProduct, setUpdatedProduct] = useState<IProduct>({
         title: "",
         description: "",
@@ -30,7 +32,6 @@ const ProductPage = () => {
         img: "",
         imgUrl: "",
     });
-    const { user } = useAuthContext();
     const api = process.env.REACT_APP_PRODUCT;
 
     useEffect(() => {
@@ -129,30 +130,32 @@ const ProductPage = () => {
                 <>
                     {isEditing ? (
                         <>
-                            <button
-                                className={styles.delete_button}
-                                onClick={deleteProduct}
-                            >
-                                <TrashIcon
-                                    style={{
-                                        width: "24px",
-                                        height: "24px",
-                                        color: "black",
-                                    }}
-                                />
-                            </button>
-                            <button
-                                className={styles.delete_button}
-                                onClick={updateProduct}
-                            >
-                                <CloudArrowUpIcon
-                                    style={{
-                                        width: "24px",
-                                        height: "24px",
-                                        color: "black",
-                                    }}
-                                />
-                            </button>
+                            <div className={styles.edit_action_buttons}>
+                                <button
+                                    className={styles.delete_button}
+                                    onClick={deleteProduct}
+                                >
+                                    <TrashIcon
+                                        style={{
+                                            width: "24px",
+                                            height: "24px",
+                                            color: "black",
+                                        }}
+                                    />
+                                </button>
+                                <button
+                                    className={styles.delete_button}
+                                    onClick={updateProduct}
+                                >
+                                    <CloudArrowUpIcon
+                                        style={{
+                                            width: "24px",
+                                            height: "24px",
+                                            color: "black",
+                                        }}
+                                    />
+                                </button>
+                            </div>
                             <div className={styles.product_card}>
                                 <img
                                     width="340"
@@ -160,9 +163,14 @@ const ProductPage = () => {
                                     alt="palcehodler"
                                     src={product?.imgUrl}
                                 />
-                                <textarea
-                                    className={styles.edit_title}
-                                    rows={4}
+                                <Textarea
+                                    classNames={{
+                                        root: styles.edit_title_root,
+                                        input: styles.edit_title_input,
+                                    }}
+                                    maxLength={100}
+                                    autosize
+                                    minRows={1}
                                     value={updatedProduct?.title}
                                     onChange={(e) =>
                                         setUpdatedProduct({
@@ -171,9 +179,14 @@ const ProductPage = () => {
                                         })
                                     }
                                 />
-                                <textarea
-                                    className={styles.edit_description}
-                                    rows={15}
+                                <Textarea
+                                    classNames={{
+                                        root: styles.edit_description_root,
+                                        input: styles.edit_description_input,
+                                    }}
+                                    autosize
+                                    minRows={1}
+                                    maxLength={700}
                                     value={updatedProduct?.description}
                                     onChange={(e) =>
                                         setUpdatedProduct({
@@ -183,9 +196,15 @@ const ProductPage = () => {
                                     }
                                 />
                                 <div className={styles.edit_rating}>
-                                    <input
-                                        type="number"
-                                        placeholder={product?.rating}
+                                    <NumberInput
+                                        classNames={{
+                                            input: styles.edit_rating_input,
+                                            controls:
+                                                styles.edit_rating_controls,
+                                        }}
+                                        placeholder={product.rating}
+                                        rightSectionPointerEvents="none"
+                                        clampBehavior="strict"
                                         min={1}
                                         max={5}
                                     />
