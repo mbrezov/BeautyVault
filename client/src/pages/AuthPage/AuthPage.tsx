@@ -185,11 +185,19 @@ const AuthPage = () => {
                         >
                             {showPassowrd ? (
                                 <EyeSlashIcon
-                                    style={{ width: "20px", height: "20px" }}
+                                    style={{
+                                        width: "20px",
+                                        height: "20px",
+                                        color: "black",
+                                    }}
                                 />
                             ) : (
                                 <EyeIcon
-                                    style={{ width: "20px", height: "20px" }}
+                                    style={{
+                                        width: "20px",
+                                        height: "20px",
+                                        color: "black",
+                                    }}
                                 />
                             )}
                         </button>
