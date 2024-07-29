@@ -79,6 +79,7 @@ const Homepage = () => {
                             height: "64px",
                             alignSelf: "center",
                             marginTop: "5px",
+                            color: "black",
                         }}
                     />
                     <div className={styles.email}>
@@ -160,7 +161,11 @@ const Homepage = () => {
                             }
                         >
                             <UserCircleIcon
-                                style={{ width: "40px", height: "40px" }}
+                                style={{
+                                    width: "40px",
+                                    height: "40px",
+                                    color: "black",
+                                }}
                             />
                         </button>
                     </div>
