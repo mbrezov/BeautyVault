@@ -65,7 +65,11 @@ const Homepage = () => {
                             className={styles.cancel_button}
                         >
                             <XMarkIcon
-                                style={{ width: "24px", height: "24px" }}
+                                style={{
+                                    width: "24px",
+                                    height: "24px",
+                                    color: "black",
+                                }}
                             />
                         </button>
                     </div>
@@ -93,7 +97,11 @@ const Homepage = () => {
                         className={styles.logout_button}
                     >
                         <ArrowRightStartOnRectangleIcon
-                            style={{ width: "24px", height: "24px" }}
+                            style={{
+                                width: "24px",
+                                height: "24px",
+                                color: "black",
+                            }}
                         />
                         <p>Logout</p>
                     </button>
